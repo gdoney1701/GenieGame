@@ -66,7 +66,7 @@ Shader "Custom/Physically Based Example"
 		//stencil operation
 		Stencil{
 		Ref[_StencilRef]
-		Comp NotEqual
+		Comp Equal
 	}
 
 		// ------------------------------------------------------------------
