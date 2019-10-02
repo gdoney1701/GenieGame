@@ -14,8 +14,9 @@ public sealed class GrayscaleRenderer : PostProcessEffectRenderer<PhotoPostProce
 {
     public override void Render(PostProcessRenderContext context)
     {
-        var sheet = context.propertySheets.Get(Shader.Find("Hidden/Custom/Grayscale"));
+
+        var sheet = context.propertySheets.Get(Shader.Find("Custom/Grayscale"));
         sheet.properties.SetFloat("_Blend", settings.blend);
-        context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0);
+        context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0, false);
     }
 }
