@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ScaleAbility : MonoBehaviour
 {
-    Vector3 minScale = new Vector3(0.1f, 0.1f, 0.1f);
-    Vector3 maxScale = new Vector3(3, 3, 3);
+    Vector3 minScale = new Vector3(0.01f, 0.01f, 0.01f);
+    Vector3 maxScale = new Vector3(5, 5, 5);
 
     // Start is called before the first frame update
     void Start()
