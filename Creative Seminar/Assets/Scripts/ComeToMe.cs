@@ -10,11 +10,15 @@ public class ComeToMe : MonoBehaviour
     private float startTime;
     private float journeyLength;
     public bool discovered = false;
+    public int TimeLine;
+    public bool clone;
+    public GameObject PresentClone;
 
     // Start is called before the first frame update
     void Start()
     {
         startTime = Time.time;
+        clone = false;
 
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
 
@@ -26,10 +30,10 @@ public class ComeToMe : MonoBehaviour
     {
         if (discovered == true)
         {
-            Vector3.Distance()
             float distCovered = (Time.time - startTime) * speed;
             float fractionOfJourney = distCovered / journeyLength;
             transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fractionOfJourney);
+
         }
         
 

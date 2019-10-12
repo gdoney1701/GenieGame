@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public Camera Bcam;
     public bool photoaround;
     public GameObject Photoprefab;
+    public GameObject photoColliders;
     public Transform BPhoto;
     public Transform GM_Cam;
     public float maxPullDistance;
@@ -36,15 +37,14 @@ public class PlayerScript : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E) && photoaround == false)
         {
-            GameObject newPhoto = Instantiate(Photoprefab, GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
-            newPhoto.transform.Rotate(0, 0, 0, Space.World);
-            newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
-            newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
+            MakeABaby(true,0.0f, Photoprefab);
+            MakeABaby(false,dist, photoColliders);
             photoaround = true;
 
         } else if (Input.GetKeyDown(KeyCode.E) && photoaround == true)
         {
             Destroy(GameObject.FindGameObjectWithTag("Photo"));
+            Destroy(GameObject.FindGameObjectWithTag("PhotoColliders"));
             photoaround = false;
                 
         }
@@ -92,5 +92,18 @@ public class PlayerScript : MonoBehaviour
             this.b = ifso;
             this.a = thenWhat;
         }
+    }
+    public void MakeABaby(bool actualPhoto, float whereBaby, GameObject fabBaby)
+    {
+        Vector3 babyPoint = new Vector3(whereBaby, 0, 0);
+        GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
+        newPhoto.transform.Rotate(0, 0, 0, Space.World);
+
+        if (actualPhoto == true)
+        {
+            newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
+            newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
+        }
+
     }
 }
