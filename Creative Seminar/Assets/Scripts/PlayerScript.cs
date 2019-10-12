@@ -37,7 +37,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && photoaround == false)
         {
             GameObject newPhoto = Instantiate(Photoprefab, GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
-            newPhoto.transform.Rotate(0, 180, 0, Space.World);
+            newPhoto.transform.Rotate(0, 0, 0, Space.World);
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
             photoaround = true;
@@ -50,28 +50,47 @@ public class PlayerScript : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            bool cam1Hit = HitDat(10, Camera.main);
-            bool cam2Hit = HitDat(9, Bcam);
-            if (cam1Hit == true && cam2Hit == true)
+
+            HitGroup cam1Hit = HitDat(10, Camera.main);
+            HitGroup cam2Hit = HitDat(9, Bcam);
+            if (cam1Hit.b == true && cam2Hit.b == true)
             {
-                print("GOTCHA");
+                GameObject hitManLee = cam2Hit.a;
+                hitManLee.GetComponent<ComeToMe>().discovered = true;
+
             }
         }
 
     }
-    public bool HitDat(int target, Camera whoamI)
+    public HitGroup HitDat(int target, Camera whoamI)
     {
         bool hitme;
+        GameObject whathit;
         int layerMask = 1 << target;
         RaycastHit hit;
         if(Physics.Raycast(whoamI.transform.position, whoamI.transform.TransformDirection(Vector3.forward), out hit, maxPullDistance, layerMask))
         {
             hitme = true;
+            whathit = hit.transform.gameObject;
         }
         else
         {
             hitme = false;
+            whathit = null;
         }
-        return hitme;
+        HitGroup toReturn = new HitGroup(hitme, whathit);
+        return toReturn;
+    }
+
+    public struct HitGroup
+    {
+        public bool b;
+        public GameObject a;
+
+        public HitGroup(bool ifso, GameObject thenWhat)
+        {
+            this.b = ifso;
+            this.a = thenWhat;
+        }
     }
 }

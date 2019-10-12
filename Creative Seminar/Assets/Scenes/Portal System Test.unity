@@ -28570,8 +28570,9 @@ GameObject:
   - component: {fileID: 1344515896}
   - component: {fileID: 1344515895}
   - component: {fileID: 1344515894}
+  - component: {fileID: 1344515898}
   m_Layer: 9
-  m_Name: Cube (1)
+  m_Name: PickUp Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28650,6 +28651,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1344515898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344515893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8964e8744ced0e4c95af4bbebdcbf96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startMarker: {fileID: 1344515897}
+  endMarker: {fileID: 1525148695}
+  speed: 1
+  discovered: 0
 --- !u!1 &1345044558
 GameObject:
   m_ObjectHideFlags: 0
