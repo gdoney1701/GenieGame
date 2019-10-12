@@ -40217,26 +40217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: 10
   maxPullDistance: 10
---- !u!114 &1848402302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1848402294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c39fb5b966970b4285af99c96bf9d59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dist: 2
-  Bcam: {fileID: 1525148693}
-  photoaround: 0
-  Photoprefab: {fileID: 7382517844708216689, guid: 85a570199409bd14890f33b899dd413f,
-    type: 3}
-  BPhoto: {fileID: 785764464}
-  GM_Cam: {fileID: 1848402295}
-  maxPullDistance: 10
 --- !u!1 &1849117351
 GameObject:
   m_ObjectHideFlags: 0
@@ -41511,6 +41491,32 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906260476}
   m_Mesh: {fileID: 8710611248732886727, guid: 91e61d4a8f14eec4ea53dfb1af20204c, type: 3}
+--- !u!1 &1908055599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0,
+    type: 3}
+  m_PrefabInstance: {fileID: 31059421}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1908055600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908055599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c39fb5b966970b4285af99c96bf9d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dist: 200
+  Bcam: {fileID: 1525148693}
+  photoaround: 0
+  Photoprefab: {fileID: 7382517844708216689, guid: 85a570199409bd14890f33b899dd413f,
+    type: 3}
+  BPhoto: {fileID: 785764464}
+  GM_Cam: {fileID: 1848402295}
+  maxPullDistance: 10
 --- !u!1 &1916207249
 GameObject:
   m_ObjectHideFlags: 0
