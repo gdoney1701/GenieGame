@@ -65995,6 +65995,11 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7969134675283507383, guid: cbf02a1f2b3b3d546abfb7332578fd46,
+        type: 3}
+      propertyPath: handMarker
+      value: 
+      objectReference: {fileID: 1467483312}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbf02a1f2b3b3d546abfb7332578fd46, type: 3}
 --- !u!4 &7972106403478830923

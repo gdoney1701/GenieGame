@@ -12,10 +12,12 @@ public class PlayerScript : MonoBehaviour
     public Transform BPhoto;
     public Transform GM_Cam;
     public float maxPullDistance;
+    public bool carrying;
 
     // Start is called before the first frame update
     void Start()
     {
+        carrying = false;
         photoaround = false;
     }
 
@@ -49,7 +51,7 @@ public class PlayerScript : MonoBehaviour
             photoaround = false;
                 
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && carrying == false)
         {
 
             HitGroup cam1Hit = HitDat(10, Camera.main);

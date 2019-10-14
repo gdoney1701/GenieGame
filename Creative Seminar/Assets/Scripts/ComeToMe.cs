@@ -6,6 +6,7 @@ public class ComeToMe : MonoBehaviour
 {
     public Transform startMarker;
     public Transform endMarker;
+    public Transform handMarker;
     public float speed = 1.0f;
     private float startTime;
     private float journeyLength;
@@ -73,6 +74,9 @@ public class ComeToMe : MonoBehaviour
         Vector3 offset = new Vector3(timeFrame, 0, 0);
         currentClone = Instantiate(clonePrefab, offset + transform.position, transform.rotation);
         currentClone.GetComponent<MeshRenderer>().enabled = false;
+        currentClone.GetComponent<CloneTravel>().startMarker = currentClone.transform;
+        currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
+        currentClone.GetComponent<CloneTravel>().Dad = gameObject;
 
     }
     public void PlaneCross()
@@ -80,5 +84,10 @@ public class ComeToMe : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<MeshRenderer>().enabled = true;
 
+    }
+
+    public void GoodbyeFather()
+    {
+        Destroy(gameObject);
     }
 }
