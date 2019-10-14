@@ -31,12 +31,16 @@ public class PlayerScript : MonoBehaviour
         {
             dist += 200;
             Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
+            portalColliders.transform.position += new Vector3(200,0,0);
         }
 
         if (Input.GetMouseButtonDown(1) && dist > 200)
         {
             dist -= 200;
             Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
+            portalColliders.transform.position += new Vector3(-200, 0, 0);
         }
         if (Input.GetKeyDown(KeyCode.E) && photoaround == false)
         {
