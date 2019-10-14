@@ -12,7 +12,9 @@ public class ComeToMe : MonoBehaviour
     public bool discovered = false;
     public int TimeLine;
     public bool clone;
-    public GameObject PresentClone;
+    GameObject currentClone;
+    public GameObject clonePrefab;
+    public float timeFrame;
 
     // Start is called before the first frame update
     void Start()
@@ -28,15 +30,55 @@ public class ComeToMe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject MC = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 currentPos = transform.position;
+        float distToEnd = Vector3.Distance(currentPos, endMarker.position);
         if (discovered == true)
         {
-            float distCovered = (Time.time - startTime) * speed;
-            float fractionOfJourney = distCovered / journeyLength;
-            transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fractionOfJourney);
+            Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+            Rb.useGravity = false;
+            if (MC.GetComponent<PlayerScript>().dist == timeFrame)
+            {
+                Vector3 offset = new Vector3(timeFrame, 0, 0);
+                float distCovered = (Time.time - startTime) * speed;
+                float fractionOfJourney = distCovered / journeyLength;
+                transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fractionOfJourney);
+                currentClone.transform.position = transform.position - offset;
+                currentClone.transform.rotation = transform.rotation;
+            }
+            else
+            {
+                discovered = false;
+            }
 
         }
-        
+        if (Input.GetKeyDown(KeyCode.E) && MC.GetComponent<PlayerScript>().photoaround == true)
+        {
+            discovered = false;
+        }
+        if (discovered == false)
+        {
+            Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+            Rb.useGravity = true;
+            Destroy(currentClone);
+        }
 
-        
+
+    }
+    public void SpawnChild(float windowNum)
+    {
+        timeFrame = windowNum;
+        discovered = true;
+        Vector3 offset = new Vector3(timeFrame, 0, 0);
+        currentClone = Instantiate(clonePrefab, offset + transform.position, transform.rotation);
+        currentClone.GetComponent<MeshRenderer>().enabled = false;
+
+    }
+    public void PlaneCross()
+    {
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        currentClone.GetComponent<MeshRenderer>().enabled = true;
+
     }
 }

@@ -22,6 +22,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
         if (Input.GetMouseButtonDown(0))
@@ -56,10 +57,11 @@ public class PlayerScript : MonoBehaviour
             if (cam1Hit.b == true && cam2Hit.b == true)
             {
                 GameObject hitManLee = cam2Hit.a;
-                hitManLee.GetComponent<ComeToMe>().discovered = true;
+                hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
 
             }
         }
+        print(dist);
 
     }
     public HitGroup HitDat(int target, Camera whoamI)
@@ -68,8 +70,10 @@ public class PlayerScript : MonoBehaviour
         GameObject whathit;
         int layerMask = 1 << target;
         RaycastHit hit;
-        if(Physics.Raycast(whoamI.transform.position, whoamI.transform.TransformDirection(Vector3.forward), out hit, maxPullDistance, layerMask))
+        //Debug.DrawRay(transform.position, transform.forward, Color.red, 10f);
+        if (Physics.Raycast(whoamI.transform.position, whoamI.transform.TransformDirection(Vector3.forward), out hit, maxPullDistance, layerMask))
         {
+            //Debug.DrawRay(transform.position, transform.forward, Color.green, 10f);
             hitme = true;
             whathit = hit.transform.gameObject;
         }
@@ -98,7 +102,6 @@ public class PlayerScript : MonoBehaviour
         Vector3 babyPoint = new Vector3(whereBaby, 0, 0);
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
-
         if (actualPhoto == true)
         {
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
