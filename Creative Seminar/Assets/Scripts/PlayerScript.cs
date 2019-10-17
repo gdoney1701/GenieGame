@@ -60,11 +60,18 @@ public class PlayerScript : MonoBehaviour
 
             HitGroup cam1Hit = HitDat(10, Camera.main);
             HitGroup cam2Hit = HitDat(9, Bcam);
+            HitGroup cam1HitAgain = HitDat(9, Camera.main);
             if (cam1Hit.b == true && cam2Hit.b == true)
             {
                 GameObject hitManLee = cam2Hit.a;
                 hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
 
+            }else if(cam1HitAgain.b == true)
+            {
+                GameObject pickUpPresent = cam1HitAgain.a;
+                pickUpPresent.GetComponent<CloneTravel>().traveling = true;
+                pickUpPresent.GetComponent<CloneTravel>().wanted = true;
+                pickUpPresent.GetComponent<CloneTravel>().speed = 5;
             }
         }
         print(dist);
@@ -76,10 +83,8 @@ public class PlayerScript : MonoBehaviour
         GameObject whathit;
         int layerMask = 1 << target;
         RaycastHit hit;
-        //Debug.DrawRay(transform.position, transform.forward, Color.red, 10f);
         if (Physics.Raycast(whoamI.transform.position, whoamI.transform.TransformDirection(Vector3.forward), out hit, maxPullDistance, layerMask))
         {
-            //Debug.DrawRay(transform.position, transform.forward, Color.green, 10f);
             hitme = true;
             whathit = hit.transform.gameObject;
         }
