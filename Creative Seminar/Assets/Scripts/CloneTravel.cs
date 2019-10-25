@@ -13,6 +13,7 @@ public class CloneTravel : MonoBehaviour
     public bool wanted;
     public GameObject Dad;
     public GameObject targetObject;
+    public List<int> whoamI; // First index is the puzzle ID, the second index is the total number of same IDs to complete puzzle
 
 
     // Start is called before the first frame update
@@ -48,6 +49,10 @@ public class CloneTravel : MonoBehaviour
             {
                 targetObject.GetComponent<PlayerScript>().carrying = true;
                 targetObject.GetComponent<PlayerScript>().objectHeld.Add(gameObject);
+            }else if (targetObject.tag == "Pedestal")
+            {
+                targetObject.GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
+                targetObject.GetComponent<PedestalScript>().CombinePedestal();
             }
             traveling = false;
             transform.position = endMarker.position;

@@ -16,6 +16,8 @@ public class ComeToMe : MonoBehaviour
     GameObject currentClone;
     public GameObject clonePrefab;
     public float timeFrame;
+    public int puzzleID;
+    public int completeNum;
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +79,8 @@ public class ComeToMe : MonoBehaviour
         currentClone.GetComponent<CloneTravel>().startMarker = currentClone.transform;
         currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
         currentClone.GetComponent<CloneTravel>().Dad = gameObject;
+        currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
+        currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
 
     }
     public void PlaneCross()
