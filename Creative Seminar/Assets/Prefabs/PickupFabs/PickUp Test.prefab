@@ -108,11 +108,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMarker: {fileID: 7969134675283507380}
   endMarker: {fileID: 0}
+  handMarker: {fileID: 0}
   speed: 1
   discovered: 0
   TimeLine: 0
   clone: 0
-  clonePrefab: {fileID: 0}
+  clonePrefab: {fileID: 7969134675283507384, guid: 52afecabc8080fc4bbb2ce3ed8901825,
+    type: 3}
   timeFrame: 0
 --- !u!54 &7969134675283507382
 Rigidbody:

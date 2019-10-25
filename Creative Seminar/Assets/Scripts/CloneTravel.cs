@@ -13,6 +13,7 @@ public class CloneTravel : MonoBehaviour
     public bool wanted;
     public GameObject Dad;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,11 +45,12 @@ public class CloneTravel : MonoBehaviour
         }
         //snaps object to player character
         float gettingCloser = Vector3.Distance(endMarker.position, transform.position);
-        if (gettingCloser <= 0.1f && wanted == true)
+        if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
             print("Catch");
             GameObject MC = GameObject.FindGameObjectWithTag("Player");
             MC.GetComponent<PlayerScript>().carrying = true;
+            MC.GetComponent<PlayerScript>().objectHeld.Add(gameObject);
             traveling = false;
             transform.position = endMarker.position;
             Destroy(Dad);
@@ -59,16 +61,16 @@ public class CloneTravel : MonoBehaviour
             transform.position = endMarker.position;
             transform.rotation = startMarker.rotation;
         }
-        //drop functionality
-        if (Input.GetKeyDown(KeyCode.F) && traveling == false && wanted == true)
-        {
-            print("Drop");
-            wanted = false;
-            Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
-            Rb.useGravity = true;
-            GameObject MC = GameObject.FindGameObjectWithTag("Player");
-            MC.GetComponent<PlayerScript>().carrying = false;
-            Rb.AddForce(MC.transform.forward * 2f, ForceMode.Impulse);
-        }
+
+    }
+
+    public void dropObject()
+    {
+        print("Drop");
+        wanted = false;
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = true;
+        GameObject MC = GameObject.FindGameObjectWithTag("Player");
+        Rb.AddForce(MC.transform.forward * 2f, ForceMode.Impulse);
     }
 }

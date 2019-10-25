@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     public Transform BPhoto;
     public Transform GM_Cam;
     public float maxPullDistance;
+    public List<GameObject> objectHeld;
     public bool carrying;
 
     // Start is called before the first frame update
@@ -24,7 +25,6 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
         if (Input.GetMouseButtonDown(0))
@@ -55,6 +55,7 @@ public class PlayerScript : MonoBehaviour
             photoaround = false;
                 
         }
+        //pickup functionality
         if (Input.GetKeyDown(KeyCode.F) && carrying == false)
         {
 
@@ -74,9 +75,24 @@ public class PlayerScript : MonoBehaviour
                 pickUpPresent.GetComponent<CloneTravel>().speed = 5;
             }
         }
-        print(dist);
+        if (Input.GetKeyDown(KeyCode.F) && carrying == true)
+        {
+            HitGroup pedestalHit = HitDat(15, Camera.main);
+            if (pedestalHit.b == true)
+            {
+                print("Put me on a Pedestal");
+            }
+            else
+            {
+                GameObject thingHeld = objectHeld[0];
+                thingHeld.GetComponent<CloneTravel>().dropObject();
+                carrying = false;
+                objectHeld.RemoveAt(0);
+            }
+        }
 
     }
+    //HitGoup.a = the gameobject hit HitGroup.b is the booleon for whether anything was hit
     public HitGroup HitDat(int target, Camera whoamI)
     {
         bool hitme;
