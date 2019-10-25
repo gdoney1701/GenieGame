@@ -6,7 +6,7 @@ public class CloneTravel : MonoBehaviour
 {
     public Transform startMarker;
     public Transform endMarker;
-    public float speed = 1.0f;
+    public float speed = 5.0f;
     private float startTime;
     private float journeyLength;
     public bool traveling;
@@ -17,17 +17,12 @@ public class CloneTravel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wanted = true;
-        startTime = Time.time;
-        traveling = true;
-        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
-        startMarker = gameObject.transform;
-        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
-        Rb.useGravity = false;
+
         foreach (Transform child in Camera.main.transform)
         {
             endMarker = child;
         }
+        beginMovement(startMarker, endMarker);
 
     }
 
@@ -72,5 +67,18 @@ public class CloneTravel : MonoBehaviour
         Rb.useGravity = true;
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
         Rb.AddForce(MC.transform.forward * 2f, ForceMode.Impulse);
+    }
+
+    public void beginMovement(Transform starter, Transform ender)
+    {
+        wanted = true;
+        startTime = Time.time;
+        traveling = true;
+        journeyLength = Vector3.Distance(starter.position, ender.position);
+        startMarker = gameObject.transform;
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = false;
+        startMarker = starter;
+        endMarker = ender;
     }
 }
