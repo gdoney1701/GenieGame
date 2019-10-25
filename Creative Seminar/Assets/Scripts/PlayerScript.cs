@@ -85,6 +85,7 @@ public class PlayerScript : MonoBehaviour
                 if (arewemoving == true)
                 {
                     carrying = false;
+                    objectHeld.RemoveAt(0);
                 }
             }
             else if (pedestalHit.b == false)

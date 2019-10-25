@@ -24,7 +24,7 @@ public class PedestalScript : MonoBehaviour
 
         for(int i =0; i< childPositions.Count; ++i)
         {
-            if(filledlocations[i] == 1)
+            if(filledlocations[i] == 1 && foundLocation == false)
             {
                 location = i;
                 filledlocations[i] = 0;
@@ -36,9 +36,12 @@ public class PedestalScript : MonoBehaviour
         }
         if (foundLocation == true)
         {
-            objectToMove.GetComponent<CloneTravel>().beginMovement(objectToMove.transform, childPositions[location]);
+            objectToMove.GetComponent<CloneTravel>().beginMovement( gameObject, objectToMove.transform, childPositions[location]);
+            GameObject MC = GameObject.FindGameObjectWithTag("Player");
+            MC.GetComponent<PlayerScript>().carrying = false;
 
-        }else if (foundLocation == false)
+        }
+        else if (foundLocation == false)
         {
             print("No Empty Spots");
         }

@@ -12,17 +12,18 @@ public class CloneTravel : MonoBehaviour
     public bool traveling;
     public bool wanted;
     public GameObject Dad;
+    public GameObject targetObject;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        GameObject MC = GameObject.FindGameObjectWithTag("Player");
         foreach (Transform child in Camera.main.transform)
         {
             endMarker = child;
         }
-        beginMovement(startMarker, endMarker);
+        beginMovement(MC,startMarker, endMarker);
 
     }
 
@@ -43,9 +44,11 @@ public class CloneTravel : MonoBehaviour
         if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
             print("Catch");
-            GameObject MC = GameObject.FindGameObjectWithTag("Player");
-            MC.GetComponent<PlayerScript>().carrying = true;
-            MC.GetComponent<PlayerScript>().objectHeld.Add(gameObject);
+            if (targetObject.tag == "Player")
+            {
+                targetObject.GetComponent<PlayerScript>().carrying = true;
+                targetObject.GetComponent<PlayerScript>().objectHeld.Add(gameObject);
+            }
             traveling = false;
             transform.position = endMarker.position;
             Destroy(Dad);
@@ -69,7 +72,7 @@ public class CloneTravel : MonoBehaviour
         Rb.AddForce(MC.transform.forward * 2f, ForceMode.Impulse);
     }
 
-    public void beginMovement(Transform starter, Transform ender)
+    public void beginMovement(GameObject target, Transform starter, Transform ender)
     {
         wanted = true;
         startTime = Time.time;
@@ -80,5 +83,7 @@ public class CloneTravel : MonoBehaviour
         Rb.useGravity = false;
         startMarker = starter;
         endMarker = ender;
+        targetObject = target;
     }
+
 }
