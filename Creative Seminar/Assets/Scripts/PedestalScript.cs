@@ -52,7 +52,7 @@ public class PedestalScript : MonoBehaviour
         }
         return (foundLocation);
     }
-    public void CombinePedestal()
+    public void CombineCheckPedestal()
     {
         bool correct = true;
         if (suspendedPieces.Count == childPositions.Count)
@@ -81,6 +81,7 @@ public class PedestalScript : MonoBehaviour
             if (correct == true)
             {
                 print("Combination");
+                FinalCombination();
 
             }
             else if (correct == false)
@@ -95,5 +96,17 @@ public class PedestalScript : MonoBehaviour
 
         }
        
+    }
+    public void FinalCombination()
+    {
+        GameObject newEmpty = new GameObject();
+        GameObject driftObj = Instantiate(newEmpty);
+        driftObj.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
+        for (int i =0; i<suspendedPieces.Count; i++)
+        {
+            GameObject obj = suspendedPieces[i];
+            obj.GetComponent<CloneTravel>().beginMovement(driftObj, obj.transform, driftObj.transform);
+        }
+
     }
 }

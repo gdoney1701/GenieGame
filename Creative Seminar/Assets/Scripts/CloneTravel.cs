@@ -52,7 +52,7 @@ public class CloneTravel : MonoBehaviour
             }else if (targetObject.tag == "Pedestal")
             {
                 targetObject.GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
-                targetObject.GetComponent<PedestalScript>().CombinePedestal();
+                targetObject.GetComponent<PedestalScript>().CombineCheckPedestal();
             }
             traveling = false;
             transform.position = endMarker.position;
