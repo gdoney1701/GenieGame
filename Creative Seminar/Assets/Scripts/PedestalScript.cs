@@ -26,7 +26,6 @@ public class PedestalScript : MonoBehaviour
         //in filled location, every index marked 1 is empty, every index marked 0 is full
         int location = 0;
         bool foundLocation = false;
-
         for(int i =0; i< childPositions.Count; ++i)
         {
             if(filledlocations[i] == 1 && foundLocation == false)
@@ -44,7 +43,6 @@ public class PedestalScript : MonoBehaviour
             objectToMove.GetComponent<CloneTravel>().beginMovement(gameObject, objectToMove.transform, childPositions[location]);
             GameObject MC = GameObject.FindGameObjectWithTag("Player");
             MC.GetComponent<PlayerScript>().carrying = false;
-
         }
         else if (foundLocation == false)
         {
@@ -55,7 +53,7 @@ public class PedestalScript : MonoBehaviour
     public void CombineCheckPedestal()
     {
         bool correct = true;
-        if (suspendedPieces.Count == childPositions.Count)
+        if (suspendedPieces.Count == filledlocations.Count)
         {
             int acceptedID = 0;
             for (int i = 0; i < suspendedPieces.Count; i++)
@@ -82,7 +80,6 @@ public class PedestalScript : MonoBehaviour
             {
                 print("Combination");
                 FinalCombination();
-
             }
             else if (correct == false)
             {
@@ -93,9 +90,7 @@ public class PedestalScript : MonoBehaviour
                     suspendedPieces.RemoveAt(i);
                 }
             }
-
         }
-       
     }
     public void FinalCombination()
     {
@@ -107,6 +102,5 @@ public class PedestalScript : MonoBehaviour
             GameObject obj = suspendedPieces[i];
             obj.GetComponent<CloneTravel>().beginMovement(driftObj, obj.transform, driftObj.transform);
         }
-
     }
 }

@@ -12,7 +12,7 @@ public class CloneTravel : MonoBehaviour
     public bool traveling;
     public bool wanted;
     public GameObject Dad;
-    public GameObject targetObject;
+    public List<GameObject> targetObject;
     public List<int> whoamI; // First index is the puzzle ID, the second index is the total number of same IDs to complete puzzle
 
 
@@ -45,14 +45,16 @@ public class CloneTravel : MonoBehaviour
         if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
             print("Catch");
-            if (targetObject.tag == "Player")
+            if (targetObject[0].tag == "Player")
             {
-                targetObject.GetComponent<PlayerScript>().carrying = true;
-                targetObject.GetComponent<PlayerScript>().objectHeld.Add(gameObject);
-            }else if (targetObject.tag == "Pedestal")
+                targetObject[0].GetComponent<PlayerScript>().carrying = true;
+                targetObject[0].GetComponent<PlayerScript>().objectHeld.Add(gameObject);
+                targetObject.RemoveAt(0);
+            }else if (targetObject[0].tag == "Pedestal")
             {
-                targetObject.GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
-                targetObject.GetComponent<PedestalScript>().CombineCheckPedestal();
+                targetObject[0].GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
+                targetObject[0].GetComponent<PedestalScript>().CombineCheckPedestal();
+                targetObject.RemoveAt(0);
             }
             traveling = false;
             transform.position = endMarker.position;
@@ -88,7 +90,7 @@ public class CloneTravel : MonoBehaviour
         Rb.useGravity = false;
         startMarker = starter;
         endMarker = ender;
-        targetObject = target;
+        targetObject.Add(target);
     }
 
 }

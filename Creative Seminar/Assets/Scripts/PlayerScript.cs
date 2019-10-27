@@ -69,10 +69,9 @@ public class PlayerScript : MonoBehaviour
 
             }else if(cam1HitAgain.b == true)
             {
+                Transform targetHand = Camera.main.transform.GetChild(0);
                 GameObject pickUpPresent = cam1HitAgain.a;
-                pickUpPresent.GetComponent<CloneTravel>().traveling = true;
-                pickUpPresent.GetComponent<CloneTravel>().wanted = true;
-                pickUpPresent.GetComponent<CloneTravel>().speed = 5;
+                pickUpPresent.GetComponent<CloneTravel>().beginMovement(gameObject, pickUpPresent.transform, targetHand);
             }
         }
         if (Input.GetKeyDown(KeyCode.F) && carrying == true)
