@@ -7,6 +7,7 @@ public class PedestalScript : MonoBehaviour
     public List<Transform> childPositions;
     public List<int> filledlocations;
     public List<GameObject> suspendedPieces;
+    public bool puzzleComplete = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +15,7 @@ public class PedestalScript : MonoBehaviour
         {
             childPositions.Add(child);
             filledlocations.Add(1);
+            suspendedPieces.Add(Instantiate(new GameObject(), child));
         }
     }
     private void Update()
@@ -33,6 +35,7 @@ public class PedestalScript : MonoBehaviour
                 location = i;
                 filledlocations[i] = 0;
                 foundLocation = true;
+                ListManagement(objectToMove, i, true);
             }else if (filledlocations[i] == 0)
             {
                 foundLocation = false;
@@ -41,6 +44,7 @@ public class PedestalScript : MonoBehaviour
         if (foundLocation == true)
         {
             objectToMove.GetComponent<CloneTravel>().beginMovement(gameObject, objectToMove.transform, childPositions[location]);
+            objectToMove.GetComponent<CloneTravel>().onPedestal.c = location;
             GameObject MC = GameObject.FindGameObjectWithTag("Player");
             MC.GetComponent<PlayerScript>().carrying = false;
         }
@@ -52,45 +56,60 @@ public class PedestalScript : MonoBehaviour
     }
     public void CombineCheckPedestal()
     {
-        bool correct = true;
-        if (suspendedPieces.Count == filledlocations.Count)
+        if (puzzleComplete == false)
         {
-            int acceptedID = 0;
-            for (int i = 0; i < suspendedPieces.Count; i++)
+            //checks how many pieces are inside the pedestal
+            int collectedNum = 0;
+            bool correct = true;
+            for(int i=0; i<suspendedPieces.Count;i++)
             {
-                int personalID = suspendedPieces[i].GetComponent<CloneTravel>().whoamI[0];
-                int numNeeded = suspendedPieces[i].GetComponent<CloneTravel>().whoamI[1];
-                if (i == 0)
+                if(suspendedPieces[i].tag == "PickUp")
                 {
-                    acceptedID = personalID;
+                    collectedNum += 1;
                 }
-                else
+            }
+            print(collectedNum);
+            if (collectedNum == childPositions.Count)
+            {
+                int acceptedID = 0;
+                for (int i = 0; i < suspendedPieces.Count; i++)
                 {
-                    if (personalID != acceptedID)
+                    int personalID = suspendedPieces[i].GetComponent<CloneTravel>().whoamI[0];
+                    int numNeeded = suspendedPieces[i].GetComponent<CloneTravel>().whoamI[1];
+                    if (i == 0)
                     {
-                        correct = false;
+                        acceptedID = personalID;
                     }
                     else
                     {
-                        correct = true;
+                        if (personalID != acceptedID)
+                        {
+                            correct = false;
+                        }
+                        else
+                        {
+                            correct = true;
+                        }
+                    }
+                }
+                if (correct == true)
+                {
+                    print("Combination");
+                    puzzleComplete = true;
+                    FinalCombination();
+                }
+                else if (correct == false)
+                {
+                    print("Failed Combination");
+                    for (int i = 0; i < suspendedPieces.Count; i++)
+                    {
+                        suspendedPieces[i].GetComponent<CloneTravel>().dropObject();
+                        ListManagement(suspendedPieces[i], i, false);
                     }
                 }
             }
-            if (correct == true)
-            {
-                print("Combination");
-                FinalCombination();
-            }
-            else if (correct == false)
-            {
-                print("Failed Combination");
-                for (int i = 0; i < suspendedPieces.Count; i++)
-                {
-                    suspendedPieces[i].GetComponent<CloneTravel>().dropObject();
-                    suspendedPieces.RemoveAt(i);
-                }
-            }
         }
+       
     }
     public void FinalCombination()
     {
@@ -102,5 +121,24 @@ public class PedestalScript : MonoBehaviour
             GameObject obj = suspendedPieces[i];
             obj.GetComponent<CloneTravel>().beginMovement(driftObj, obj.transform, driftObj.transform);
         }
+    }
+    //adds and removes different objects from the suspended pieces
+    public void ListManagement(GameObject obj,int location, bool add)
+    {
+        if (add == true)
+        {
+            suspendedPieces.RemoveAt(location);
+            suspendedPieces.Insert(location, obj);
+
+            //Destroy(suspendedPieces[location]);
+        }
+        else if (add == false)
+        {
+            suspendedPieces.Add(Instantiate(new GameObject(), childPositions[location]));
+            filledlocations[location] = 1;
+            suspendedPieces.RemoveAt(location);
+        }
+
+
     }
 }

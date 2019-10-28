@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7969134675283507382}
   m_Layer: 9
   m_Name: PickUp Clone
-  m_TagString: Untagged
+  m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,6 +112,8 @@ MonoBehaviour:
   traveling: 0
   wanted: 0
   Dad: {fileID: 0}
+  targetObject: []
+  whoamI: 
 --- !u!54 &7969134675283507382
 Rigidbody:
   m_ObjectHideFlags: 0

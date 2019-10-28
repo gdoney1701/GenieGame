@@ -14,11 +14,14 @@ public class CloneTravel : MonoBehaviour
     public GameObject Dad;
     public List<GameObject> targetObject;
     public List<int> whoamI; // First index is the puzzle ID, the second index is the total number of same IDs to complete puzzle
+    //public bool onPedestal;
+    public PedestalGroup onPedestal;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        onPedestal.a = false;
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
         foreach (Transform child in Camera.main.transform)
         {
@@ -52,9 +55,11 @@ public class CloneTravel : MonoBehaviour
                 targetObject.RemoveAt(0);
             }else if (targetObject[0].tag == "Pedestal")
             {
-                targetObject[0].GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
+                onPedestal.b = targetObject[0];
+                //targetObject[0].GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
                 targetObject[0].GetComponent<PedestalScript>().CombineCheckPedestal();
                 targetObject.RemoveAt(0);
+                onPedestal.a = true;
             }
             traveling = false;
             transform.position = endMarker.position;
@@ -92,5 +97,17 @@ public class CloneTravel : MonoBehaviour
         endMarker = ender;
         targetObject.Add(target);
     }
-
+    //the bool determines if its on the pedestal, the gameobject is the pedestal, and the int is the location in the list
+    public struct PedestalGroup
+    {
+        public bool a;
+        public GameObject b;
+        public int c;
+        public PedestalGroup(bool ifOn, GameObject onWhat, int whereAm)
+        {
+            this.a = ifOn;
+            this.b = onWhat;
+            this.c = whereAm;
+        }
+    }
 }
