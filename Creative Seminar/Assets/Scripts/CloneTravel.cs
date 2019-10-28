@@ -22,6 +22,7 @@ public class CloneTravel : MonoBehaviour
     void Start()
     {
         onPedestal.a = false;
+        onPedestal.d = false;
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
         foreach (Transform child in Camera.main.transform)
         {
@@ -97,17 +98,19 @@ public class CloneTravel : MonoBehaviour
         endMarker = ender;
         targetObject.Add(target);
     }
-    //the bool determines if its on the pedestal, the gameobject is the pedestal, and the int is the location in the list
+    //the bool determines if its on the pedestal, the gameobject is the pedestal, the int is the location in the list, and the final bool is whether the puzzle is complete
     public struct PedestalGroup
     {
         public bool a;
         public GameObject b;
         public int c;
-        public PedestalGroup(bool ifOn, GameObject onWhat, int whereAm)
+        public bool d;
+        public PedestalGroup(bool ifOn, GameObject onWhat, int whereAm, bool isComplete)
         {
             this.a = ifOn;
             this.b = onWhat;
             this.c = whereAm;
+            this.d = isComplete;
         }
     }
 }

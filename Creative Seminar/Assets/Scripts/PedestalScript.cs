@@ -18,11 +18,6 @@ public class PedestalScript : MonoBehaviour
             suspendedPieces.Add(Instantiate(new GameObject(), child));
         }
     }
-    private void Update()
-    {
-        
-    }
-    // Update is called once per frame
     public bool MovingtoPedestal(GameObject objectToMove)
     {
         //in filled location, every index marked 1 is empty, every index marked 0 is full
@@ -68,7 +63,6 @@ public class PedestalScript : MonoBehaviour
                     collectedNum += 1;
                 }
             }
-            print(collectedNum);
             if (collectedNum == childPositions.Count)
             {
                 int acceptedID = 0;
@@ -119,7 +113,9 @@ public class PedestalScript : MonoBehaviour
         for (int i =0; i<suspendedPieces.Count; i++)
         {
             GameObject obj = suspendedPieces[i];
+            obj.GetComponent<CloneTravel>().onPedestal.d = true;
             obj.GetComponent<CloneTravel>().beginMovement(driftObj, obj.transform, driftObj.transform);
+
         }
     }
     //adds and removes different objects from the suspended pieces

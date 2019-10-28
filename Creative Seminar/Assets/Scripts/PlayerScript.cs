@@ -67,16 +67,19 @@ public class PlayerScript : MonoBehaviour
                 GameObject hitManLee = cam2Hit.a;
                 hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
 
-            } else if (cam1HitAgain.b == true)
+            } else if (cam1HitAgain.b == true) //searching to pick something up in the present
             {
-                if (cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.a == true)
+                if (cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.d == false)
                 {
-                    GameObject pedestal = cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.b;
-                    pedestal.GetComponent<PedestalScript>().ListManagement(cam1HitAgain.a, 1, false);
+                    if (cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.a == true)
+                    {
+                        GameObject pedestal = cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.b;
+                        pedestal.GetComponent<PedestalScript>().ListManagement(cam1HitAgain.a, 1, false);
+                    }
+                    Transform targetHand = Camera.main.transform.GetChild(0);
+                    GameObject pickUpPresent = cam1HitAgain.a;
+                    pickUpPresent.GetComponent<CloneTravel>().beginMovement(gameObject, pickUpPresent.transform, targetHand);
                 }
-                Transform targetHand = Camera.main.transform.GetChild(0);
-                GameObject pickUpPresent = cam1HitAgain.a;
-                pickUpPresent.GetComponent<CloneTravel>().beginMovement(gameObject, pickUpPresent.transform, targetHand);
             }
         }
         if (Input.GetKeyDown(KeyCode.F) && carrying == true)
