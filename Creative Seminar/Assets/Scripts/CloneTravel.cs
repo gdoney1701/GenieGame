@@ -82,7 +82,7 @@ public class CloneTravel : MonoBehaviour
         Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
         Rb.useGravity = true;
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
-        Rb.AddForce(MC.transform.forward * 2f, ForceMode.Impulse);
+        Rb.AddForce(Random.onUnitSphere * 2f, ForceMode.Impulse);
     }
 
     public void beginMovement(GameObject target, Transform starter, Transform ender)

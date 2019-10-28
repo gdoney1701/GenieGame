@@ -5,7 +5,7 @@ using UnityEngine;
 public class PedestalScript : MonoBehaviour
 {
     public List<Transform> childPositions;
-    public List<int> filledlocations;
+    public List<bool> filledlocations;
     public List<GameObject> suspendedPieces;
     public bool puzzleComplete = false;
     // Start is called before the first frame update
@@ -14,8 +14,9 @@ public class PedestalScript : MonoBehaviour
         foreach (Transform child in transform)
         {
             childPositions.Add(child);
-            filledlocations.Add(1);
-            suspendedPieces.Add(Instantiate(new GameObject(), child));
+            filledlocations.Add(false);
+            GameObject empty = Instantiate(new GameObject());
+            suspendedPieces.Add(empty);
         }
     }
     public bool MovingtoPedestal(GameObject objectToMove)
@@ -25,13 +26,14 @@ public class PedestalScript : MonoBehaviour
         bool foundLocation = false;
         for(int i =0; i< childPositions.Count; ++i)
         {
-            if(filledlocations[i] == 1 && foundLocation == false)
+            if(filledlocations[i] == false && foundLocation == false)
             {
                 location = i;
-                filledlocations[i] = 0;
+                filledlocations[i] = true;
                 foundLocation = true;
                 ListManagement(objectToMove, i, true);
-            }else if (filledlocations[i] == 0)
+                break;
+            }else if (filledlocations[i] == true)
             {
                 foundLocation = false;
             }
@@ -65,6 +67,7 @@ public class PedestalScript : MonoBehaviour
             }
             if (collectedNum == childPositions.Count)
             {
+
                 int acceptedID = 0;
                 for (int i = 0; i < suspendedPieces.Count; i++)
                 {
@@ -79,6 +82,7 @@ public class PedestalScript : MonoBehaviour
                         if (personalID != acceptedID)
                         {
                             correct = false;
+                            break;
                         }
                         else
                         {
@@ -86,6 +90,7 @@ public class PedestalScript : MonoBehaviour
                         }
                     }
                 }
+
                 if (correct == true)
                 {
                     print("Combination");
@@ -97,8 +102,13 @@ public class PedestalScript : MonoBehaviour
                     print("Failed Combination");
                     for (int i = 0; i < suspendedPieces.Count; i++)
                     {
-                        suspendedPieces[i].GetComponent<CloneTravel>().dropObject();
-                        ListManagement(suspendedPieces[i], i, false);
+                        if(suspendedPieces[i].tag == "PickUp")
+                        {
+                            suspendedPieces[i].GetComponent<CloneTravel>().dropObject();
+                            suspendedPieces[i].GetComponent<CloneTravel>().onPedestal.a = false;
+                            ListManagement(suspendedPieces[i], i, false);
+
+                        }
                     }
                 }
             }
@@ -123,16 +133,19 @@ public class PedestalScript : MonoBehaviour
     {
         if (add == true)
         {
+            GameObject placeholder = suspendedPieces[location];
             suspendedPieces.RemoveAt(location);
             suspendedPieces.Insert(location, obj);
+            Destroy(placeholder);
 
             //Destroy(suspendedPieces[location]);
         }
         else if (add == false)
         {
-            suspendedPieces.Add(Instantiate(new GameObject(), childPositions[location]));
-            filledlocations[location] = 1;
+            
+            filledlocations[location] = false;
             suspendedPieces.RemoveAt(location);
+            suspendedPieces.Insert(location, Instantiate(new GameObject()));
         }
 
 
