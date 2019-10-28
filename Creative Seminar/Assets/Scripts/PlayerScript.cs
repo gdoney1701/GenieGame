@@ -87,7 +87,6 @@ public class PlayerScript : MonoBehaviour
             HitGroup pedestalHit = HitDat(15, Camera.main);
             if (pedestalHit.b == true)
             {
-                print("Put me on a Pedestal");
                 bool arewemoving = pedestalHit.a.GetComponent<PedestalScript>().MovingtoPedestal(objectHeld[0]);
                 if (arewemoving == true)
                 {
