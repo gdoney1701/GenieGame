@@ -7,7 +7,7 @@ public class ComeToMe : MonoBehaviour
     public Transform startMarker;
     public Transform endMarker;
     public Transform handMarker;
-    public float speed = 1.0f;
+    public float speed = 5.0f;
     private float startTime;
     private float journeyLength;
     public bool discovered = false;
@@ -71,6 +71,7 @@ public class ComeToMe : MonoBehaviour
     }
     public void SpawnChild(float windowNum)
     {
+        startTime = Time.time;
         timeFrame = windowNum;
         discovered = true;
         Vector3 offset = new Vector3(timeFrame, 0, 0);

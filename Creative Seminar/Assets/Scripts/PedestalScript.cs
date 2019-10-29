@@ -6,18 +6,19 @@ public class PedestalScript : MonoBehaviour
 {
     public List<Transform> childPositions;
     public List<bool> filledlocations;
-    public List<GameObject> suspendedPieces;
     public bool puzzleComplete = false;
+    public GameObject[] suspendedPieces2;
     // Start is called before the first frame update
     void Start()
     {
+        int num = 0;
         foreach (Transform child in transform)
         {
             childPositions.Add(child);
             filledlocations.Add(false);
-            GameObject empty = Instantiate(new GameObject());
-            suspendedPieces.Add(empty);
+            num++;
         }
+        suspendedPieces2 = new GameObject[num];
     }
     public bool MovingtoPedestal(GameObject objectToMove)
     {
@@ -33,6 +34,7 @@ public class PedestalScript : MonoBehaviour
                 foundLocation = true;
                 ListManagement(objectToMove, i, true);
                 break;
+
             }else if (filledlocations[i] == true)
             {
                 foundLocation = false;
@@ -41,7 +43,7 @@ public class PedestalScript : MonoBehaviour
         if (foundLocation == true)
         {
             objectToMove.GetComponent<CloneTravel>().beginMovement(gameObject, objectToMove.transform, childPositions[location]);
-            objectToMove.GetComponent<CloneTravel>().onPedestal.c = location;
+            //objectToMove.GetComponent<CloneTravel>().onPedestal.c = location;
             GameObject MC = GameObject.FindGameObjectWithTag("Player");
             MC.GetComponent<PlayerScript>().carrying = false;
         }
@@ -58,21 +60,25 @@ public class PedestalScript : MonoBehaviour
             //checks how many pieces are inside the pedestal
             int collectedNum = 0;
             bool correct = true;
-            for(int i=0; i<suspendedPieces.Count;i++)
+            for(int i=0; i<suspendedPieces2.Length;i++)
             {
-                if(suspendedPieces[i].tag == "PickUp")
+                if(suspendedPieces2[i] != null)
                 {
                     collectedNum += 1;
+                }
+                else
+                {
+                    break;
                 }
             }
             if (collectedNum == childPositions.Count)
             {
 
                 int acceptedID = 0;
-                for (int i = 0; i < suspendedPieces.Count; i++)
+                for (int i = 0; i < suspendedPieces2.Length; i++)
                 {
-                    int personalID = suspendedPieces[i].GetComponent<CloneTravel>().whoamI[0];
-                    int numNeeded = suspendedPieces[i].GetComponent<CloneTravel>().whoamI[1];
+                    int personalID = suspendedPieces2[i].GetComponent<CloneTravel>().whoamI[0];
+                    int numNeeded = suspendedPieces2[i].GetComponent<CloneTravel>().whoamI[1];
                     if (i == 0)
                     {
                         acceptedID = personalID;
@@ -100,13 +106,13 @@ public class PedestalScript : MonoBehaviour
                 else if (correct == false)
                 {
                     print("Failed Combination");
-                    for (int i = 0; i < suspendedPieces.Count; i++)
+                    for (int i = 0; i < suspendedPieces2.Length; i++)
                     {
-                        if(suspendedPieces[i].tag == "PickUp")
+                        if(suspendedPieces2[i] != null)
                         {
-                            suspendedPieces[i].GetComponent<CloneTravel>().dropObject();
-                            suspendedPieces[i].GetComponent<CloneTravel>().onPedestal.a = false;
-                            ListManagement(suspendedPieces[i], i, false);
+                            suspendedPieces2[i].GetComponent<CloneTravel>().dropObject();
+                            suspendedPieces2[i].GetComponent<CloneTravel>().onPedestal.a = false;
+                            ListManagement(suspendedPieces2[i], i, false);
 
                         }
                     }
@@ -120,9 +126,9 @@ public class PedestalScript : MonoBehaviour
         GameObject newEmpty = new GameObject();
         GameObject driftObj = Instantiate(newEmpty);
         driftObj.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
-        for (int i =0; i<suspendedPieces.Count; i++)
+        for (int i =0; i<suspendedPieces2.Length; i++)
         {
-            GameObject obj = suspendedPieces[i];
+            GameObject obj = suspendedPieces2[i];
             obj.GetComponent<CloneTravel>().onPedestal.d = true;
             obj.GetComponent<CloneTravel>().beginMovement(driftObj, obj.transform, driftObj.transform);
 
@@ -133,19 +139,14 @@ public class PedestalScript : MonoBehaviour
     {
         if (add == true)
         {
-            GameObject placeholder = suspendedPieces[location];
-            suspendedPieces.RemoveAt(location);
-            suspendedPieces.Insert(location, obj);
-            Destroy(placeholder);
-
-            //Destroy(suspendedPieces[location]);
+            suspendedPieces2[location] = obj;
+            obj.GetComponent<CloneTravel>().onPedestal.c = location;
         }
         else if (add == false)
         {
             
             filledlocations[location] = false;
-            suspendedPieces.RemoveAt(location);
-            suspendedPieces.Insert(location, Instantiate(new GameObject()));
+            suspendedPieces2[location] = null;
         }
 
 

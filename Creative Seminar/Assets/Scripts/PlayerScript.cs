@@ -74,7 +74,8 @@ public class PlayerScript : MonoBehaviour
                     if (cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.a == true)
                     {
                         GameObject pedestal = cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.b;
-                        pedestal.GetComponent<PedestalScript>().ListManagement(cam1HitAgain.a, 1, false);
+                        int loc = cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.c;
+                        pedestal.GetComponent<PedestalScript>().ListManagement(cam1HitAgain.a,loc, false);
                     }
                     Transform targetHand = Camera.main.transform.GetChild(0);
                     GameObject pickUpPresent = cam1HitAgain.a;
