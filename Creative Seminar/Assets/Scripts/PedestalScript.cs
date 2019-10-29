@@ -71,6 +71,7 @@ public class PedestalScript : MonoBehaviour
             //checks how many pieces are inside the pedestal
             int collectedNum = 0;
             bool correct = true;
+            bool ready = true;
             for(int i=0; i<suspendedPieces2.Length;i++)
             {
                 if(suspendedPieces2[i] != null)
@@ -88,6 +89,11 @@ public class PedestalScript : MonoBehaviour
                 int acceptedID = 0;
                 for (int i = 0; i < suspendedPieces2.Length; i++)
                 {
+                    if (suspendedPieces2[i].GetComponent<CloneTravel>().traveling == true)
+                    {
+                        ready = false;
+                        break;
+                    }
                     int personalID = suspendedPieces2[i].GetComponent<CloneTravel>().whoamI[0];
                     int numNeeded = suspendedPieces2[i].GetComponent<CloneTravel>().whoamI[1];
                     if (i == 0)
@@ -108,13 +114,13 @@ public class PedestalScript : MonoBehaviour
                     }
                 }
 
-                if (correct == true)
+                if (correct && ready)
                 {
                     print("Combination");
                     puzzleComplete = true;
                     FinalCombinationMovement();
                 }
-                else if (correct == false)
+                else if (!correct && ready)
                 {
                     print("Failed Combination");
                     for (int i = 0; i < suspendedPieces2.Length; i++)
@@ -135,8 +141,9 @@ public class PedestalScript : MonoBehaviour
     public void FinalCombinationMovement()
     {
         spawnPoint = Instantiate(new GameObject());
+        spawnPoint.name = "Spawnpoint";
         spawnPoint.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
-        for (int i =0; i<=suspendedPieces2.Length; i++)
+        for (int i = 0; i<suspendedPieces2.Length; i++)
         {
             GameObject obj = suspendedPieces2[i];
             obj.GetComponent<CloneTravel>().onPedestal.d = true;

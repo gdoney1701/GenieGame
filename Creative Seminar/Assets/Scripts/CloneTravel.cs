@@ -47,6 +47,9 @@ public class CloneTravel : MonoBehaviour
         float gettingCloser = Vector3.Distance(endMarker.position, transform.position);
         if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
+            traveling = false;
+            transform.position = endMarker.position;
+            Destroy(Dad);
             if (targetObject[0].tag == "Player")
             {
                 targetObject[0].GetComponent<PlayerScript>().carrying = true;
@@ -66,9 +69,7 @@ public class CloneTravel : MonoBehaviour
                     targetObject[0].GetComponent<PedestalScript>().ListManagement(gameObject, onPedestal.c, false);
                 }
             }
-            traveling = false;
-            transform.position = endMarker.position;
-            Destroy(Dad);
+
 
         }
         if (traveling == false && wanted == true)
