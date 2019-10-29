@@ -73,6 +73,7 @@ public class ComeToMe : MonoBehaviour
     {
         startTime = Time.time;
         timeFrame = windowNum;
+        startMarker = gameObject.transform;
         discovered = true;
         Vector3 offset = new Vector3(timeFrame, 0, 0);
         currentClone = Instantiate(clonePrefab, offset + transform.position, transform.rotation);
@@ -82,6 +83,7 @@ public class ComeToMe : MonoBehaviour
         currentClone.GetComponent<CloneTravel>().Dad = gameObject;
         currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
         currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
+        currentClone.name = gameObject.name + " Child";
 
     }
     public void PlaneCross()

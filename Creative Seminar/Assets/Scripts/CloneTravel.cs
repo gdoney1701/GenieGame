@@ -12,11 +12,10 @@ public class CloneTravel : MonoBehaviour
     public bool traveling;
     public bool wanted;
     public GameObject Dad;
-    public List<GameObject> targetObject;
     public List<int> whoamI; // First index is the puzzle ID, the second index is the total number of same IDs to complete puzzle
     //public bool onPedestal;
     public PedestalGroup onPedestal;
-
+    public List<GameObject> targetObject;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +27,7 @@ public class CloneTravel : MonoBehaviour
         {
             endMarker = child;
         }
-        beginMovement(MC,startMarker, endMarker);
+        beginMovement(MC,startMarker, endMarker, 5.0f);
 
     }
 
@@ -48,7 +47,6 @@ public class CloneTravel : MonoBehaviour
         float gettingCloser = Vector3.Distance(endMarker.position, transform.position);
         if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
-            print("Catch");
             if (targetObject[0].tag == "Player")
             {
                 targetObject[0].GetComponent<PlayerScript>().carrying = true;
@@ -56,11 +54,17 @@ public class CloneTravel : MonoBehaviour
                 targetObject.RemoveAt(0);
             }else if (targetObject[0].tag == "Pedestal")
             {
-                onPedestal.b = targetObject[0];
-                //targetObject[0].GetComponent<PedestalScript>().suspendedPieces.Add(gameObject);
-                targetObject[0].GetComponent<PedestalScript>().CombineCheckPedestal();
-                targetObject.RemoveAt(0);
-                onPedestal.a = true;
+                if (targetObject[0].GetComponent<PedestalScript>().puzzleComplete == false)
+                {
+                    onPedestal.b = targetObject[0];
+                    targetObject[0].GetComponent<PedestalScript>().CombineCheckPedestal();
+                    targetObject.RemoveAt(0);
+                    onPedestal.a = true;
+                }
+                else
+                {
+                    targetObject[0].GetComponent<PedestalScript>().ListManagement(gameObject, onPedestal.c, false);
+                }
             }
             traveling = false;
             transform.position = endMarker.position;
@@ -85,16 +89,16 @@ public class CloneTravel : MonoBehaviour
         Rb.AddForce(Random.onUnitSphere * 2f, ForceMode.Impulse);
     }
 
-    public void beginMovement(GameObject target, Transform starter, Transform ender)
+    public void beginMovement(GameObject target, Transform starter, Transform ender, float newSpeed)
     {
         wanted = true;
+        speed = newSpeed;
         startTime = Time.time;
         traveling = true;
+        startMarker = starter;
         journeyLength = Vector3.Distance(starter.position, ender.position);
-        startMarker = gameObject.transform;
         Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
         Rb.useGravity = false;
-        startMarker = starter;
         endMarker = ender;
         targetObject.Add(target);
     }

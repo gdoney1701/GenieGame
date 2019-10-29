@@ -79,7 +79,7 @@ public class PlayerScript : MonoBehaviour
                     }
                     Transform targetHand = Camera.main.transform.GetChild(0);
                     GameObject pickUpPresent = cam1HitAgain.a;
-                    pickUpPresent.GetComponent<CloneTravel>().beginMovement(gameObject, pickUpPresent.transform, targetHand);
+                    pickUpPresent.GetComponent<CloneTravel>().beginMovement(gameObject, pickUpPresent.transform, targetHand, 5.0f);
                 }
             }
         }

@@ -8,6 +8,9 @@ public class PedestalScript : MonoBehaviour
     public List<bool> filledlocations;
     public bool puzzleComplete = false;
     public GameObject[] suspendedPieces2;
+    public GameObject compReplace;
+    private bool finalSpawned = false;
+    GameObject spawnPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,35 +26,43 @@ public class PedestalScript : MonoBehaviour
     public bool MovingtoPedestal(GameObject objectToMove)
     {
         //in filled location, every index marked 1 is empty, every index marked 0 is full
-        int location = 0;
-        bool foundLocation = false;
-        for(int i =0; i< childPositions.Count; ++i)
+        if (puzzleComplete == false)
         {
-            if(filledlocations[i] == false && foundLocation == false)
+            int location = 0;
+            bool foundLocation = false;
+            for (int i = 0; i < childPositions.Count; ++i)
             {
-                location = i;
-                filledlocations[i] = true;
-                foundLocation = true;
-                ListManagement(objectToMove, i, true);
-                break;
+                if (filledlocations[i] == false && foundLocation == false)
+                {
+                    location = i;
+                    filledlocations[i] = true;
+                    foundLocation = true;
+                    ListManagement(objectToMove, i, true);
+                    break;
 
-            }else if (filledlocations[i] == true)
-            {
-                foundLocation = false;
+                }
+                else if (filledlocations[i] == true)
+                {
+                    foundLocation = false;
+                }
             }
+            if (foundLocation == true)
+            {
+                objectToMove.GetComponent<CloneTravel>().beginMovement(gameObject, objectToMove.transform, childPositions[location], 5.0f);
+                //objectToMove.GetComponent<CloneTravel>().onPedestal.c = location;
+                GameObject MC = GameObject.FindGameObjectWithTag("Player");
+                MC.GetComponent<PlayerScript>().carrying = false;
+            }
+            else if (foundLocation == false)
+            {
+                print("No Empty Spots");
+            }
+            return (foundLocation);
         }
-        if (foundLocation == true)
+        else
         {
-            objectToMove.GetComponent<CloneTravel>().beginMovement(gameObject, objectToMove.transform, childPositions[location]);
-            //objectToMove.GetComponent<CloneTravel>().onPedestal.c = location;
-            GameObject MC = GameObject.FindGameObjectWithTag("Player");
-            MC.GetComponent<PlayerScript>().carrying = false;
+            return false;
         }
-        else if (foundLocation == false)
-        {
-            print("No Empty Spots");
-        }
-        return (foundLocation);
     }
     public void CombineCheckPedestal()
     {
@@ -101,7 +112,7 @@ public class PedestalScript : MonoBehaviour
                 {
                     print("Combination");
                     puzzleComplete = true;
-                    FinalCombination();
+                    FinalCombinationMovement();
                 }
                 else if (correct == false)
                 {
@@ -121,20 +132,47 @@ public class PedestalScript : MonoBehaviour
         }
        
     }
-    public void FinalCombination()
+    public void FinalCombinationMovement()
     {
-        GameObject newEmpty = new GameObject();
-        GameObject driftObj = Instantiate(newEmpty);
-        driftObj.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
-        for (int i =0; i<suspendedPieces2.Length; i++)
+        spawnPoint = Instantiate(new GameObject());
+        spawnPoint.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
+        for (int i =0; i<=suspendedPieces2.Length; i++)
         {
             GameObject obj = suspendedPieces2[i];
             obj.GetComponent<CloneTravel>().onPedestal.d = true;
-            obj.GetComponent<CloneTravel>().beginMovement(driftObj, obj.transform, driftObj.transform);
+            obj.GetComponent<CloneTravel>().beginMovement(gameObject, childPositions[i], spawnPoint.transform, 0.5f);
 
         }
+        //while (finalSpawned == false)
+        //{
+        //    FinalCheck(spawnPoint.transform);
+        //}
+        //for (int i = 0; i < suspendedPieces2.Length; i++)
+        //{
+        //    Destroy(suspendedPieces2[i]);
+        //}
+    }
+    private void Update()
+    {
+        if (finalSpawned == false && puzzleComplete == true)
+        {
+            FinalCheck(spawnPoint.transform);
+        }
+        if (finalSpawned == true)
+        {
+            for (int i = 0; i < suspendedPieces2.Length; i++)
+            {
+                Destroy(suspendedPieces2[i]);
+            }
+        }
+    }
+    public void KillShard(int ind)
+    {
+            GameObject goodbyeSon = suspendedPieces2[ind];
+            Destroy(goodbyeSon);
     }
     //adds and removes different objects from the suspended pieces
+    //obj is the object getting removes, location is the index, and add is whether its being added or removed
     public void ListManagement(GameObject obj,int location, bool add)
     {
         if (add == true)
@@ -144,11 +182,33 @@ public class PedestalScript : MonoBehaviour
         }
         else if (add == false)
         {
-            
             filledlocations[location] = false;
-            suspendedPieces2[location] = null;
+            if (puzzleComplete != true)
+            {
+                suspendedPieces2[location] = null;
+            }
         }
-
+    }
+    public void FinalCheck(Transform spawnPoint)
+    {
+        bool allThere = false;
+        for (int i = 0; i < filledlocations.Count; i++)
+        {
+            if (filledlocations[i] == false)
+            {
+                allThere = true;
+            }
+            else
+            {
+                allThere = false;
+                break;
+            }
+        }
+        if (allThere == true){
+            GameObject finalObject = Instantiate(compReplace);
+            finalObject.transform.position = spawnPoint.position;
+            finalSpawned = true;
+        }
 
     }
 }

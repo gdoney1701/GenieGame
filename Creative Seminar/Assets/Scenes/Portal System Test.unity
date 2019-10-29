@@ -12841,7 +12841,7 @@ Transform:
   - {fileID: 1358580252}
   - {fileID: 1011824756}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &563704625
 MonoBehaviour:
@@ -12857,8 +12857,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childPositions: []
   filledlocations: 
-  suspendedPieces: []
   puzzleComplete: 0
+  suspendedPieces2: []
+  compReplace: {fileID: 8530399107682737604, guid: 9159e174ec9340141b5e8a9395d0f16e,
+    type: 3}
 --- !u!1 &566370641
 GameObject:
   m_ObjectHideFlags: 0
@@ -13248,7 +13250,7 @@ RectTransform:
   m_Children:
   - {fileID: 939853923}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -25413,7 +25415,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1192196578
 GameObject:
@@ -33159,7 +33161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525148692}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.014400005, z: 0.23600006}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 921051735}
@@ -66375,7 +66377,7 @@ PrefabInstance:
     - target: {fileID: 7969134675283507384, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
       propertyPath: m_Name
-      value: PickUp Test
+      value: PickUp Test 1
       objectReference: {fileID: 0}
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
@@ -66415,7 +66417,7 @@ PrefabInstance:
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
