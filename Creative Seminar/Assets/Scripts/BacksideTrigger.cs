@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class BacksideTrigger : MonoBehaviour
 {
-    private void OnTriggerEnter (Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<ComeToMe>().PlaneCross();
+        print("Hit");
+        other.GetComponent<ComeToMe>().PlaneCross(true);
+    }
+    private void OnTriggerExit (Collider other)
+    {
+        other.GetComponent<ComeToMe>().PlaneCross(false);
     }
 }

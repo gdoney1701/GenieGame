@@ -7,7 +7,7 @@ public class ComeToMe : MonoBehaviour
     public Transform startMarker;
     public Transform endMarker;
     public Transform handMarker;
-    public float speed = 5.0f;
+    public float speed;
     private float startTime;
     private float journeyLength;
     public bool discovered = false;
@@ -18,6 +18,7 @@ public class ComeToMe : MonoBehaviour
     public float timeFrame;
     public int puzzleID;
     public int completeNum;
+    public bool readytoSpawn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,30 +26,30 @@ public class ComeToMe : MonoBehaviour
         startTime = Time.time;
         clone = false;
 
-        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
-
         
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
 
         Vector3 currentPos = transform.position;
         float distToEnd = Vector3.Distance(currentPos, endMarker.position);
-        if (discovered == true)
+        if (discovered)
         {
-            Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
-            Rb.useGravity = false;
             if (MC.GetComponent<PlayerScript>().dist == timeFrame)
             {
                 Vector3 offset = new Vector3(timeFrame, 0, 0);
                 float distCovered = (Time.time - startTime) * speed;
                 float fractionOfJourney = distCovered / journeyLength;
                 transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fractionOfJourney);
-                currentClone.transform.position = transform.position - offset;
-                currentClone.transform.rotation = transform.rotation;
+                if (readytoSpawn)
+                {
+                    currentClone.transform.position = transform.position - offset;
+                    currentClone.transform.rotation = transform.rotation;
+                }
+
             }
             else
             {
@@ -66,16 +67,10 @@ public class ComeToMe : MonoBehaviour
             Rb.useGravity = true;
             Destroy(currentClone);
         }
-
-
     }
-    public void SpawnChild(float windowNum)
+    public void SpawnChild()
     {
-        startTime = Time.time;
-        timeFrame = windowNum;
-        startMarker = gameObject.transform;
-        discovered = true;
-        Vector3 offset = new Vector3(timeFrame, 0, 0);
+        Vector3 offset = new Vector3(-timeFrame, 0, 0);
         currentClone = Instantiate(clonePrefab, offset + transform.position, transform.rotation);
         currentClone.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<CloneTravel>().startMarker = currentClone.transform;
@@ -86,11 +81,28 @@ public class ComeToMe : MonoBehaviour
         currentClone.name = gameObject.name + " Child";
 
     }
-    public void PlaneCross()
+    public void movetoHand(float dist)
     {
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
-        currentClone.GetComponent<MeshRenderer>().enabled = true;
+        startTime = Time.time;
+        timeFrame = dist;
+        startMarker = gameObject.transform;
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = false;
+        discovered = true;
+        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
 
+    }
+    public void PlaneCross(bool onContact)
+    {
+        if (onContact)
+        {
+            SpawnChild();
+            currentClone.GetComponent<MeshRenderer>().enabled = true;
+        }
+        if (!onContact)
+        {
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     public void GoodbyeFather()
