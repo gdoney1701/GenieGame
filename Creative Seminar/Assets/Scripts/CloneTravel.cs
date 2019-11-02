@@ -32,7 +32,7 @@ public class CloneTravel : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         //traveling functionality
         if (traveling == true)
@@ -83,21 +83,11 @@ public class CloneTravel : MonoBehaviour
     public void dropObject()
     {
         print("Drop");
-        GameObject MC = GameObject.FindGameObjectWithTag("Player");
         wanted = false;
         Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
         Rb.useGravity = true;
-        if (!MC.GetComponent<PlayerScript>().carrying)
-        {
-            Rb.AddForce(Random.onUnitSphere * 2f, ForceMode.Impulse);
-        }
-        else
-        {
-            Rb.AddForce(MC.transform.forward, ForceMode.Impulse);
-        }
-
-
-
+        GameObject MC = GameObject.FindGameObjectWithTag("Player");
+        Rb.AddForce(Random.onUnitSphere * 2f, ForceMode.Impulse);
     }
 
     public void beginMovement(GameObject target, Transform starter, Transform ender, float newSpeed)

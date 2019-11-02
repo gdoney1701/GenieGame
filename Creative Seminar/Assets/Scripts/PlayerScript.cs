@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
@@ -65,7 +65,7 @@ public class PlayerScript : MonoBehaviour
             if (cam1Hit.b == true && cam2Hit.b == true)
             {
                 GameObject hitManLee = cam2Hit.a;
-                hitManLee.GetComponent<ComeToMe>().movetoHand(dist);
+                hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
 
             } else if (cam1HitAgain.b == true) //searching to pick something up in the present
             {

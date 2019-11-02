@@ -112,8 +112,8 @@ MonoBehaviour:
   traveling: 0
   wanted: 0
   Dad: {fileID: 0}
-  whoamI: 
   targetObject: []
+  whoamI: 
 --- !u!54 &7969134675283507382
 Rigidbody:
   m_ObjectHideFlags: 0
