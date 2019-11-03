@@ -14,62 +14,75 @@ public class PlayerScript : MonoBehaviour
     public float maxPullDistance;
     public List<GameObject> objectHeld;
     public bool carrying;
-    private GameObject[] carriedPhotos;
+    public bool[] carriedPhotos;
+    public bool devcheats;
+    public bool havePhotos;
 
     // Start is called before the first frame update
     void Start()
     {
-        carriedPhotos = new GameObject[5];
+        havePhotos = false;
+        carriedPhotos = new bool[5];
         carrying = false;
         photoaround = false;
+        for (int i = 0; i<carriedPhotos.Length; i++)
+        {
+            carriedPhotos[i] = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K) && devcheats)
+        {
+            for (int i = 0; i < carriedPhotos.Length; i++)
+            {
+                carriedPhotos[i] = true;
+            }
+        }
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
+        //pressing the left mouse button will bring the timeframe forward by 1 (200 units)
         if (Input.GetMouseButtonDown(0))
         {
-            dist += 200;
-            Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
-            GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
-            portalColliders.transform.position += new Vector3(200,0,0);
+                offsetController(true);
         }
 
+        //pressing the right button with bring the timeframe back by 1 (-200 units)
         if (Input.GetMouseButtonDown(1) && dist > 200)
         {
-            dist -= 200;
-            Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
-            GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
-            portalColliders.transform.position += new Vector3(-200, 0, 0);
+            offsetController(false);
         }
-        if (Input.GetKeyDown(KeyCode.E) && photoaround == false)
-        {
-            MakeABaby(true,0.0f, Photoprefab);
-            MakeABaby(false,dist, photoColliders);
-            photoaround = true;
 
-        } else if (Input.GetKeyDown(KeyCode.E) && photoaround == true)
+        if (Input.GetKeyDown(KeyCode.E) && !photoaround)
+        {
+                MakeABaby(true, 0.0f, Photoprefab);
+                MakeABaby(false, dist, photoColliders);
+                photoaround = true;
+
+        } else if (Input.GetKeyDown(KeyCode.E) && photoaround)
         {
             Destroy(GameObject.FindGameObjectWithTag("Photo"));
             Destroy(GameObject.FindGameObjectWithTag("PhotoColliders"));
             photoaround = false;
                 
         }
-        //pickup functionality
-        if (Input.GetKeyDown(KeyCode.F) && carrying == false)
-        {
 
-            HitGroup cam1Hit = HitDat(10, Camera.main);
-            HitGroup cam2Hit = HitDat(9, Bcam);
-            HitGroup cam1HitAgain = HitDat(9, Camera.main);
+        //pickup functionality
+        if (Input.GetKeyDown(KeyCode.F) && !carrying)
+        {
+            //Runs through the raycast checks for 4 edge cases
+            HitGroup cam1Hit = HitDat(10, Camera.main); //checking if the photo is front of the player
+            HitGroup cam2Hit = HitDat(9, Bcam); //checking if the bcam can see the object
+            HitGroup cam1HitAgain = HitDat(9, Camera.main); //checks if the player can see an object in front of them
+            HitGroup photoCheck = HitDat(16, Camera.main); //checks if the player can see the photo pickup
             if (cam1Hit.b == true && cam2Hit.b == true)
             {
                 GameObject hitManLee = cam2Hit.a;
                 hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
 
-            } else if (cam1HitAgain.b == true) //searching to pick something up in the present
+            } else if (cam1HitAgain.b) //searching to pick something up in the present
             {
                 if (cam1HitAgain.a.GetComponent<CloneTravel>().onPedestal.d == false)
                 {
@@ -83,6 +96,9 @@ public class PlayerScript : MonoBehaviour
                     GameObject pickUpPresent = cam1HitAgain.a;
                     pickUpPresent.GetComponent<CloneTravel>().beginMovement(gameObject, pickUpPresent.transform, targetHand, 5.0f);
                 }
+            }else if (photoCheck.b)
+            {
+                photoCheck.a.GetComponent<PhotoPickUp>().initMove();
             }
         }
         if (Input.GetKeyDown(KeyCode.F) && carrying == true)
@@ -105,7 +121,6 @@ public class PlayerScript : MonoBehaviour
                 objectHeld.RemoveAt(0);
             }
         }
-
     }
     //HitGoup.a = the gameobject hit HitGroup.b is the booleon for whether anything was hit
     public HitGroup HitDat(int target, Camera whoamI)
@@ -148,7 +163,49 @@ public class PlayerScript : MonoBehaviour
         {
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
+            newPhoto.GetComponentInChildren<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
         }
 
+    }
+    void offsetController(bool positive)
+    {
+        int limit = 0;
+        int negMod = 0;
+        int startingLoc = 0;
+        if (positive)
+        {
+            limit = carriedPhotos.Length;
+            startingLoc = ((int)dist / 200) - 1;
+            negMod = 1;
+        }
+        else
+        {
+            limit = ((int)dist/200) - 1;
+            startingLoc = 0;
+            negMod = -1;
+        }
+        bool foundaloc = false;
+        int newLoc = 0; 
+        for (int i = startingLoc; i < limit; i++)
+        {
+            if (carriedPhotos[i])
+            {
+                foundaloc = true;
+                newLoc = i - startingLoc;
+                break;
+            }
+            else
+            {
+                foundaloc = false;
+            }
+        }
+        if (foundaloc)
+        {
+            int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200)))*negMod;
+            dist = (newLoc + 1) * 200;
+            Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
+            portalColliders.transform.position += new Vector3(movement, 0, 0);
+        }
     }
 }
