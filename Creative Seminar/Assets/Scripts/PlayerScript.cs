@@ -14,10 +14,12 @@ public class PlayerScript : MonoBehaviour
     public float maxPullDistance;
     public List<GameObject> objectHeld;
     public bool carrying;
+    private GameObject[] carriedPhotos;
 
     // Start is called before the first frame update
     void Start()
     {
+        carriedPhotos = new GameObject[5];
         carrying = false;
         photoaround = false;
     }
