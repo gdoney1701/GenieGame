@@ -33,7 +33,9 @@ public class PhotoPickUp : MonoBehaviour
                 GameObject MC = GameObject.FindGameObjectWithTag("Player");
                 if (!MC.GetComponent<PlayerScript>().havePhotos)
                 {
-                    MC.GetComponent<PlayerScript>().dist = photoFrame * 200;
+                    MC.GetComponent<PlayerScript>().dist = (photoFrame * 200);
+                    Camera portalCam = MC.GetComponent<PlayerScript>().Bcam;
+                    portalCam.GetComponent<CopyPositionOffset>().offset = new Vector3(photoFrame * 200, 0, 0);
                     MC.GetComponent<PlayerScript>().havePhotos = true;
                 }
                 MC.GetComponent<PlayerScript>().carriedPhotos[photoFrame - 1] = true;

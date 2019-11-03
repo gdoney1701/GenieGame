@@ -55,13 +55,13 @@ public class PlayerScript : MonoBehaviour
             offsetController(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !photoaround)
+        if (Input.GetKeyDown(KeyCode.E) && !photoaround && havePhotos)
         {
                 MakeABaby(true, 0.0f, Photoprefab);
                 MakeABaby(false, dist, photoColliders);
                 photoaround = true;
 
-        } else if (Input.GetKeyDown(KeyCode.E) && photoaround)
+        } else if (Input.GetKeyDown(KeyCode.E) && photoaround && havePhotos)
         {
             Destroy(GameObject.FindGameObjectWithTag("Photo"));
             Destroy(GameObject.FindGameObjectWithTag("PhotoColliders"));
@@ -163,7 +163,6 @@ public class PlayerScript : MonoBehaviour
         {
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
-            newPhoto.GetComponentInChildren<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
         }
 
     }
