@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour
     public bool[] carriedPhotos;
     public bool devcheats;
     public bool havePhotos;
+    public int timeIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class PlayerScript : MonoBehaviour
                 carriedPhotos[i] = true;
             }
             havePhotos = true;
+            timeIndex = 0;
         }
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
@@ -164,34 +166,38 @@ public class PlayerScript : MonoBehaviour
         {
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
+            //ugly way of fixing a rather game breaking bug by turning b cam off and on again
+            Bcam.gameObject.SetActive(false);
+            Bcam.gameObject.SetActive(true);
         }
 
     }
     void offsetController(bool positive)
     {
-        int limit = 0;
         int negMod = 0;
-        int startingLoc = 0;
-        if (positive)
-        {
-            limit = carriedPhotos.Length;
-            startingLoc = ((int)dist / 200) - 1;
-            negMod = 1;
-        }
-        else
-        {
-            limit = ((int)dist/200) - 1;
-            startingLoc = 0;
-            negMod = -1;
-        }
         bool foundaloc = false;
         int newLoc = 0; 
-        for (int i = startingLoc; i < limit; i++)
+        for (int i = 0; i < carriedPhotos.Length; i++)
         {
             if (carriedPhotos[i])
             {
-                foundaloc = true;
-                newLoc = i - startingLoc;
+                if(positive && i > timeIndex)
+                {
+                    foundaloc = true;
+                    newLoc = i;
+                    negMod = 1;
+                    break;
+                }else if(!positive && i < timeIndex)
+                {
+                    foundaloc = true;
+                    newLoc = i;
+                    negMod = 1;
+                    break;
+                }
+                else
+                {
+                    foundaloc = false;
+                }
                 break;
             }
             else
@@ -201,11 +207,14 @@ public class PlayerScript : MonoBehaviour
         }
         if (foundaloc)
         {
-            int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200)))*negMod;
+            int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200))) * negMod;
             dist = (newLoc + 1) * 200;
             Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
-            GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
-            portalColliders.transform.position += new Vector3(movement, 0, 0);
+            if (photoaround)
+            {
+                GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
+                portalColliders.transform.position += new Vector3(movement, 0, 0);
+            }
         }
     }
 }

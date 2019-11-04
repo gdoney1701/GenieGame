@@ -86,10 +86,18 @@ public class ComeToMe : MonoBehaviour
         currentClone.name = gameObject.name + " Child";
 
     }
-    public void PlaneCross()
+    public void PlaneCross(bool enter)
     {
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
-        currentClone.GetComponent<MeshRenderer>().enabled = true;
+        if (enter)
+        {
+            currentClone.GetComponent<MeshRenderer>().enabled = true;
+        }
+        else
+        {
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+
 
     }
 
