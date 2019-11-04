@@ -18,6 +18,7 @@ public class ComeToMe : MonoBehaviour
     public float timeFrame;
     public int puzzleID;
     public int completeNum;
+    Transform cloneStart;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,11 @@ public class ComeToMe : MonoBehaviour
             {
                 discovered = false;
             }
+            if(distToEnd <= .1f)
+            {
+                transform.position = endMarker.position;
+                currentClone.GetComponent<CloneTravel>().beginMovement(MC, cloneStart, handMarker, 5);
+            }
 
         }
         if (Input.GetKeyDown(KeyCode.E) && MC.GetComponent<PlayerScript>().photoaround == true)
@@ -78,8 +84,8 @@ public class ComeToMe : MonoBehaviour
         Vector3 offset = new Vector3(timeFrame, 0, 0);
         currentClone = Instantiate(clonePrefab, offset + transform.position, transform.rotation);
         currentClone.GetComponent<MeshRenderer>().enabled = false;
-        currentClone.GetComponent<CloneTravel>().startMarker = currentClone.transform;
-        currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
+        cloneStart = currentClone.transform;
+        //currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
         currentClone.GetComponent<CloneTravel>().Dad = gameObject;
         if (gameObject.tag == "PickUp")
         {

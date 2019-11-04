@@ -27,7 +27,7 @@ public class CloneTravel : MonoBehaviour
         {
             endMarker = child;
         }
-        beginMovement(MC,startMarker, endMarker, 5.0f);
+        //beginMovement(MC,startMarker, endMarker, 5.0f);
 
     }
 
@@ -48,8 +48,8 @@ public class CloneTravel : MonoBehaviour
         if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
             traveling = false;
-            transform.position = endMarker.position;
             Destroy(Dad);
+            transform.position = endMarker.position;
             if (targetObject[0].tag == "Player")
             {
                 targetObject[0].GetComponent<PlayerScript>().carrying = true;

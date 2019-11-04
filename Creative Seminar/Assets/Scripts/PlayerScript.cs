@@ -217,8 +217,9 @@ public class PlayerScript : MonoBehaviour
             Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
             if (photoaround)
             {
-                GameObject portalColliders = GameObject.FindGameObjectWithTag("PhotoColliders");
-                portalColliders.transform.position += new Vector3(movement, 0, 0);
+                GameObject pCols = GameObject.FindGameObjectWithTag("PhotoColliders");
+                Transform pPos = GameObject.FindGameObjectWithTag("Photo").transform;
+                pCols.transform.position = pPos.position + new Vector3(dist, 0, 0);
             }
         }
     }

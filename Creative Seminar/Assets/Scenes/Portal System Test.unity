@@ -32814,7 +32814,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525148692}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.014400005, z: 0.23600006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 921051735}
@@ -52102,6 +52102,11 @@ PrefabInstance:
       propertyPath: BPhoto
       value: 
       objectReference: {fileID: 785764464}
+    - target: {fileID: 2267286140109623931, guid: 609819170ae61ab40a6e0bbfa895c916,
+        type: 3}
+      propertyPath: devcheats
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2267286139814534323, guid: 609819170ae61ab40a6e0bbfa895c916,
         type: 3}
       propertyPath: pairPortal
