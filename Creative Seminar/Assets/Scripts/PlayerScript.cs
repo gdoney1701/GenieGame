@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
             {
                 carriedPhotos[i] = true;
             }
+            havePhotos = true;
         }
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 

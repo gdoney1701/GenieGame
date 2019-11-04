@@ -52743,6 +52743,16 @@ PrefabInstance:
       propertyPath: BPhoto
       value: 
       objectReference: {fileID: 785764464}
+    - target: {fileID: 2565016442341630239, guid: f6a130ed73c8151418662d62d5f3c0b0,
+        type: 3}
+      propertyPath: havePhotos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565016442341630239, guid: f6a130ed73c8151418662d62d5f3c0b0,
+        type: 3}
+      propertyPath: devcheats
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2565016443044374989, guid: f6a130ed73c8151418662d62d5f3c0b0,
         type: 3}
       propertyPath: pairPortal
@@ -65518,6 +65528,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805450025151263433, guid: c73a2bb5523608046a60f5e95464ec33,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7805450024275824307, guid: c73a2bb5523608046a60f5e95464ec33,
         type: 3}
