@@ -8,6 +8,8 @@ TagManager:
   - PickUp
   - PhotoColliders
   - Pedestal
+  - CompletePickUp
+  - PhotoPickup
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - PhotoBorder
   - PhotoDuplicateMiddle
   - Pedestal
-  - 
+  - PhotoPickup
   - 
   - 
   - 
