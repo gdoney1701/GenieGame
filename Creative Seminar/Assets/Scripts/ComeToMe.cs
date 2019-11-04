@@ -19,6 +19,7 @@ public class ComeToMe : MonoBehaviour
     public int puzzleID;
     public int completeNum;
     Transform cloneStart;
+    public int photoID;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +59,14 @@ public class ComeToMe : MonoBehaviour
             if(distToEnd <= .1f)
             {
                 transform.position = endMarker.position;
-                currentClone.GetComponent<CloneTravel>().beginMovement(MC, cloneStart, handMarker, 5);
+                if (gameObject.tag == "PickUp")
+                {
+                    currentClone.GetComponent<CloneTravel>().beginMovement(MC, cloneStart, handMarker, 5);
+                }else if( gameObject.tag == "PhotoPickup")
+                {
+                    currentClone.GetComponent<PhotoPickUp>().endMove();
+                }
+
             }
 
         }
@@ -86,11 +94,17 @@ public class ComeToMe : MonoBehaviour
         currentClone.GetComponent<MeshRenderer>().enabled = false;
         cloneStart = currentClone.transform;
         //currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
-        currentClone.GetComponent<CloneTravel>().Dad = gameObject;
+
         if (gameObject.tag == "PickUp")
         {
+            currentClone.GetComponent<CloneTravel>().Dad = gameObject;
             currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
             currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
+        }else if(gameObject.tag == "PhotoPickup")
+        {
+            currentClone.GetComponent<PhotoPickUp>().clone = true;
+            currentClone.GetComponent<PhotoPickUp>().Dad = gameObject;
+            currentClone.GetComponent<PhotoPickUp>().photoTimeFrame = photoID;
         }
         currentClone.name = gameObject.name + " Child";
 
