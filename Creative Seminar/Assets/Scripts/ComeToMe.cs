@@ -26,7 +26,6 @@ public class ComeToMe : MonoBehaviour
     {
         startTime = Time.time;
         clone = false;
-
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
 
         
@@ -43,7 +42,7 @@ public class ComeToMe : MonoBehaviour
         {
             Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
             Rb.useGravity = false;
-            if (MC.GetComponent<PlayerScript>().dist == timeFrame)
+            if (MC.GetComponent<PlayerScript>().dist == timeFrame && MC.GetComponent<PlayerScript>().photoaround)
             {
                 Vector3 offset = new Vector3(timeFrame, 0, 0);
                 float distCovered = (Time.time - startTime) * speed;
