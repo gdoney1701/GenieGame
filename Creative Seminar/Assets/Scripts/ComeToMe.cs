@@ -81,8 +81,11 @@ public class ComeToMe : MonoBehaviour
         currentClone.GetComponent<CloneTravel>().startMarker = currentClone.transform;
         currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
         currentClone.GetComponent<CloneTravel>().Dad = gameObject;
-        currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
-        currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
+        if (gameObject.tag == "PickUp")
+        {
+            currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
+            currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
+        }
         currentClone.name = gameObject.name + " Child";
 
     }

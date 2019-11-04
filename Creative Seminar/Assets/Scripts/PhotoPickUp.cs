@@ -10,7 +10,9 @@ public class PhotoPickUp : MonoBehaviour
     float startTime;
     float journeyLength;
     public bool wanted = false;
-    public int photoFrame;
+    public int photoTimeFrame;
+    public bool clone;
+    public GameObject Dad;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,16 +32,20 @@ public class PhotoPickUp : MonoBehaviour
             float disttoEnd = Vector3.Distance(startMarker.position, endMarker.position);
             if (disttoEnd <= .1f)
             {
+                if (clone)
+                {
+                    Destroy(Dad);
+                }
                 GameObject MC = GameObject.FindGameObjectWithTag("Player");
                 if (!MC.GetComponent<PlayerScript>().havePhotos)
                 {
-                    MC.GetComponent<PlayerScript>().dist = (photoFrame * 200);
+                    MC.GetComponent<PlayerScript>().dist = (photoTimeFrame * 200);
                     Camera portalCam = MC.GetComponent<PlayerScript>().Bcam;
-                    portalCam.GetComponent<CopyPositionOffset>().offset = new Vector3(photoFrame * 200, 0, 0);
+                    portalCam.GetComponent<CopyPositionOffset>().offset = new Vector3(photoTimeFrame * 200, 0, 0);
                     MC.GetComponent<PlayerScript>().havePhotos = true;
-                    MC.GetComponent<PlayerScript>().timeIndex = photoFrame - 1;
+                    MC.GetComponent<PlayerScript>().timeIndex = photoTimeFrame - 1;
                 }
-                MC.GetComponent<PlayerScript>().carriedPhotos[photoFrame - 1] = true;
+                MC.GetComponent<PlayerScript>().carriedPhotos[photoTimeFrame - 1] = true;
                 print("New Photo Added");
                 Destroy(gameObject);
             }
