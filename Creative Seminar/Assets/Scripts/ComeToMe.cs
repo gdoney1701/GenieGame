@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Come to Me is a script that brings items from the past into the present by moving towards the B-Cam hand and spawning a clone that follows the transform and offset
+//On trigger exit with the B-cam will disable the mesh renderer on this object and enable the mesh on the clone
+//Once the object reaches its final destination, it is destroyed and the clone exists with all the necessary ID info
 
 public class ComeToMe : MonoBehaviour
 {
