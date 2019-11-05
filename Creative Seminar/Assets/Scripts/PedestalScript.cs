@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Pedestal Script manages the different lists and checks for an individual pedestal, making sure there are open spots and whether the objects can be combined
+//On a correct combination, the objects added will be destroyed after lerping to a final position and instantiating the final version
 public class PedestalScript : MonoBehaviour
 {
     public List<Transform> childPositions;

@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Come to Me is a script that brings items from the past into the present by moving towards the B-Cam hand and spawning a clone that follows the transform and offset
+//On trigger exit with the B-cam will disable the mesh renderer on this object and enable the mesh on the clone
+//Once the object reaches its final destination, it is destroyed and the clone exists with all the necessary ID info
 
 public class ComeToMe : MonoBehaviour
 {
@@ -19,13 +22,13 @@ public class ComeToMe : MonoBehaviour
     public int puzzleID;
     public int completeNum;
     Transform cloneStart;
+    public int photoID;
 
     // Start is called before the first frame update
     void Start()
     {
         startTime = Time.time;
         clone = false;
-
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
 
         
@@ -42,7 +45,7 @@ public class ComeToMe : MonoBehaviour
         {
             Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
             Rb.useGravity = false;
-            if (MC.GetComponent<PlayerScript>().dist == timeFrame)
+            if (MC.GetComponent<PlayerScript>().dist == timeFrame && MC.GetComponent<PlayerScript>().photoaround)
             {
                 Vector3 offset = new Vector3(timeFrame, 0, 0);
                 float distCovered = (Time.time - startTime) * speed;
@@ -58,7 +61,14 @@ public class ComeToMe : MonoBehaviour
             if(distToEnd <= .1f)
             {
                 transform.position = endMarker.position;
-                currentClone.GetComponent<CloneTravel>().beginMovement(MC, cloneStart, handMarker, 5);
+                if (gameObject.tag == "PickUp")
+                {
+                    currentClone.GetComponent<CloneTravel>().beginMovement(MC, cloneStart, handMarker, 5);
+                }else if( gameObject.tag == "PhotoPickup")
+                {
+                    currentClone.GetComponent<PhotoPickUp>().endMove();
+                }
+
             }
 
         }
@@ -86,11 +96,17 @@ public class ComeToMe : MonoBehaviour
         currentClone.GetComponent<MeshRenderer>().enabled = false;
         cloneStart = currentClone.transform;
         //currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
-        currentClone.GetComponent<CloneTravel>().Dad = gameObject;
+
         if (gameObject.tag == "PickUp")
         {
+            currentClone.GetComponent<CloneTravel>().Dad = gameObject;
             currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
             currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
+        }else if(gameObject.tag == "PhotoPickup")
+        {
+            currentClone.GetComponent<PhotoPickUp>().clone = true;
+            currentClone.GetComponent<PhotoPickUp>().Dad = gameObject;
+            currentClone.GetComponent<PhotoPickUp>().photoTimeFrame = photoID;
         }
         currentClone.name = gameObject.name + " Child";
 
