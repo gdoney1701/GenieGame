@@ -35,7 +35,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2
+    value: 2.72
   threshold:
     overrideState: 1
     value: 1
@@ -1402,7 +1402,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.53
+    value: 0.32
   smoothness:
     overrideState: 1
     value: 0.4
@@ -1431,10 +1431,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1887f9d2afc1bb34a935b4a568750b83, type: 3}
   m_Name: PhotoPostProcessing
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   blend:
-    overrideState: 1
+    overrideState: 0
     value: 1
