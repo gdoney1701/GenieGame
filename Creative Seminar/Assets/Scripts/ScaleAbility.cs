@@ -9,10 +9,10 @@ public class ScaleAbility : MonoBehaviour
     public GameObject PortalVisual;
     private bool doneScaling;
     private bool doneGrowing;
+    private bool greyShrink;
     Renderer portalRenderer;
-    public float minimum = -0.5f;
-    public float maximum = -0.8f;
-    public float speed;
+    private float minimum = -0.8f;
+    private float maximum = -0.5f;
     static float t = 0.0f;
 
 
@@ -23,6 +23,7 @@ public class ScaleAbility : MonoBehaviour
         portalRenderer.material.SetFloat("Boolean_448AB95D", 0);
         doneScaling = false;
         doneGrowing = false;
+        greyShrink = false;
     }
 
     // Update is called once per frame
@@ -42,13 +43,10 @@ public class ScaleAbility : MonoBehaviour
         }
         else if (!doneScaling && !doneGrowing)
         {
-            portalRenderer.material.SetFloat("Boolean_448AB95D", 1);
             doneScaling = true;
-
         }
-        if (doneScaling && !doneGrowing)
+        if(doneScaling && !greyShrink && !doneGrowing)
         {
-
             Vector3 journey = new Vector3(Mathf.Lerp(minimum, maximum, t), 0, 0);
             t += 0.01f;
             float goal = journey[0];
@@ -58,11 +56,29 @@ public class ScaleAbility : MonoBehaviour
             {
                 float temp = maximum;
                 maximum = minimum;
-                minimum = maximum;
+                minimum = temp;
+                t = 0.0f;
+                greyShrink = true;
+                portalRenderer.material.SetFloat("Boolean_448AB95D", 1);
+            }
+        }
+        if (doneScaling && !doneGrowing && greyShrink)
+        {
+
+            Vector3 journey2 = new Vector3(Mathf.Lerp(minimum, maximum, t), 0, 0);
+            t += 0.001f;
+            float goal2 = journey2[0];
+            portalRenderer.material.SetFloat("Vector1_7431778D", goal2);
+
+            if (t > 1.0f)
+            {
+                float temp = maximum;
+                maximum = minimum;
+                minimum = temp;
                 t = 0.0f;
                 doneGrowing = true;
             }
         }
-        
+
     }
 }
