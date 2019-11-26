@@ -38,8 +38,8 @@ Material:
     - Vector1_DA1B0552: 5
     - Vector1_E3C88DD7: 5
     m_Colors:
-    - Color_5FAB582D: {r: 2.996078, g: 0.05692775, b: 0, a: 0}
-    - Color_7372E829: {r: 0.3571304, g: 2.996078, b: 0, a: 0}
+    - Color_5FAB582D: {r: 11.984314, g: 0, b: 0.11614285, a: 0}
+    - Color_7372E829: {r: 1.0955509, g: 11.984314, b: 0, a: 0}
     - Vector2_629C02B4: {r: 0.5, g: 0.5, b: 0, a: 0}
 --- !u!114 &2891028562200882798
 MonoBehaviour:
