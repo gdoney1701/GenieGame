@@ -210,6 +210,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PortalVisual: {fileID: 717455549643244763}
+  doneScaling: 0
+  doneGrowing: 0
+  greyShrink: 0
+  portalRenderer: {fileID: 1281340107081412615}
+  minimum: -0.8
+  maximum: -0.5
 --- !u!1 &7382517846509289378
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,6 +461,12 @@ GameObject:
 --- !u!4 &4589084309314909896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 4f78b3c0c3f72bb4280d243e764c2f26,
+    type: 3}
+  m_PrefabInstance: {fileID: 8850988420928970194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1281340107081412615 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1504981713932161579, guid: 4f78b3c0c3f72bb4280d243e764c2f26,
     type: 3}
   m_PrefabInstance: {fileID: 8850988420928970194}
   m_PrefabAsset: {fileID: 0}
