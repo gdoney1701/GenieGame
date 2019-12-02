@@ -26,6 +26,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_448AB95D: 1
+    - Boolean_4B03E015: 1
     - Boolean_C2A840A9: 0
     - Vector1_37A455EA: 1.35
     - Vector1_42F558F6: 0.05
@@ -39,8 +40,8 @@ Material:
     - Vector1_DA1B0552: 5
     - Vector1_E3C88DD7: 5
     m_Colors:
-    - Color_5FAB582D: {r: 11.984314, g: 0, b: 0.11614285, a: 0}
-    - Color_7372E829: {r: 1.0955509, g: 11.984314, b: 0, a: 0}
+    - Color_5FAB582D: {r: 2.9960785, g: 0.35143706, b: 0, a: 0}
+    - Color_7372E829: {r: 5.992157, g: 0, b: 0.1882353, a: 0}
     - Vector2_629C02B4: {r: 0.5, g: 0.5, b: 0, a: 0}
 --- !u!114 &2891028562200882798
 MonoBehaviour:
