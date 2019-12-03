@@ -209,13 +209,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd5f74a3672c774aa66fbcf6666becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PortalVisual: {fileID: 717455549643244763}
   doneScaling: 0
   doneGrowing: 0
   greyShrink: 0
   portalRenderer: {fileID: 1281340107081412615}
   minimum: -0.8
   maximum: -0.5
+  isCurrent: 0
 --- !u!1 &7382517846509289378
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +375,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 4f78b3c0c3f72bb4280d243e764c2f26,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e2d3e473aa4ac5c41a10b4fc878d55c0, type: 2}
     - target: {fileID: -4216859302048453862, guid: 4f78b3c0c3f72bb4280d243e764c2f26,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -445,11 +450,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: -1504981713932161579, guid: 4f78b3c0c3f72bb4280d243e764c2f26,
+    - target: {fileID: -5178661895559278292, guid: 4f78b3c0c3f72bb4280d243e764c2f26,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2100000, guid: e2d3e473aa4ac5c41a10b4fc878d55c0, type: 2}
+      objectReference: {fileID: -4523576878071891012, guid: a4df9608228e315448ad09e8f1d978fa,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f78b3c0c3f72bb4280d243e764c2f26, type: 3}
 --- !u!1 &717455549643244763 stripped

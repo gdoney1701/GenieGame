@@ -25,6 +25,7 @@ public class ScaleAbility : MonoBehaviour
         doneScaling = false;
         doneGrowing = false;
         greyShrink = false;
+        t = 0;
     }
 
     // Update is called once per frame
@@ -39,10 +40,10 @@ public class ScaleAbility : MonoBehaviour
                 t += 0.02f;
                 float goal = journey[0];
                 portalRenderer.material.SetFloat("Vector1_7431778D", goal);
-                if (t > 0.20f)
-                {
-                    portalRenderer.material.SetFloat("Boolean_4B03E015", 0);
-                }
+                //if (t > 0.20f)
+                //{
+                //    portalRenderer.material.SetFloat("Boolean_4B03E015", 0);
+                //}
                 if (t > 1.0f)
                 {
                     float temp = maximum;
