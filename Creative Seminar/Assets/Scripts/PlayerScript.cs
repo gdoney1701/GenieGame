@@ -63,8 +63,9 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && !photoaround && havePhotos)
         {
-            MakeABaby(true, 0.0f, Photoprefab);
-            MakeABaby(false, dist, photoColliders);
+            GameObject photo = MakeABaby(true, 0.0f, Photoprefab);
+            GameObject colliders = MakeABaby(false, dist, photoColliders);
+            colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
             photoaround = true;
 
         }
@@ -163,7 +164,7 @@ public class PlayerScript : MonoBehaviour
             this.a = thenWhat;
         }
     }
-    public void MakeABaby(bool actualPhoto, float whereBaby, GameObject fabBaby)
+    public GameObject MakeABaby(bool actualPhoto, float whereBaby, GameObject fabBaby)
     {
         Vector3 babyPoint = new Vector3(whereBaby, 0, 0);
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
@@ -172,8 +173,13 @@ public class PlayerScript : MonoBehaviour
         {
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
+            newPhoto.GetComponent<ScaleAbility>().isCurrent = true;
         }
-
+        else
+        {
+            newPhoto.GetComponent<ScaleAbility>().isCurrent = false;
+        }
+        return newPhoto;
     }
     void offsetController(bool positive)
     {
