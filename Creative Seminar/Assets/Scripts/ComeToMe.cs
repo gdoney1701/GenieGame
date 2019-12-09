@@ -23,6 +23,7 @@ public class ComeToMe : MonoBehaviour
     public int completeNum;
     Transform cloneStart;
     public int photoID;
+    private bool crossedPlane = false;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +59,7 @@ public class ComeToMe : MonoBehaviour
             {
                 discovered = false;
             }
-            if(distToEnd <= .1f)
+            if(distToEnd <= .1f && crossedPlane)
             {
                 transform.position = endMarker.position;
                 if (gameObject.tag == "PickUp")
@@ -115,6 +116,7 @@ public class ComeToMe : MonoBehaviour
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<MeshRenderer>().enabled = true;
+        crossedPlane = true;
 
     }
 
