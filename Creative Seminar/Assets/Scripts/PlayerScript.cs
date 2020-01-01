@@ -174,18 +174,20 @@ public class PlayerScript : MonoBehaviour
         //creates the photo using the gameobject defined by the function at the spawnpoint with 
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
-        if (actualPhoto == true)
+        if (actualPhoto)
         {
             //sets the rendertexture camera position
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
             newPhoto.GetComponent<ScaleAbility>().isCurrent = true;
+            newPhoto.transform.parent = Camera.main.transform;
         }
         else
         {
             newPhoto.GetComponent<ScaleAbility>().isCurrent = false;
+            newPhoto.transform.parent = Bcam.transform;
+            print("Fucking Where");
         }
-        newPhoto.transform.parent = Camera.main.transform;
         return newPhoto;
     }
     void offsetController(bool positive)

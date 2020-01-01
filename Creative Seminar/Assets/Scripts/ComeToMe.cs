@@ -116,6 +116,10 @@ public class ComeToMe : MonoBehaviour
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<MeshRenderer>().enabled = true;
+        if (currentClone.GetComponent<CloneTravel>().tooBig)
+        {
+            currentClone.GetComponent<CloneTravel>().dissolve = true;
+        }
         crossedPlane = true;
 
     }

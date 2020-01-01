@@ -17,6 +17,7 @@ public class CloneTravel : MonoBehaviour
     public PedestalGroup onPedestal;
     public List<GameObject> targetObject;
     public bool tooBig;
+    public bool dissolve;
 
     // Start is called before the first frame update
     void Start()
