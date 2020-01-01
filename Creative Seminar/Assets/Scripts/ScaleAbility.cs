@@ -20,8 +20,15 @@ public class ScaleAbility : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        portalRenderer.material.SetFloat("Boolean_448AB95D", 0);
-        portalRenderer.material.SetFloat("Boolean_4B03E015", 1);
+        if (isCurrent)
+        {
+            portalRenderer.material.SetFloat("Boolean_448AB95D", 0);
+            portalRenderer.material.SetFloat("Boolean_4B03E015", 1);
+        }
+        else
+        {
+            portalRenderer = null;
+        }
         doneScaling = false;
         doneGrowing = false;
         greyShrink = false;
@@ -33,6 +40,7 @@ public class ScaleAbility : MonoBehaviour
     {
         if (isCurrent)
         {
+            //if the player has finished scaling the object, then begin shrinking down to nothing
             if (doneScaling && !greyShrink && !doneGrowing)
             {
 
@@ -40,10 +48,6 @@ public class ScaleAbility : MonoBehaviour
                 t += 0.02f;
                 float goal = journey[0];
                 portalRenderer.material.SetFloat("Vector1_7431778D", goal);
-                //if (t > 0.20f)
-                //{
-                //    portalRenderer.material.SetFloat("Boolean_4B03E015", 0);
-                //}
                 if (t > 1.0f)
                 {
                     float temp = maximum;
@@ -54,6 +58,7 @@ public class ScaleAbility : MonoBehaviour
                     portalRenderer.material.SetFloat("Boolean_448AB95D", 1);
                 }
             }
+            //as soon as the preview window has finished shrinking, begin growing the final window
             if (doneScaling && !doneGrowing && greyShrink)
             {
                 Vector3 journey2 = new Vector3(Mathf.Lerp(minimum, maximum, t), 0, 0);
@@ -90,6 +95,7 @@ public class ScaleAbility : MonoBehaviour
         }
         else if (!doneScaling && !doneGrowing)
         {
+            gameObject.transform.parent = null;
             doneScaling = true;
         }
     }

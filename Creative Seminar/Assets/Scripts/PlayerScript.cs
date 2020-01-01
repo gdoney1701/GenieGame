@@ -164,13 +164,16 @@ public class PlayerScript : MonoBehaviour
             this.a = thenWhat;
         }
     }
+    //MakeABaby creates a physical photo (fabBaby) with actualPhoto determining whether to create the photocolliders or the rendertexture portal
     public GameObject MakeABaby(bool actualPhoto, float whereBaby, GameObject fabBaby)
     {
         Vector3 babyPoint = new Vector3(whereBaby, 0, 0);
+        //creates the photo using the gameobject defined by the function at the spawnpoint with 
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
         if (actualPhoto == true)
         {
+            //sets the rendertexture camera position
             newPhoto.GetComponent<Portal>().pairPortal = BPhoto;
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
             newPhoto.GetComponent<ScaleAbility>().isCurrent = true;
@@ -179,6 +182,7 @@ public class PlayerScript : MonoBehaviour
         {
             newPhoto.GetComponent<ScaleAbility>().isCurrent = false;
         }
+        newPhoto.transform.parent = Camera.main.transform;
         return newPhoto;
     }
     void offsetController(bool positive)
