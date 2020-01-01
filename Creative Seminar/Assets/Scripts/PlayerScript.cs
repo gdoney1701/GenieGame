@@ -186,7 +186,6 @@ public class PlayerScript : MonoBehaviour
         {
             newPhoto.GetComponent<ScaleAbility>().isCurrent = false;
             newPhoto.transform.parent = Bcam.transform;
-            print("Fucking Where");
         }
         return newPhoto;
     }
