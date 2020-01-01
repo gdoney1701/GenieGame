@@ -4451,6 +4451,11 @@ PrefabInstance:
       propertyPath: speed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7969134675283507383, guid: cbf02a1f2b3b3d546abfb7332578fd46,
+        type: 3}
+      propertyPath: tooBig
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7969134675283507386, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -10207,6 +10212,7 @@ MonoBehaviour:
   puzzleID: 0
   completeNum: 0
   photoID: 2
+  tooBig: 0
 --- !u!54 &994200656
 Rigidbody:
   m_ObjectHideFlags: 0

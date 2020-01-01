@@ -16,9 +16,8 @@ public class CloneTravel : MonoBehaviour
     //public bool onPedestal;
     public PedestalGroup onPedestal;
     public List<GameObject> targetObject;
-    public bool tooBig;
     public bool dissolve;
-
+    private float t = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,7 +78,23 @@ public class CloneTravel : MonoBehaviour
             transform.position = endMarker.position;
             transform.rotation = startMarker.rotation;
         }
+        if (dissolve)
+        {
+            DissolveLerp(t);
+            t += .005f;
+        }
+        if(t > 1f)
+        {
+            Destroy(gameObject);
+        }
+        
 
+    }
+    public void DissolveLerp(float time)
+    {
+        Vector3 journey = new Vector3(Mathf.Lerp(-.5f, 1f, time), 0, 0);
+        print(journey);
+        gameObject.GetComponent<Renderer>().material.SetFloat("Vector1_A2CB8D29", journey[0]);
     }
 
     public void dropObject()

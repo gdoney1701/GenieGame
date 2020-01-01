@@ -24,6 +24,7 @@ public class ComeToMe : MonoBehaviour
     Transform cloneStart;
     public int photoID;
     private bool crossedPlane = false;
+    public bool tooBig;
 
     // Start is called before the first frame update
     void Start()
@@ -116,7 +117,7 @@ public class ComeToMe : MonoBehaviour
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<MeshRenderer>().enabled = true;
-        if (currentClone.GetComponent<CloneTravel>().tooBig)
+        if (tooBig)
         {
             currentClone.GetComponent<CloneTravel>().dissolve = true;
         }
