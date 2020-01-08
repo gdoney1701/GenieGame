@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cfe1e80a84be4f94896f246f0004ebd8, type: 2}
+  - {fileID: 2100000, guid: 389aa9b328224a14e8da89074842f200, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   Dad: {fileID: 0}
   whoamI: 
   targetObject: []
+  tooBig: 0
 --- !u!54 &7969134675283507382
 Rigidbody:
   m_ObjectHideFlags: 0
