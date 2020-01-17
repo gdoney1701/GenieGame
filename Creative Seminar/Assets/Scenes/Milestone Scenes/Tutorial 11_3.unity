@@ -10021,7 +10021,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947142338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.35, z: 0.03999996}
+  m_LocalPosition: {x: 0, y: -2.718, z: 0.03999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 863189983}
@@ -15859,6 +15859,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2428212868474330569, guid: 9cf86f0ebed114c4fb82346e23b4e195,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 29.8
+      objectReference: {fileID: 0}
     - target: {fileID: -9195807641641327649, guid: 9cf86f0ebed114c4fb82346e23b4e195,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -15870,11 +15875,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5561349426305759274, guid: 91e61d4a8f14eec4ea53dfb1af20204c,
         type: 3}
-    - target: {fileID: 2428212868474330569, guid: 9cf86f0ebed114c4fb82346e23b4e195,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 29.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cf86f0ebed114c4fb82346e23b4e195, type: 3}
 --- !u!1 &1581359429
