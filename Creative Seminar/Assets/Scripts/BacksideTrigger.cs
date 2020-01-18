@@ -6,6 +6,9 @@ public class BacksideTrigger : MonoBehaviour
 {
     private void OnTriggerExit (Collider other)
     {
-        other.GetComponent<ComeToMe>().PlaneCross();
+        if (other.GetComponent<ComeToMe>().discovered)
+        {
+            other.GetComponent<ComeToMe>().PlaneCross();
+        }
     }
 }
