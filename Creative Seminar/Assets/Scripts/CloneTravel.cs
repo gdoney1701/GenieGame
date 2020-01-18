@@ -80,21 +80,28 @@ public class CloneTravel : MonoBehaviour
         }
         if (dissolve)
         {
-            DissolveLerp(t);
+            Vector3 j = DissolveLerp(t);
             t += .005f;
+            if (j[0] >= 1)
+            {
+
+                GameObject MC = GameObject.FindGameObjectWithTag("Player");
+                MC.GetComponent<PlayerScript>().objectHeld.RemoveAt(0);
+                MC.GetComponent<PlayerScript>().carrying = false;
+                dissolve = false;
+                Destroy(gameObject);
+            }
         }
-        if(t > 1f)
-        {
-            Destroy(gameObject);
-        }
+
         
 
     }
-    public void DissolveLerp(float time)
+    public Vector3 DissolveLerp(float time)
     {
         Vector3 journey = new Vector3(Mathf.Lerp(-.5f, 1f, time), 0, 0);
         print(journey);
         gameObject.GetComponent<Renderer>().material.SetFloat("Vector1_A2CB8D29", journey[0]);
+        return journey;
     }
 
     public void dropObject()

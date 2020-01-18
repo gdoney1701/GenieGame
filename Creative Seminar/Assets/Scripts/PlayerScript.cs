@@ -85,7 +85,7 @@ public class PlayerScript : MonoBehaviour
             HitGroup cam2Hit = HitDat(9, Bcam); //checking if the bcam can see the object
             HitGroup cam1HitAgain = HitDat(9, Camera.main); //checks if the player can see an object in front of them
             HitGroup photoCheck = HitDat(16, Camera.main); //checks if the player can see the photo pickup
-            
+            print("Successful raytrace");
             //cam1HitAgain is for identifying pickups in the present 
             //photoCheck determines if the pickup is a photoPickup
             if (cam1Hit.b == true && cam2Hit.b == true)
