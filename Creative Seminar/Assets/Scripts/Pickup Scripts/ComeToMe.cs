@@ -69,6 +69,9 @@ public class ComeToMe : MonoBehaviour
                 }else if( gameObject.tag == "PhotoPickup")
                 {
                     currentClone.GetComponent<PhotoPickUp>().endMove();
+                }else if(gameObject.tag == "StructPickup")
+                {
+                    currentClone.GetComponent<StructuralPuzzlePickup>().endMove();
                 }
 
             }
