@@ -90,14 +90,16 @@ public class CloneTravel : MonoBehaviour
         }
         if (dissolve)
         {
-            if(gameObject.tag == "Pickup")
+            if(gameObject.tag == "PickUp")
             {
                 Vector3 j = DissolveLerp(t, gameObject, -.5f, 1f, "Vector1_A2CB8D29");
+                print(j);
                 t += .005f;
                 if (j[0] >= 1)
                 {
                     endDissolve();
                 }
+
             }else if (gameObject.tag == "StructPickup")
             {
                 Vector3 j = DissolveLerp(t, gameObject, -.66f, 1.5f,"_dissolveControl");
