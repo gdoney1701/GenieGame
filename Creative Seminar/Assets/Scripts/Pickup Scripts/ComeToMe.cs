@@ -25,6 +25,8 @@ public class ComeToMe : MonoBehaviour
     public int photoID;
     private bool crossedPlane = false;
     public bool tooBig;
+    public bool structPuzzle;
+    public GameObject targetStruct;
 
     // Start is called before the first frame update
     void Start()
@@ -63,15 +65,12 @@ public class ComeToMe : MonoBehaviour
             if(distToEnd <= .1f && crossedPlane)
             {
                 transform.position = endMarker.position;
-                if (gameObject.tag == "PickUp")
+                if (gameObject.tag == "PickUp" | gameObject.tag == "StructPickup")
                 {
                     currentClone.GetComponent<CloneTravel>().beginMovement(MC, cloneStart, handMarker, 5);
                 }else if( gameObject.tag == "PhotoPickup")
                 {
                     currentClone.GetComponent<PhotoPickUp>().endMove();
-                }else if(gameObject.tag == "StructPickup")
-                {
-                    currentClone.GetComponent<StructuralPuzzlePickup>().endMove();
                 }
 
             }
@@ -81,13 +80,21 @@ public class ComeToMe : MonoBehaviour
         {
             discovered = false;
         }
-        if (discovered == false)
+        if (!discovered && !structPuzzle)
         {
             Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
             Rb.useGravity = true;
             Destroy(currentClone);
         }
-
+        if (structPuzzle)
+        {
+            if(currentClone != null && !discovered)
+            {
+                Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+                Rb.useGravity = true;
+                Destroy(currentClone);
+            }
+        }
 
     }
     public void SpawnChild(float windowNum)
@@ -112,15 +119,19 @@ public class ComeToMe : MonoBehaviour
             currentClone.GetComponent<PhotoPickUp>().clone = true;
             currentClone.GetComponent<PhotoPickUp>().Dad = gameObject;
             currentClone.GetComponent<PhotoPickUp>().photoTimeFrame = photoID;
+        }else if(gameObject.tag == "StructPickup")
+        {
+            currentClone.GetComponent<CloneTravel>().Dad = gameObject;
+            currentClone.GetComponent<CloneTravel>().presentTarget = targetStruct;
         }
-        currentClone.name = gameObject.name + " Child";
+        currentClone.name = gameObject.name + " Clone";
 
     }
     public void PlaneCross()
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<MeshRenderer>().enabled = true;
-        if (tooBig)
+        if (tooBig | gameObject.tag == "StructPickup")
         {
             currentClone.GetComponent<CloneTravel>().dissolve = true;
         }

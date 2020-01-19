@@ -16,8 +16,11 @@ public class StructuralPuzzlePickup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startTime = Time.time;
-        startMarker = transform;
+        GameObject MC = GameObject.FindGameObjectWithTag("Player");
+        foreach (Transform child in Camera.main.transform)
+        {
+            endMarker = child;
+        }
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
     }
 
@@ -57,11 +60,9 @@ public class StructuralPuzzlePickup : MonoBehaviour
             MC.GetComponent<PlayerScript>().dist = (photoTimeFrame * 200);
             Camera portalCam = MC.GetComponent<PlayerScript>().Bcam;
             portalCam.GetComponent<CopyPositionOffset>().offset = new Vector3(photoTimeFrame * 200, 0, 0);
-            MC.GetComponent<PlayerScript>().havePhotos = true;
             MC.GetComponent<PlayerScript>().timeIndex = photoTimeFrame - 1;
         }
-        MC.GetComponent<PlayerScript>().carriedPhotos[photoTimeFrame - 1] = true;
-        print("New Photo Added");
+
         Destroy(gameObject);
     }
 }
