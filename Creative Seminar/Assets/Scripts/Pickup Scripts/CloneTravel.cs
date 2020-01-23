@@ -18,6 +18,8 @@ public class CloneTravel : MonoBehaviour
     public List<GameObject> targetObject;
     public bool dissolve;
     private float t = 0.0f;
+    public GameObject presentTarget;
+    public List<Transform> whoDies;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,14 @@ public class CloneTravel : MonoBehaviour
         foreach (Transform child in Camera.main.transform)
         {
             endMarker = child;
+        }
+        if (gameObject.tag == "StructPickup")
+        {
+            foreach (Transform child in presentTarget.transform)
+            {
+                whoDies.Add(child);
+            }
+    
         }
         //beginMovement(MC,startMarker, endMarker, 5.0f);
 
@@ -80,30 +90,53 @@ public class CloneTravel : MonoBehaviour
         }
         if (dissolve)
         {
-            Vector3 j = DissolveLerp(t);
-            t += .005f;
-            if (j[0] >= 1)
+            if(gameObject.tag == "PickUp")
             {
+                Vector3 j = DissolveLerp(t, gameObject, -.5f, 1f, "Vector1_A2CB8D29");
+                print(j);
+                t += .005f;
+                if (j[0] >= 1)
+                {
+                    endDissolve();
+                }
 
-                GameObject MC = GameObject.FindGameObjectWithTag("Player");
-                MC.GetComponent<PlayerScript>().objectHeld.RemoveAt(0);
-                MC.GetComponent<PlayerScript>().carrying = false;
-                dissolve = false;
-                Destroy(gameObject);
+            }else if (gameObject.tag == "StructPickup")
+            {
+                Vector3 j = DissolveLerp(t, gameObject, -.66f, 1.5f,"_dissolveControl");
+                Vector3 k = new Vector3(0,0,0);
+                for(int i = 0; i< whoDies.Count; i++)
+                {
+                    k = DissolveLerp(t, whoDies[i].gameObject, -3f, 1f, "Vector1_A2CB8D29");
+                }
+                t += .005f;
+                if (j[0] >= 1.5)
+                {
+                    endDissolve();
+                }
+                if (k[0] >= 1)
+                {
+                    Destroy(presentTarget);
+                }
             }
         }
 
         
 
     }
-    public Vector3 DissolveLerp(float time)
+    public Vector3 DissolveLerp(float time, GameObject toDissolve, float min, float max, string vectorName)
     {
-        Vector3 journey = new Vector3(Mathf.Lerp(-.5f, 1f, time), 0, 0);
-        print(journey);
-        gameObject.GetComponent<Renderer>().material.SetFloat("Vector1_A2CB8D29", journey[0]);
+        Vector3 journey = new Vector3(Mathf.Lerp(min, max, time), 0, 0);
+        toDissolve.GetComponent<Renderer>().material.SetFloat(vectorName, journey[0]);
         return journey;
     }
-
+    public void endDissolve()
+    {
+        GameObject MC = GameObject.FindGameObjectWithTag("Player");
+        MC.GetComponent<PlayerScript>().objectHeld.RemoveAt(0);
+        MC.GetComponent<PlayerScript>().carrying = false;
+        dissolve = false;
+        Destroy(gameObject);
+    }
     public void dropObject()
     {
         print("Drop");
