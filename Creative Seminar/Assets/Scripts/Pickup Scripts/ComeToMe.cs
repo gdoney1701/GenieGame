@@ -34,6 +34,8 @@ public class ComeToMe : MonoBehaviour
         startTime = Time.time;
         clone = false;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = false;
 
         
     }
