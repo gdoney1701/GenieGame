@@ -5,7 +5,8 @@ public class StructDissolveHandler : MonoBehaviour
 {
     public int reqPuzzles = 1;
     public List<Transform> structDamage;
-    public List<Transform> subGroups;
+    public List<Transform> structRepair;
+    public List<Transform> toUse;
     public List<bool> reqMet;
     public bool beginDissolve = false;
     public int chunkSize = 10;
@@ -13,30 +14,58 @@ public class StructDissolveHandler : MonoBehaviour
     public int simulchunks = 1;
     public float simulDelay = 0;
     private float t = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
+        foreach( Transform child in gameObject.transform)
+        {
+            toUse.Add(child);
+        }
         for(int i = 0; i< reqPuzzles; i++)
         {
             reqMet.Add(false);
         }
-        foreach (Transform child in gameObject.transform)
+        for (int i =0; i < toUse.Count; i++)
         {
-            structDamage.Add(child);
+            if(toUse[i].gameObject.tag =="Destruction Group")
+            {
+                foreach (Transform child in toUse[i])
+                {
+                    structDamage.Add(child);
+
+                }
+            }
+            else if(toUse[i].gameObject.tag == "Repair Group")
+            {
+                foreach (Transform child in toUse[i])
+                {
+                    structRepair.Add(child);
+                }
+            }
+        }
+        for (int i = 0; i < structRepair.Count; i++)
+        {
+            Renderer toChange = structRepair[i].gameObject.GetComponent<Renderer>();
+            toChange.material.SetFloat("Vector1_A2CB8D29", 1);
+            Vector4 topColor = new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f);
+            Vector4 bottomColor = new Vector4(5.235602f, 0.2092855f, 0f, 1.0f);
+            toChange.material.SetColor("Color_4DCAD544", topColor);
+            toChange.material.SetColor("Color_AED29001", bottomColor);
 
         }
         for (int i = 0; i < structDamage.Count; i++)
         {
-            Transform temp = structDamage[i];
-            int randomIndex = Random.Range(i, structDamage.Count);
-            structDamage[i] = structDamage[randomIndex];
-            structDamage[randomIndex] = temp;
-        }
-        for(int i = 0; i< structDamage.Count / chunkSize;i++)
-        {
+            Renderer toChange = structDamage[i].gameObject.GetComponent<Renderer>();
+            toChange.material.SetFloat("Vector1_A2CB8D29", -1);
+            Vector4 topColor = new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f);
+            Vector4 bottomColor = new Vector4(0f, 0.8089904f, 5.235602f, 1.0f);
+            toChange.material.SetColor("Color_4DCAD544", topColor);
+            toChange.material.SetColor("Color_AED29001", bottomColor);
 
         }
-
+        listRandomizer(structRepair);
+        listRandomizer(structDamage);
     }
 
     // Update is called once per frame
@@ -44,29 +73,42 @@ public class StructDissolveHandler : MonoBehaviour
     {
         if (beginDissolve)
         {
-
-            for (int j = 0; j < simulchunks; j++)
+           if (chunkLoad+chunkSize < structDamage.Count-1)
             {
-                int tempchunk = chunkLoad + j * chunkSize;
-                if (tempchunk+chunkSize < structDamage.Count)
-                {
-                    DissolveStep(tempchunk);
-
-                }
-                else if(chunkLoad+chunkSize <= structDamage.Count)
-                {
-                    DissolveStep(chunkSize);
-                }else if(structDamage.Count - chunkLoad < chunkSize)
-                {
-                    chunkSize = structDamage.Count - chunkLoad;
-                    DissolveStep(chunkSize);
-                }
-                {
-                    print("Done");
+                    DissolveStep(chunkLoad, structDamage, -1, 1);
+            }else if(structDamage.Count - chunkLoad < chunkSize && structDamage.Count - chunkLoad > 1)
+            {
+                    int tempchunkSize = structDamage.Count - chunkLoad;
+                    DissolveStep(tempchunkSize, structDamage, -1,1);
+            }else
+            {
+                    print("Done with Damage");
                     //Destroy(gameObject);
-                }
+            }
+           if(chunkLoad+chunkSize < structRepair.Count - 1)
+            {
+                DissolveStep(chunkLoad, structRepair, 1, -1);
+            }else if(structRepair.Count - chunkLoad < chunkSize && structRepair.Count - chunkLoad > 1)
+            {
+                int tempchunkSize = structRepair.Count - chunkLoad;
+                DissolveStep(tempchunkSize, structRepair, 1, -1);
             }
             
+        }
+    }
+    public void DissolveStep(int workingChunk, List<Transform> toDissolve, float start, float end)
+    {
+        Vector3 chunkDissolving = new Vector3(0, 0, 0);
+
+        for (int i = workingChunk; i < workingChunk + chunkSize; i++)
+        {
+            print("Dissolving" + toDissolve[i].gameObject.name);
+            chunkDissolving = DissolveLerp(t, toDissolve[i].gameObject, start, end, "Vector1_A2CB8D29");
+        }
+        t += 0.005f;
+        if (chunkDissolving.x >= 1)
+        {
+            reInitDissolve();
         }
     }
     public Vector3 DissolveLerp(float time, GameObject toDissolve, float min, float max, string vectorName)
@@ -77,8 +119,8 @@ public class StructDissolveHandler : MonoBehaviour
     }
     public void reInitDissolve()
     {
-        t = 0;
-        chunkLoad += chunkSize;
+        t = .1f;
+        chunkLoad += chunkSize-1;
     }
     public void PuzzleFound(int ID)
     {
@@ -100,20 +142,15 @@ public class StructDissolveHandler : MonoBehaviour
             beginDissolve = true;
         }
     }
-    public void DissolveStep(int workingChunk)
-    {
-        Vector3 chunkDissolving = new Vector3(0, 0, 0);
 
-        for (int i = workingChunk; i < workingChunk + chunkSize; i++)
+    public void listRandomizer(List<Transform> toModify)
+    {
+        for (int i = 0; i < toModify.Count; i++)
         {
-            print("Dissolving" + structDamage[i].gameObject.name);
-            chunkDissolving = DissolveLerp(t, structDamage[i].gameObject, -3f, 1f, "Vector1_A2CB8D29");
-            t += 0.0005f;
-        }
-        print(chunkDissolving);
-        if (chunkDissolving.x >= 1)
-        {
-            reInitDissolve();
+            Transform temp = toModify[i];
+            int randomIndex = Random.Range(i, toModify.Count);
+            toModify[i] = toModify[randomIndex];
+            toModify[randomIndex] = temp;
         }
     }
 }
