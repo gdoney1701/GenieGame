@@ -3113,7 +3113,7 @@ MonoBehaviour:
   toUse: []
   reqMet: 
   beginDissolve: 0
-  chunkSize: 40
+  chunkSize: 50
   chunkLoad: 0
   simulchunks: 1
   simulDelay: 0
@@ -16486,6 +16486,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8938866556569923485, guid: 7bf70c250ffa36846ad8e093aa6ff1dc,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -9203821058975127872, guid: 7bf70c250ffa36846ad8e093aa6ff1dc,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16622,11 +16627,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8940346282796774134, guid: 7bf70c250ffa36846ad8e093aa6ff1dc,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8938866556569923485, guid: 7bf70c250ffa36846ad8e093aa6ff1dc,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 1
