@@ -18,35 +18,25 @@ public class CloneTravel : MonoBehaviour
     public List<GameObject> targetObject;
     public bool dissolve;
     private float t = 0.0f;
-    private float t2 = 0.0f;
     public GameObject presentTarget;
-    public List<Transform> whoDies;
-    public int chunkload;
     // Start is called before the first frame update
     void Start()
     {
-        chunkload = 0;
         onPedestal.a = false;
         onPedestal.d = false;
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = false;
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
         foreach (Transform child in Camera.main.transform)
         {
             endMarker = child;
-        }
-        if (gameObject.tag == "StructPickup")
-        {
-            foreach (Transform child in presentTarget.transform)
-            {
-                whoDies.Add(child);
-            }
-    
         }
         //beginMovement(MC,startMarker, endMarker, 5.0f);
 
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //traveling functionality
         if (traveling == true)
@@ -103,32 +93,14 @@ public class CloneTravel : MonoBehaviour
                     endDissolve();
                 }
 
-            }else if (gameObject.tag == "StructPickup")
+            }else if (gameObject.tag == "StructPickup" && wanted)
             {
                 Vector3 j = DissolveLerp(t*2, gameObject, -.66f, 1.5f,"_dissolveControl");
-                Vector3 k = new Vector3(0,0,0);
-                int l = whoDies.Count - 10;
-                for(int i = chunkload; i< chunkload+10; i++)
-                {
-                    k = DissolveLerp(t*2, whoDies[i].gameObject, -3f, 1f, "Vector1_A2CB8D29");
-                    print(k);
-                }
-                if (k.x >= 1)
-                {
-                    print(k.x);
-                    k.x = 0;
-                    t2 = 0;
-                }
-                t2 += 0.005f;
-                t += .005f;
-                if (j[0] >= 1.5 && l <= -10)
+                t += 0.005f;
+                if (j[0] >= 1.5)
                 {
                     endDissolve();
                 }
-                //if (k[0] >= 1)
-                //{
-                //    Destroy(presentTarget);
-                //}
             }
         }
 
@@ -147,11 +119,14 @@ public class CloneTravel : MonoBehaviour
         MC.GetComponent<PlayerScript>().objectHeld.RemoveAt(0);
         MC.GetComponent<PlayerScript>().carrying = false;
         dissolve = false;
+        if (gameObject.tag == "StructPickup")
+        {
+            presentTarget.GetComponent<StructDissolveHandler>().PuzzleFound(whoamI[0]);
+        }
         Destroy(gameObject);
     }
     public void dropObject()
     {
-        print("Drop");
         wanted = false;
         Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
         Rb.useGravity = true;
