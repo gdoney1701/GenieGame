@@ -16,7 +16,7 @@ public class ComeToMe : MonoBehaviour
     public bool discovered = false;
     public int TimeLine;
     public bool clone;
-    GameObject currentClone;
+    public GameObject currentClone;
     public GameObject clonePrefab;
     public float timeFrame;
     public int puzzleID;
@@ -34,7 +34,12 @@ public class ComeToMe : MonoBehaviour
         startTime = Time.time;
         clone = false;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
-
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = false;
+        if (structPuzzle)
+        {
+            targetStruct.GetComponent<StructDissolveHandler>().reqPuzzles = completeNum;
+        }
         
     }
 
@@ -123,6 +128,8 @@ public class ComeToMe : MonoBehaviour
         {
             currentClone.GetComponent<CloneTravel>().Dad = gameObject;
             currentClone.GetComponent<CloneTravel>().presentTarget = targetStruct;
+            currentClone.GetComponent<CloneTravel>().whoamI.Add(puzzleID);
+            currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
         }
         currentClone.name = gameObject.name + " Clone";
 
@@ -131,7 +138,7 @@ public class ComeToMe : MonoBehaviour
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         currentClone.GetComponent<MeshRenderer>().enabled = true;
-        if (tooBig | gameObject.tag == "StructPickup")
+        if (tooBig | structPuzzle)
         {
             currentClone.GetComponent<CloneTravel>().dissolve = true;
         }

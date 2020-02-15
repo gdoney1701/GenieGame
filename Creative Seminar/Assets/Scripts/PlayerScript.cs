@@ -92,10 +92,8 @@ public class PlayerScript : MonoBehaviour
             //photoCheck determines if the pickup is a photoPickup
             if (cam1Hit.b && cam2Hit.b)
             {
-                print("ComeToMe located");
                 GameObject hitManLee = cam2Hit.a;
                 hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
-                print("ComeToMe on its way");
 
             }
             else if (cam1HitAgain.b) //searching to pick something up in the present

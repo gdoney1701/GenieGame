@@ -11,6 +11,8 @@ TagManager:
   - CompletePickUp
   - PhotoPickup
   - StructPickup
+  - Repair Group
+  - Destruction Group
   layers:
   - Default
   - TransparentFX
