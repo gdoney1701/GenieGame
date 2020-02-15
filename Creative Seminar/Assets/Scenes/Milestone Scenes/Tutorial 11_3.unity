@@ -3113,7 +3113,7 @@ MonoBehaviour:
   toUse: []
   reqMet: 
   beginDissolve: 0
-  chunkSize: 300
+  chunkSize: 40
   chunkLoad: 0
   simulchunks: 1
   simulDelay: 0
