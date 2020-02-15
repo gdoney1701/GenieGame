@@ -75,11 +75,11 @@ public class StructDissolveHandler : MonoBehaviour
         {
            if (chunkLoad+chunkSize < structDamage.Count-1)
             {
-                    DissolveStep(chunkLoad, structDamage, -1, 1);
-            }else if(structDamage.Count - chunkLoad < chunkSize && structDamage.Count - chunkLoad > 1)
+                    DissolveStep(chunkLoad, chunkSize, structDamage, -1, 1);
+            }else if(chunkLoad + chunkSize > structDamage.Count && chunkLoad+chunkSize < structDamage.Count+chunkSize)
             {
                     int tempchunkSize = structDamage.Count - chunkLoad;
-                    DissolveStep(tempchunkSize, structDamage, -1,1);
+                    DissolveStep(chunkLoad, tempchunkSize, structDamage, -1,1);
             }else
             {
                     print("Done with Damage");
@@ -87,20 +87,24 @@ public class StructDissolveHandler : MonoBehaviour
             }
            if(chunkLoad+chunkSize < structRepair.Count - 1)
             {
-                DissolveStep(chunkLoad, structRepair, 1, -1);
-            }else if(structRepair.Count - chunkLoad < chunkSize && structRepair.Count - chunkLoad > 1)
+                DissolveStep(chunkLoad, chunkSize, structRepair, 1, -1);
+            }else if (chunkLoad + chunkSize > structRepair.Count && chunkLoad + chunkSize < structRepair.Count + chunkSize)
             {
                 int tempchunkSize = structRepair.Count - chunkLoad;
-                DissolveStep(tempchunkSize, structRepair, 1, -1);
+                DissolveStep(chunkLoad, tempchunkSize, structRepair, 1, -1);
+            }
+            else
+            {
+                print("Done with Repair");
             }
             
         }
     }
-    public void DissolveStep(int workingChunk, List<Transform> toDissolve, float start, float end)
+    public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end)
     {
         Vector3 chunkDissolving = new Vector3(0, 0, 0);
 
-        for (int i = workingChunk; i < workingChunk + chunkSize; i++)
+        for (int i = workingChunk; i < workingChunk + chunkStep; i++)
         {
             print("Dissolving" + toDissolve[i].gameObject.name);
             chunkDissolving = DissolveLerp(t, toDissolve[i].gameObject, start, end, "Vector1_A2CB8D29");
