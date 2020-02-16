@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public bool devcheats;
     public bool havePhotos;
     public int timeIndex;
+    public bool verticalOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +26,14 @@ public class PlayerScript : MonoBehaviour
         //ugly way of fixing a rather game breaking bug by turning b cam off and on again
         Bcam.gameObject.SetActive(false);
         Bcam.gameObject.SetActive(true);
-        havePhotos = false;
-        carriedPhotos = new bool[5];
-        carrying = false;
-        photoaround = false;
-        for (int i = 0; i < carriedPhotos.Length; i++)
-        {
-            carriedPhotos[i] = false;
-        }
+        //havePhotos = false;
+        //carriedPhotos = new bool[5];
+        //carrying = false;
+        //photoaround = false;
+        //for (int i = 0; i < carriedPhotos.Length; i++)
+        //{
+        //    carriedPhotos[i] = false;
+        //}
     }
 
     // Update is called once per frame
@@ -93,7 +94,17 @@ public class PlayerScript : MonoBehaviour
             if (cam1Hit.b && cam2Hit.b)
             {
                 GameObject hitManLee = cam2Hit.a;
-                hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
+                Vector3 distVect = new Vector3(0, 0, 0);
+                if (verticalOffset)
+                {
+                    distVect = new Vector3(0, -dist, 0);
+                }
+                else
+                {
+                    distVect = new Vector3(dist, 0, 0);
+                }
+                hitManLee.GetComponent<ComeToMe>().SpawnChild(distVect, verticalOffset);
+
 
             }
             else if (cam1HitAgain.b) //searching to pick something up in the present
@@ -172,7 +183,16 @@ public class PlayerScript : MonoBehaviour
     //MakeABaby creates a physical photo (fabBaby) with actualPhoto determining whether to create the photocolliders or the rendertexture portal
     public GameObject MakeABaby(bool actualPhoto, float whereBaby, GameObject fabBaby)
     {
-        Vector3 babyPoint = new Vector3(whereBaby, 0, 0);
+        Vector3 babyPoint = new Vector3(0, 0, 0);
+        if (verticalOffset)
+        {
+            babyPoint.y = -whereBaby;
+        }
+        else
+        {
+            babyPoint.x = whereBaby;
+        }
+
         //creates the photo using the gameobject defined by the function at the spawnpoint with 
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
@@ -230,12 +250,27 @@ public class PlayerScript : MonoBehaviour
             timeIndex = newLoc;
             int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200))) * negMod;
             dist = (newLoc + 1) * 200;
-            Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            if (!verticalOffset)
+            {
+                Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            }
+            else
+            {
+                Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(0, -dist, 0);
+            }
             if (photoaround)
             {
                 GameObject pCols = GameObject.FindGameObjectWithTag("PhotoColliders");
                 Transform pPos = GameObject.FindGameObjectWithTag("Photo").transform;
-                pCols.transform.position = pPos.position + new Vector3(dist, 0, 0);
+                if (!verticalOffset)
+                {
+                    pCols.transform.position = pPos.position + new Vector3(dist, 0, 0);
+                }
+                else
+                {
+                    pCols.transform.position = pPos.position + new Vector3(0, -dist, 0);
+                }
+
             }
         }
     }

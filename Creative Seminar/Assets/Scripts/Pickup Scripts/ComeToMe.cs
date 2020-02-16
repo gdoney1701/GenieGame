@@ -18,7 +18,6 @@ public class ComeToMe : MonoBehaviour
     public bool clone;
     public GameObject currentClone;
     public GameObject clonePrefab;
-    public float timeFrame;
     public int puzzleID;
     public int completeNum;
     Transform cloneStart;
@@ -27,6 +26,7 @@ public class ComeToMe : MonoBehaviour
     public bool tooBig;
     public bool structPuzzle;
     public GameObject targetStruct;
+    public OffsetGroup offsetMain;
 
     // Start is called before the first frame update
     void Start()
@@ -54,13 +54,13 @@ public class ComeToMe : MonoBehaviour
         {
             Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
             Rb.useGravity = false;
-            if (MC.GetComponent<PlayerScript>().dist == timeFrame && MC.GetComponent<PlayerScript>().photoaround)
+            float tempDist = MC.GetComponent<PlayerScript>().dist;
+            if ((tempDist == offsetMain.b.x ^ tempDist * -1 == offsetMain.b.y)&& MC.GetComponent<PlayerScript>().photoaround)
             {
-                Vector3 offset = new Vector3(timeFrame, 0, 0);
                 float distCovered = (Time.time - startTime) * speed;
                 float fractionOfJourney = distCovered / journeyLength;
                 transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fractionOfJourney);
-                currentClone.transform.position = transform.position - offset;
+                currentClone.transform.position = transform.position - offsetMain.b;
                 currentClone.transform.rotation = transform.rotation;
             }
             else
@@ -102,14 +102,13 @@ public class ComeToMe : MonoBehaviour
         }
 
     }
-    public void SpawnChild(float windowNum)
+    public void SpawnChild(Vector3 windowOffset, bool isVertical)
     {
         startTime = Time.time;
-        timeFrame = windowNum;
         startMarker = gameObject.transform;
         discovered = true;
-        Vector3 offset = new Vector3(timeFrame, 0, 0);
-        currentClone = Instantiate(clonePrefab, offset + transform.position, transform.rotation);
+        //Vector3 offset = new Vector3(timeFrame, 0, 0);
+        currentClone = Instantiate(clonePrefab, windowOffset + transform.position, transform.rotation);
         currentClone.GetComponent<MeshRenderer>().enabled = false;
         cloneStart = currentClone.transform;
         //currentClone.GetComponent<CloneTravel>().endMarker = handMarker;
@@ -132,7 +131,7 @@ public class ComeToMe : MonoBehaviour
             currentClone.GetComponent<CloneTravel>().whoamI.Add(completeNum);
         }
         currentClone.name = gameObject.name + " Clone";
-
+        offsetMain = new OffsetGroup(isVertical, windowOffset);
     }
     public void PlaneCross()
     {
@@ -149,5 +148,16 @@ public class ComeToMe : MonoBehaviour
     public void GoodbyeFather()
     {
         Destroy(gameObject);
+    }
+    public struct OffsetGroup
+    {
+        public bool a;
+        public Vector3 b;
+
+        public OffsetGroup(bool vert, Vector3 whereAt)
+        {
+            this.a = vert;
+            this.b = whereAt;
+        }
     }
 }
