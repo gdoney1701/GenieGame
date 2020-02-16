@@ -33,7 +33,6 @@ public class ComeToMe : MonoBehaviour
     void Start()
     {
         originPoint = gameObject.transform.position;
-        print(gameObject.name + originPoint);
         startTime = Time.time;
         clone = false;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
@@ -151,7 +150,6 @@ public class ComeToMe : MonoBehaviour
     public void resetPos()
     {
         gameObject.transform.position = originPoint;
-        print(originPoint);
         gameObject.GetComponent<MeshRenderer>().enabled = true;
         discovered = false;
     }

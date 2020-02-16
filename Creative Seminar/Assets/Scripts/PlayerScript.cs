@@ -26,14 +26,18 @@ public class PlayerScript : MonoBehaviour
         //ugly way of fixing a rather game breaking bug by turning b cam off and on again
         Bcam.gameObject.SetActive(false);
         Bcam.gameObject.SetActive(true);
-        //havePhotos = false;
-        //carriedPhotos = new bool[5];
-        //carrying = false;
-        //photoaround = false;
-        //for (int i = 0; i < carriedPhotos.Length; i++)
-        //{
-        //    carriedPhotos[i] = false;
-        //}
+        Camera[] allCams2 = Camera.allCameras;
+        for (int i = 0; i <allCams2.Length; i++)
+        {
+            if(allCams2[i].tag != "MainCamera")
+            {
+                allCams2[i].gameObject.SetActive(false);
+                allCams2[i].gameObject.SetActive(true);
+                print(allCams2[i].name);
+            }
+        }
+
+
     }
 
     // Update is called once per frame
