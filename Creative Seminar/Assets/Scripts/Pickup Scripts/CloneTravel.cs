@@ -52,7 +52,14 @@ public class CloneTravel : MonoBehaviour
         if (gettingCloser <= 0.1f && wanted == true && traveling == true)
         {
             traveling = false;
-            Destroy(Dad);
+            if (!dissolve)
+            {
+                Destroy(Dad);
+            }
+            else if (dissolve &&Dad.GetComponent<ComeToMe>().structPuzzle == false)
+            {
+                Dad.GetComponent<ComeToMe>().resetPos();
+            }
             transform.position = endMarker.position;
             if (targetObject[0].tag == "Player")
             {

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class ComeToMe : MonoBehaviour
 {
+    public Vector3 originPoint;
     public Transform startMarker;
     public Transform endMarker;
     public Transform handMarker;
@@ -31,6 +32,8 @@ public class ComeToMe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        originPoint = gameObject.transform.position;
+        print(gameObject.name + originPoint);
         startTime = Time.time;
         clone = false;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
@@ -145,9 +148,12 @@ public class ComeToMe : MonoBehaviour
 
     }
 
-    public void GoodbyeFather()
+    public void resetPos()
     {
-        Destroy(gameObject);
+        gameObject.transform.position = originPoint;
+        print(originPoint);
+        gameObject.GetComponent<MeshRenderer>().enabled = true;
+        discovered = false;
     }
     public struct OffsetGroup
     {
