@@ -61,7 +61,7 @@ public class CloneTravel : MonoBehaviour
                 Dad.GetComponent<ComeToMe>().resetPos();
             }
             transform.position = endMarker.position;
-            if (targetObject[0].tag == "Player")
+            if (targetObject[0].tag == "Player" && !dissolve)
             {
                 targetObject[0].GetComponent<PlayerScript>().carrying = true;
                 targetObject[0].GetComponent<PlayerScript>().objectHeld.Add(gameObject);
@@ -123,8 +123,8 @@ public class CloneTravel : MonoBehaviour
     public void endDissolve()
     {
         GameObject MC = GameObject.FindGameObjectWithTag("Player");
-        MC.GetComponent<PlayerScript>().objectHeld.RemoveAt(0);
-        MC.GetComponent<PlayerScript>().carrying = false;
+        //MC.GetComponent<PlayerScript>().objectHeld.RemoveAt(0);
+        //MC.GetComponent<PlayerScript>().carrying = false;
         dissolve = false;
         if (gameObject.tag == "StructPickup")
         {

@@ -128,20 +128,9 @@ public class StructDissolveHandler : MonoBehaviour
     }
     public void PuzzleFound(int ID)
     {
-        reqMet[ID] = true;
-        bool ollKorrect = false;
-        foreach(bool answer in reqMet)
-        {
-            if (answer)
-            {
-                ollKorrect = true;
-            }
-            else
-            {
-                ollKorrect = false;
-            }
-        }
-        if (ollKorrect)
+        reqPuzzles -= 1;
+
+        if (reqPuzzles <= 0)
         {
             beginDissolve = true;
         }
