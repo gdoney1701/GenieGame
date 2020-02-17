@@ -69,9 +69,10 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !photoaround && havePhotos)
         {
             GameObject photo = MakeABaby(true, 0.0f, Photoprefab);
-            GameObject colliders = MakeABaby(false, dist, photoColliders);
-            colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
-            photoaround = true;
+            //GameObject colliders = MakeABaby(false, dist, photoColliders);
+            //GameObject colliders = MakeABaby(false, 0.0f, photoColliders);
+            //colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
+            //photoaround = true;
 
         }
         else if (Input.GetKeyDown(KeyCode.E) && photoaround && havePhotos)
@@ -196,7 +197,7 @@ public class PlayerScript : MonoBehaviour
         {
             babyPoint.x = whereBaby;
         }
-
+        print(babyPoint);
         //creates the photo using the gameobject defined by the function at the spawnpoint with 
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
@@ -207,11 +208,6 @@ public class PlayerScript : MonoBehaviour
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
             newPhoto.GetComponent<ScaleAbility>().isCurrent = true;
             newPhoto.transform.parent = Camera.main.transform;
-        }
-        else
-        {
-            newPhoto.GetComponent<ScaleAbility>().isCurrent = false;
-            newPhoto.transform.parent = Bcam.transform;
         }
         return newPhoto;
     }
@@ -277,5 +273,21 @@ public class PlayerScript : MonoBehaviour
 
             }
         }
+    }
+    public void createColliders(GameObject photo)
+    {
+        GameObject colliders = MakeABaby(false, dist, photoColliders);
+        colliders.transform.position = photo.transform.position;
+        colliders.transform.rotation = photo.transform.rotation;
+        colliders.transform.localScale = photo.transform.localScale;
+        if (!verticalOffset)
+        {
+            colliders.transform.position += new Vector3(dist,0,0);
+        }
+        else
+        {
+            colliders.transform.position += new Vector3(0, -dist, 0);
+        }
+        photoaround = true;
     }
 }

@@ -129,6 +129,7 @@ public class CloneTravel : MonoBehaviour
         if (gameObject.tag == "StructPickup")
         {
             presentTarget.GetComponent<StructDissolveHandler>().PuzzleFound(whoamI[0]);
+            Destroy(Dad);
         }
         Destroy(gameObject);
     }
