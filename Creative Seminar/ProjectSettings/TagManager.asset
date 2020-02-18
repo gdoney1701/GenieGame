@@ -15,6 +15,7 @@ TagManager:
   - Destruction Group
   - PlayMan
   - SpawnPoint
+  - Exit
   layers:
   - Default
   - TransparentFX
@@ -33,7 +34,7 @@ TagManager:
   - PhotoDuplicateMiddle
   - Pedestal
   - PhotoPickup
-  - 
+  - Exit
   - 
   - 
   - 
