@@ -71,6 +71,8 @@ public class StructDissolveHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool doneRepair = false;
+        bool doneDamage = false;
         if (beginDissolve)
         {
            if (chunkLoad+chunkSize < structDamage.Count-1)
@@ -83,6 +85,7 @@ public class StructDissolveHandler : MonoBehaviour
             }else
             {
                     print("Done with Damage");
+                doneDamage = true;
                     //Destroy(gameObject);
             }
            if(chunkLoad+chunkSize < structRepair.Count - 1)
@@ -96,8 +99,14 @@ public class StructDissolveHandler : MonoBehaviour
             else
             {
                 print("Done with Repair");
+                doneRepair = true;
             }
             
+        }
+        if (doneRepair && doneDamage)
+        {
+            GameObject manager = GameObject.FindGameObjectWithTag("PlayMan");
+            manager.GetComponent<GameplayManager>().PuzzleComplete(0, 1);
         }
     }
     public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end)

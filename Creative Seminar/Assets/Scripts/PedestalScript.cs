@@ -216,6 +216,8 @@ public class PedestalScript : MonoBehaviour
             GameObject finalObject = Instantiate(compReplace);
             finalObject.transform.position = spawnPoint.position;
             finalSpawned = true;
+            GameObject manager = GameObject.FindGameObjectWithTag("PlayMan");
+            manager.GetComponent<GameplayManager>().PuzzleComplete(1, 0);
         }
 
     }

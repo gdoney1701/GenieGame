@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+    path: Assets/Scenes/MainMenu.unity
+    guid: 9fc05f658411b0c46b0898566af835a4
+  - enabled: 1
+    path: Assets/Scenes/Milestone Scenes/Tutorial 11_3.unity
+    guid: d9dd38b4958d18c48905a0b721180e20
+  - enabled: 1
+    path: Assets/Scenes/Milestone Scenes/Entrance_0900.unity
+    guid: a6469d090cf3cb9458073ab00e6155df
+  - enabled: 1
+    path: Assets/Scenes/Milestone Scenes/Entrance_1030.unity
+    guid: 6dd7d0e2ad5ed7b43b779bed404a091a
+  - enabled: 1
+    path: Assets/Scenes/Milestone Scenes/GreatHall 1_23.unity
+    guid: 5d24e7ed7c878134992d6dad86d3379f
   m_configObjects: {}

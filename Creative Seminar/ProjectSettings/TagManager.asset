@@ -13,6 +13,7 @@ TagManager:
   - StructPickup
   - Repair Group
   - Destruction Group
+  - PlayMan
   layers:
   - Default
   - TransparentFX
