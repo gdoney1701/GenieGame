@@ -15,7 +15,7 @@ public class CloneTravel : MonoBehaviour
     public List<int> whoamI; // First index is the puzzle ID, the second index is the total number of same IDs to complete puzzle
     //public bool onPedestal;
     public PedestalGroup onPedestal;
-    public List<GameObject> targetObject;
+    public GameObject targetObject;
     public bool dissolve;
     private float t = 0.0f;
     public GameObject presentTarget;
@@ -61,27 +61,31 @@ public class CloneTravel : MonoBehaviour
                 Dad.GetComponent<ComeToMe>().resetPos();
             }
             transform.position = endMarker.position;
-            if (targetObject[0].tag == "Player" && !dissolve)
+            if (targetObject != null)
             {
-                targetObject[0].GetComponent<PlayerScript>().carrying = true;
-                targetObject[0].GetComponent<PlayerScript>().objectHeld.Add(gameObject);
-                targetObject.RemoveAt(0);
-            }else if (targetObject[0].tag == "Pedestal")
-            {
-                if (targetObject[0].GetComponent<PedestalScript>().puzzleComplete == false)
+                if (targetObject.tag == "Player" && !dissolve)
                 {
-                    onPedestal.b = targetObject[0];
-                    targetObject[0].GetComponent<PedestalScript>().CombineCheckPedestal();
-                    targetObject.RemoveAt(0);
-                    onPedestal.a = true;
+                    targetObject.GetComponent<PlayerScript>().carrying = true;
+                    targetObject.GetComponent<PlayerScript>().objectHeld.Add(gameObject);
+                    print(targetObject.name);
+                    targetObject = null;
+                    print(targetObject);
                 }
-                else
+                else if (targetObject.tag == "Pedestal")
                 {
-                    targetObject[0].GetComponent<PedestalScript>().ListManagement(gameObject, onPedestal.c, false);
+                    if (targetObject.GetComponent<PedestalScript>().puzzleComplete == false)
+                    {
+                        onPedestal.b = targetObject;
+                        targetObject.GetComponent<PedestalScript>().CombineCheckPedestal();
+                        targetObject = null;
+                        onPedestal.a = true;
+                    }
+                    else
+                    {
+                        targetObject.GetComponent<PedestalScript>().ListManagement(gameObject, onPedestal.c, false);
+                    }
                 }
             }
-
-
         }
         if (traveling == false && wanted == true)
         {
@@ -161,7 +165,7 @@ public class CloneTravel : MonoBehaviour
         Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
         Rb.useGravity = false;
         endMarker = ender;
-        targetObject.Add(target);
+        targetObject = target;
     }
     //the bool determines if its on the pedestal, the gameobject is the pedestal, the int is the location in the list, and the final bool is whether the puzzle is complete
     public struct PedestalGroup

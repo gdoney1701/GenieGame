@@ -11,6 +11,7 @@ public class GameplayManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
         ghPuzzles = new puzzleHandler(11, 4);
     }

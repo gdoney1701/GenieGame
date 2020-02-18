@@ -33,7 +33,6 @@ public class PlayerScript : MonoBehaviour
             {
                 allCams2[i].gameObject.SetActive(false);
                 allCams2[i].gameObject.SetActive(true);
-                print(allCams2[i].name);
             }
         }
 
@@ -91,9 +90,6 @@ public class PlayerScript : MonoBehaviour
             HitGroup cam2Hit = HitDat(9, Bcam); //checking if the bcam can see the object
             HitGroup cam1HitAgain = HitDat(9, Camera.main); //checks if the player can see an object in front of them
             HitGroup photoCheck = HitDat(16, Camera.main); //checks if the player can see the photo pickup
-
-            print(cam1Hit.b);
-            print(cam2Hit.b);
             //cam1HitAgain is for identifying pickups in the present 
             //photoCheck determines if the pickup is a photoPickup
             if (cam1Hit.b && cam2Hit.b)
@@ -197,7 +193,6 @@ public class PlayerScript : MonoBehaviour
         {
             babyPoint.x = whereBaby;
         }
-        print(babyPoint);
         //creates the photo using the gameobject defined by the function at the spawnpoint with 
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
