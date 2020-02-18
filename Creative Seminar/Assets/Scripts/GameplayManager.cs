@@ -50,6 +50,7 @@ public class GameplayManager : MonoBehaviour
             if(entPuzzles.objCount == 0 && entPuzzles.structCount == 0)
             {
                 print("Entrance Complete, I'm a very proud dev");
+                entPuzzles.done = true;
             }
         }else if(currentScene.buildIndex == 4)
         {
