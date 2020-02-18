@@ -651,6 +651,8 @@ MonoBehaviour:
   puzzleComplete: 0
   suspendedPieces2: []
   compReplace: {fileID: 0}
+  finalSpawned: 0
+  shardsLanded: 0
 --- !u!1 &269919315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,7 +1652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &831277673
 AudioListener:
   m_ObjectHideFlags: 0
@@ -7791,6 +7793,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1216925396}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1216925398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8938866556569923485, guid: 59c05ad506d17d4458bd115934040e5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1216925396}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1216925399
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216925398}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.025406074, y: 0.0000000011920928, z: 0.037142076}
+  m_Center: {x: -0.0000073011033, y: -6.556458e-10, z: -0.007826459}
 --- !u!1 &1315155759
 GameObject:
   m_ObjectHideFlags: 0
@@ -8571,6 +8592,8 @@ MonoBehaviour:
   suspendedPieces2: []
   compReplace: {fileID: 2556234940317466296, guid: 276244def8e6b9c488205b77612313d4,
     type: 3}
+  finalSpawned: 0
+  shardsLanded: 0
 --- !u!1 &1852294193
 GameObject:
   m_ObjectHideFlags: 0

@@ -228,7 +228,7 @@ PrefabInstance:
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 183.73
+      value: 383.73
       objectReference: {fileID: 0}
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
@@ -1361,7 +1361,7 @@ PrefabInstance:
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 187.58
+      value: 387.58
       objectReference: {fileID: 0}
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
@@ -2349,7 +2349,7 @@ PrefabInstance:
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 179.029
+      value: 379.029
       objectReference: {fileID: 0}
     - target: {fileID: 7969134675283507380, guid: cbf02a1f2b3b3d546abfb7332578fd46,
         type: 3}
@@ -2933,6 +2933,8 @@ MonoBehaviour:
   suspendedPieces2: []
   compReplace: {fileID: 2556234940317466296, guid: 276244def8e6b9c488205b77612313d4,
     type: 3}
+  finalSpawned: 0
+  shardsLanded: 0
 --- !u!65 &1271613982
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3064,7 +3066,7 @@ PrefabInstance:
     - target: {fileID: 2267286139297856278, guid: 609819170ae61ab40a6e0bbfa895c916,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.19
+      value: -15.01
       objectReference: {fileID: 0}
     - target: {fileID: 2267286139297856278, guid: 609819170ae61ab40a6e0bbfa895c916,
         type: 3}
@@ -3634,7 +3636,10 @@ MonoBehaviour:
   filledlocations: 
   puzzleComplete: 0
   suspendedPieces2: []
-  compReplace: {fileID: 0}
+  compReplace: {fileID: -927199367670048503, guid: cf296ce7ac6fa984180ddb6ffffc3c2f,
+    type: 3}
+  finalSpawned: 0
+  shardsLanded: 0
 --- !u!65 &1678403161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5234,7 +5239,7 @@ PrefabInstance:
     - target: {fileID: 101518736827650039, guid: f5e237cf7217c9445b1300cfc5e3259f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 211.21
+      value: 411.21
       objectReference: {fileID: 0}
     - target: {fileID: 101518736827650039, guid: f5e237cf7217c9445b1300cfc5e3259f,
         type: 3}
@@ -5296,6 +5301,11 @@ PrefabInstance:
       propertyPath: handMarker
       value: 
       objectReference: {fileID: 1873335269}
+    - target: {fileID: 101518736827650028, guid: f5e237cf7217c9445b1300cfc5e3259f,
+        type: 3}
+      propertyPath: photoID
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e237cf7217c9445b1300cfc5e3259f, type: 3}
 --- !u!1 &102179626773947803
@@ -54981,7 +54991,7 @@ PrefabInstance:
     - target: {fileID: 6846350327608244732, guid: 30c1e9845bf8c094a9c4ffef9329a7a3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.7549992
+      value: 8.057
       objectReference: {fileID: 0}
     - target: {fileID: 6846350327608244732, guid: 30c1e9845bf8c094a9c4ffef9329a7a3,
         type: 3}
@@ -65773,6 +65783,11 @@ PrefabInstance:
       propertyPath: endMarker
       value: 
       objectReference: {fileID: 1873335269}
+    - target: {fileID: 8370582117264886065, guid: 2b64222b1c3ba7241b22ddb0519164ba,
+        type: 3}
+      propertyPath: photoTimeFrame
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8370582117264886070, guid: 2b64222b1c3ba7241b22ddb0519164ba,
         type: 3}
       propertyPath: m_UseGravity

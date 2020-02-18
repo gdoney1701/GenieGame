@@ -14,7 +14,8 @@ public class StructDissolveHandler : MonoBehaviour
     public int simulchunks = 1;
     public float simulDelay = 0;
     private float t = 0.0f;
-
+    public bool doneRepair;
+    public bool doneDamage;
     // Start is called before the first frame update
     void Start()
     {
@@ -71,8 +72,6 @@ public class StructDissolveHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool doneRepair = false;
-        bool doneDamage = false;
         if (beginDissolve)
         {
            if (chunkLoad+chunkSize < structDamage.Count-1)
@@ -84,7 +83,7 @@ public class StructDissolveHandler : MonoBehaviour
                     DissolveStep(chunkLoad, tempchunkSize, structDamage, -1,1);
             }else
             {
-                    print("Done with Damage");
+                print("Done with Damage");
                 doneDamage = true;
                     //Destroy(gameObject);
             }
@@ -107,6 +106,8 @@ public class StructDissolveHandler : MonoBehaviour
         {
             GameObject manager = GameObject.FindGameObjectWithTag("PlayMan");
             manager.GetComponent<GameplayManager>().PuzzleComplete(0, 1);
+            doneDamage = false;
+            doneRepair = false;
         }
     }
     public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end)
@@ -115,7 +116,6 @@ public class StructDissolveHandler : MonoBehaviour
 
         for (int i = workingChunk; i < workingChunk + chunkStep; i++)
         {
-            print("Dissolving" + toDissolve[i].gameObject.name);
             chunkDissolving = DissolveLerp(t, toDissolve[i].gameObject, start, end, "Vector1_A2CB8D29");
         }
         t += 0.005f;

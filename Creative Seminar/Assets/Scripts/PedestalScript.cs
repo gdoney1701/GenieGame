@@ -201,23 +201,6 @@ public class PedestalScript : MonoBehaviour
     }
     public void FinalCheck(Transform spawnPoint)
     {
-        bool allThere = false;
-        print(filledlocations[0]);
-        for (int i = 0; i < filledlocations.Count; i++)
-        {
-            if (filledlocations[i] == false)
-            {
-                allThere = true;
-                print("Correct at " + i);
-            }
-            else
-            {
-                allThere = false;
-                print("Wrong at" + i);
-                i = filledlocations.Count;
-            }
-        }
-        print(allThere);
         if (shardsLanded == suspendedPieces2.Length)
         {
             GameObject finalObject = Instantiate(compReplace);

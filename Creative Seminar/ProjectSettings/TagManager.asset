@@ -14,6 +14,7 @@ TagManager:
   - Repair Group
   - Destruction Group
   - PlayMan
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

@@ -11,21 +11,26 @@ public class GameplayManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
         ghPuzzles = new puzzleHandler(11, 4);
     }
+    private void Awake()
+    {
+        
+    }
     public void PlayGame()
     {
         SceneManager.LoadScene(1); // Loads Entrance Present (Gameplay Level)
-        currentScene = SceneManager.GetActiveScene();
+        currentScene = SceneManager.GetSceneAt(1);
         SceneManager.LoadScene(2, LoadSceneMode.Additive); // Loads Entrance 0900 (Past 1)
         SceneManager.LoadScene(3, LoadSceneMode.Additive); //Loads Entrance 1030 (Past 2)
     }
     public void GreatHallLoad()
     {
         SceneManager.LoadScene(4); //Loads Great Hall Present (Gameplay Level)
-        currentScene = SceneManager.GetActiveScene();
+        currentScene = SceneManager.GetSceneAt(4);
         SceneManager.LoadScene(5, LoadSceneMode.Additive); //Loads Great Hall 0900 (Past 1)
         SceneManager.LoadScene(6, LoadSceneMode.Additive); //Loads Great Hall 1030 (Past 2)
         SceneManager.LoadScene(7, LoadSceneMode.Additive); //Loads Great Hall 1130 (Past 3)
@@ -34,10 +39,14 @@ public class GameplayManager : MonoBehaviour
 
     public void PuzzleComplete(int deltaObj, int deltaStruct)
     {
+        print("Puzzle Complete Logged");
+        print(currentScene.buildIndex);
         if(currentScene.buildIndex == 1)
         {
             entPuzzles.objCount -= deltaObj;
             entPuzzles.structCount -= deltaStruct;
+            print(entPuzzles.objCount);
+            print(entPuzzles.structCount);
             if(entPuzzles.objCount == 0 && entPuzzles.structCount == 0)
             {
                 print("Entrance Complete, I'm a very proud dev");
