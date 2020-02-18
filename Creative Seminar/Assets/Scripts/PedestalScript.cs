@@ -10,8 +10,9 @@ public class PedestalScript : MonoBehaviour
     public bool puzzleComplete = false;
     public GameObject[] suspendedPieces2;
     public GameObject compReplace;
-    private bool finalSpawned = false;
+    public bool finalSpawned = false;
     GameObject spawnPoint;
+    public int shardsLanded = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +27,12 @@ public class PedestalScript : MonoBehaviour
     }
     public bool MovingtoPedestal(GameObject objectToMove)
     {
-        //in filled location, every index marked 1 is empty, every index marked 0 is full
+        //in filled location, every index marked false is empty, every index marked true is full
         if (puzzleComplete == false)
         {
             int location = 0;
             bool foundLocation = false;
-            for (int i = 0; i < childPositions.Count; ++i)
+            for (int i = 0; i < childPositions.Count; i++)
             {
                 if (filledlocations[i] == false && foundLocation == false)
                 {
@@ -39,7 +40,7 @@ public class PedestalScript : MonoBehaviour
                     filledlocations[i] = true;
                     foundLocation = true;
                     ListManagement(objectToMove, i, true);
-                    break;
+                    i = childPositions.Count;
 
                 }
                 else if (filledlocations[i] == true)
@@ -143,6 +144,7 @@ public class PedestalScript : MonoBehaviour
     {
         spawnPoint = Instantiate(new GameObject());
         spawnPoint.name = "Spawnpoint";
+        spawnPoint.tag = "SpawnPoint";
         spawnPoint.transform.position = gameObject.transform.position + new Vector3(0, 2, 0);
         for (int i = 0; i<suspendedPieces2.Length; i++)
         {
@@ -200,25 +202,31 @@ public class PedestalScript : MonoBehaviour
     public void FinalCheck(Transform spawnPoint)
     {
         bool allThere = false;
+        print(filledlocations[0]);
         for (int i = 0; i < filledlocations.Count; i++)
         {
             if (filledlocations[i] == false)
             {
                 allThere = true;
+                print("Correct at " + i);
             }
             else
             {
                 allThere = false;
-                break;
+                print("Wrong at" + i);
+                i = filledlocations.Count;
             }
         }
-        if (allThere == true){
+        print(allThere);
+        if (shardsLanded == suspendedPieces2.Length)
+        {
             GameObject finalObject = Instantiate(compReplace);
             finalObject.transform.position = spawnPoint.position;
             finalSpawned = true;
             GameObject manager = GameObject.FindGameObjectWithTag("PlayMan");
             manager.GetComponent<GameplayManager>().PuzzleComplete(1, 0);
         }
+
 
     }
 }

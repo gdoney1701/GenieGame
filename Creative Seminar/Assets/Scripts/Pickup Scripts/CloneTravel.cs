@@ -71,19 +71,22 @@ public class CloneTravel : MonoBehaviour
                     targetObject = null;
                     print(targetObject);
                 }
-                else if (targetObject.tag == "Pedestal")
+                else if (targetObject.tag == "Pedestal" && !onPedestal.d)
                 {
                     if (targetObject.GetComponent<PedestalScript>().puzzleComplete == false)
                     {
                         onPedestal.b = targetObject;
-                        targetObject.GetComponent<PedestalScript>().CombineCheckPedestal();
                         targetObject = null;
                         onPedestal.a = true;
+                        onPedestal.b.GetComponent<PedestalScript>().CombineCheckPedestal();
                     }
                     else
                     {
                         targetObject.GetComponent<PedestalScript>().ListManagement(gameObject, onPedestal.c, false);
                     }
+                }else if (targetObject.tag == "Pedestal" &&onPedestal.d)
+                {
+                    targetObject.GetComponent<PedestalScript>().shardsLanded += 1;
                 }
             }
         }
