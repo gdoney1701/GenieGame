@@ -14,7 +14,7 @@ public class GameplayManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
-        ghPuzzles = new puzzleHandler(11, 4);
+        ghPuzzles = new puzzleHandler(11, 3);
     }
     private void Awake()
     {
