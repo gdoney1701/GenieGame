@@ -108,6 +108,7 @@ public class StructDissolveHandler : MonoBehaviour
             manager.GetComponent<GameplayManager>().PuzzleComplete(0, 1);
             doneDamage = false;
             doneRepair = false;
+            beginDissolve = false;
         }
     }
     public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end)

@@ -53,10 +53,19 @@ public class PlayerScript : MonoBehaviour
         }
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
+        if(Input.GetKeyDown(KeyCode.X) && devcheats)
+        {
+            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().entPuzzles.done = true;
+        }
         //pressing the left mouse button will bring the timeframe forward by 1 (200 units)
         if (Input.GetMouseButtonDown(0))
         {
             offsetController(true);
+        }
+
+        if(Input.GetKeyDown(KeyCode.N) && devcheats)
+        {
+            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().GreatHallLoad();
         }
 
         //pressing the right button with bring the timeframe back by 1 (-200 units)

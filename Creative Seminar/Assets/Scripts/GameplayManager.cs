@@ -25,16 +25,16 @@ public class GameplayManager : MonoBehaviour
         SceneManager.LoadScene(1); // Loads Entrance Present (Gameplay Level)
         currentScene = SceneManager.GetSceneAt(1);
         SceneManager.LoadScene(2, LoadSceneMode.Additive); // Loads Entrance 0900 (Past 1)
-        SceneManager.LoadScene(3, LoadSceneMode.Additive); //Loads Entrance 1030 (Past 2)
+        SceneManager.LoadScene(3, LoadSceneMode.Additive); //Loads Entrance 1030 (Past 2) 
     }
     public void GreatHallLoad()
     {
-        SceneManager.LoadScene(4); //Loads Great Hall Present (Gameplay Level)
-        currentScene = SceneManager.GetSceneAt(4);
-        SceneManager.LoadScene(5, LoadSceneMode.Additive); //Loads Great Hall 0900 (Past 1)
-        SceneManager.LoadScene(6, LoadSceneMode.Additive); //Loads Great Hall 1030 (Past 2)
-        SceneManager.LoadScene(7, LoadSceneMode.Additive); //Loads Great Hall 1130 (Past 3)
-        SceneManager.LoadScene(8, LoadSceneMode.Additive); //Loads Great Hall 1200 (Past 4)
+        SceneManager.LoadScene("GreatHall 1_23"); //Loads Great Hall Present (Gameplay Level)
+        currentScene = SceneManager.GetSceneByName("GreatHall 1_23");
+        SceneManager.LoadScene("GH_0900", LoadSceneMode.Additive); //Loads Great Hall 0900 (Past 1)
+        SceneManager.LoadScene("GH_1030", LoadSceneMode.Additive); //Loads Great Hall 1030 (Past 2)
+        SceneManager.LoadScene("GH_1130", LoadSceneMode.Additive); //Loads Great Hall 1130 (Past 3)
+        SceneManager.LoadScene("GH_1200", LoadSceneMode.Additive); //Loads Great Hall 1200 (Past 4)
     }
 
     public void PuzzleComplete(int deltaObj, int deltaStruct)
