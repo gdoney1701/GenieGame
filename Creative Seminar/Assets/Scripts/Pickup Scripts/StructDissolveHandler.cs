@@ -18,7 +18,9 @@ public class StructDissolveHandler : MonoBehaviour
     private float t = 0.0f;
     public bool doneRepair;
     public bool doneDamage;
-    public bool shadowsDone;
+    public bool rShadComplete = false;
+    public bool dShadComplete = false;
+    public float shadowT = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -97,10 +99,10 @@ public class StructDissolveHandler : MonoBehaviour
     {
         if (beginDissolve)
         {
-            if (!shadowsDone)
+            if (!rShadComplete && !dShadComplete)
             {
-                DissolveShadows(shadowsRepair, 1, -1);
-                DissolveShadows(shadowsDamage, -1, 1);
+                DissolveShadows(shadowsRepair, 1, -1, true);
+                DissolveShadows(shadowsDamage, -1, 1, false);
             }
            if (chunkLoad+chunkSize < structDamage.Count-1)
             {
@@ -113,10 +115,7 @@ public class StructDissolveHandler : MonoBehaviour
             {
                 print("Done with Damage");
                 doneDamage = true;
-                for (int i = 0; i< structDamage.Count; i++)
-                {
-                    Destroy(structDamage[i].gameObject);
-                }
+
             }
            if(chunkLoad+chunkSize < structRepair.Count - 1)
             {
@@ -140,6 +139,10 @@ public class StructDissolveHandler : MonoBehaviour
             doneDamage = false;
             doneRepair = false;
             beginDissolve = false;
+            for (int i = 0; i < structDamage.Count; i++)
+            {
+                Destroy(structDamage[i].gameObject);
+            }
         }
     }
     public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end, bool repair)
@@ -171,17 +174,26 @@ public class StructDissolveHandler : MonoBehaviour
             reInitDissolve();
         }
     }
-    public void DissolveShadows(List<Transform> toDissove, float start, float end)
+    public void DissolveShadows(List<Transform> toDissove, float start, float end, bool repair)
     {
         Vector3 dissolveJourney = new Vector3(0, 0, 0);
         for(int i = 0; i < toDissove.Count; i++)
         {
-            dissolveJourney = DissolveLerp(t, toDissove[i].gameObject, start, end, "Vector1_A2CB8D29");
+            dissolveJourney = DissolveLerp(shadowT, toDissove[i].gameObject, start, end, "Vector1_A2CB8D29");
+            print(dissolveJourney);
         }
-        if(dissolveJourney.x >= 1)
-        {
-            shadowsDone = true;
-        }
+        shadowT += 0.001f;
+        //if(dissolveJourney.x >= end)
+        //{
+            //if (repair)
+            //{
+              //  rShadComplete = true;
+            //}
+          //  else
+           // {
+                dShadComplete = true;
+          //  }
+      //  }
     }
     public Vector3 DissolveLerp(float time, GameObject toDissolve, float min, float max, string vectorName)
     {
@@ -216,10 +228,9 @@ public class StructDissolveHandler : MonoBehaviour
     }
     public void colorCorrection(List<Transform> toCorrect, float begin, Vector4 topColor, Vector4 bottomColor)
     {
-        print(toCorrect.Count);
         for (int i = 0; i < toCorrect.Count; i++)
         {
-            Renderer toChange = structDamage[i].gameObject.GetComponent<Renderer>();
+            Renderer toChange = toCorrect[i].gameObject.GetComponent<Renderer>();
             toChange.material.SetFloat("Vector1_A2CB8D29", begin);
             toChange.material.SetColor("Color_4DCAD544", topColor);
             toChange.material.SetColor("Color_AED29001", bottomColor);
