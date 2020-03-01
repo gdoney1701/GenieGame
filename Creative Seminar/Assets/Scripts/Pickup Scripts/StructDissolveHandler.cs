@@ -34,6 +34,11 @@ public class StructDissolveHandler : MonoBehaviour
                 foreach (Transform child in toUse[i])
                 {
                     structDamage.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = true;
+                    }
 
                 }
             }
@@ -42,6 +47,11 @@ public class StructDissolveHandler : MonoBehaviour
                 foreach (Transform child in toUse[i])
                 {
                     structRepair.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = false;
+                    }
                 }
             }
         }
@@ -76,11 +86,11 @@ public class StructDissolveHandler : MonoBehaviour
         {
            if (chunkLoad+chunkSize < structDamage.Count-1)
             {
-                    DissolveStep(chunkLoad, chunkSize, structDamage, -1, 1);
+                    DissolveStep(chunkLoad, chunkSize, structDamage, -1, 1,false);
             }else if(chunkLoad + chunkSize > structDamage.Count && chunkLoad+chunkSize < structDamage.Count+chunkSize)
             {
                     int tempchunkSize = structDamage.Count - chunkLoad;
-                    DissolveStep(chunkLoad, tempchunkSize, structDamage, -1,1);
+                    DissolveStep(chunkLoad, tempchunkSize, structDamage, -1,1,false);
             }else
             {
                 print("Done with Damage");
@@ -89,11 +99,11 @@ public class StructDissolveHandler : MonoBehaviour
             }
            if(chunkLoad+chunkSize < structRepair.Count - 1)
             {
-                DissolveStep(chunkLoad, chunkSize, structRepair, 1, -1);
+                DissolveStep(chunkLoad, chunkSize, structRepair, 1, -1, true);
             }else if (chunkLoad + chunkSize > structRepair.Count && chunkLoad + chunkSize < structRepair.Count + chunkSize)
             {
                 int tempchunkSize = structRepair.Count - chunkLoad;
-                DissolveStep(chunkLoad, tempchunkSize, structRepair, 1, -1);
+                DissolveStep(chunkLoad, tempchunkSize, structRepair, 1, -1, true);
             }
             else
             {
@@ -111,7 +121,7 @@ public class StructDissolveHandler : MonoBehaviour
             beginDissolve = false;
         }
     }
-    public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end)
+    public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end, bool repair)
     {
         Vector3 chunkDissolving = new Vector3(0, 0, 0);
 
@@ -122,6 +132,21 @@ public class StructDissolveHandler : MonoBehaviour
         t += 0.005f;
         if (chunkDissolving.x >= 1)
         {
+            for (int i = workingChunk; i < workingChunk +chunkStep; i++)
+            {
+                Collider collCheck = toDissolve[i].gameObject.GetComponent<Collider>();
+                if(collCheck != null)
+                {
+                    if (repair)
+                    {
+                        collCheck.enabled = true;
+                    }
+                    else
+                    {
+                        collCheck.enabled = false;
+                    }
+                }
+            }
             reInitDissolve();
         }
     }
