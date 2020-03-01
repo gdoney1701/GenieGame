@@ -182,7 +182,7 @@ public class StructDissolveHandler : MonoBehaviour
             dissolveJourney = DissolveLerp(shadowT, toDissove[i].gameObject, start, end, "Vector1_A2CB8D29");
             print(dissolveJourney);
         }
-        shadowT += 0.001f;
+        shadowT += 0.002f;
         //if(dissolveJourney.x >= end)
         //{
             //if (repair)
@@ -191,7 +191,7 @@ public class StructDissolveHandler : MonoBehaviour
             //}
           //  else
            // {
-                dShadComplete = true;
+                //dShadComplete = true;
           //  }
       //  }
     }
