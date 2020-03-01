@@ -17,9 +17,11 @@ public class ScaleAbility : MonoBehaviour
     static float t = 0.0f;
     static float l = 0.0f;
     public bool isCurrent;
+    public bool createdColliders;
     // Start is called before the first frame update
     void Start()
     {
+        createdColliders = false;
         if (isCurrent)
         {
             portalRenderer.material.SetFloat("Boolean_448AB95D", 0);
@@ -43,7 +45,12 @@ public class ScaleAbility : MonoBehaviour
             //if the player has finished scaling the object, then begin shrinking down to nothing
             if (doneScaling && !greyShrink && !doneGrowing)
             {
-
+                if (!createdColliders)
+                {
+                    GameObject PC = GameObject.FindGameObjectWithTag("Player");
+                    PC.GetComponent<PlayerScript>().createColliders(gameObject);
+                    createdColliders = true;
+                }
                 Vector3 journey = new Vector3(Mathf.Lerp(minimum, maximum, t), 0, 0);
                 t += 0.02f;
                 float goal = journey[0];

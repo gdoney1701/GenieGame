@@ -19,6 +19,10 @@ public class PhotoPickUp : MonoBehaviour
         startTime = Time.time;
         startMarker = transform;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
+        if (clone)
+        {
+            endMarker = Dad.GetComponent<ComeToMe>().endMarker;
+        }
     }
 
     // Update is called once per frame

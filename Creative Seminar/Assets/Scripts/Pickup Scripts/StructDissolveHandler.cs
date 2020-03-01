@@ -6,6 +6,8 @@ public class StructDissolveHandler : MonoBehaviour
     public int reqPuzzles = 1;
     public List<Transform> structDamage;
     public List<Transform> structRepair;
+    public List<Transform> shadowsDamage;
+    public List<Transform> shadowsRepair;
     public List<Transform> toUse;
     public List<bool> reqMet;
     public bool beginDissolve = false;
@@ -14,7 +16,11 @@ public class StructDissolveHandler : MonoBehaviour
     public int simulchunks = 1;
     public float simulDelay = 0;
     private float t = 0.0f;
-
+    public bool doneRepair;
+    public bool doneDamage;
+    public bool rShadComplete = false;
+    public bool dShadComplete = false;
+    public float shadowT = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,44 +32,64 @@ public class StructDissolveHandler : MonoBehaviour
         {
             reqMet.Add(false);
         }
-        for (int i =0; i < toUse.Count; i++)
+        for (int i = 0; i < toUse.Count; i++)
         {
-            if(toUse[i].gameObject.tag =="Destruction Group")
+            if (toUse[i].gameObject.tag == "Destruction Group")
             {
                 foreach (Transform child in toUse[i])
                 {
                     structDamage.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = true;
+                    }
 
                 }
             }
-            else if(toUse[i].gameObject.tag == "Repair Group")
+            else if (toUse[i].gameObject.tag == "Repair Group")
             {
                 foreach (Transform child in toUse[i])
                 {
                     structRepair.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = false;
+                    }
+                }
+            }
+            if (toUse[i].gameObject.tag == "Shadow Damage")
+            {
+                foreach (Transform child in toUse[i])
+                {
+                    shadowsDamage.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = true;
+                    }
+
+                }
+            }
+            if (toUse[i].gameObject.tag == "Shadow Repair")
+            {
+                foreach (Transform child in toUse[i])
+                {
+                    shadowsRepair.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = true;
+                    }
+
                 }
             }
         }
-        for (int i = 0; i < structRepair.Count; i++)
-        {
-            Renderer toChange = structRepair[i].gameObject.GetComponent<Renderer>();
-            toChange.material.SetFloat("Vector1_A2CB8D29", 1);
-            Vector4 topColor = new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f);
-            Vector4 bottomColor = new Vector4(5.235602f, 0.2092855f, 0f, 1.0f);
-            toChange.material.SetColor("Color_4DCAD544", topColor);
-            toChange.material.SetColor("Color_AED29001", bottomColor);
-
-        }
-        for (int i = 0; i < structDamage.Count; i++)
-        {
-            Renderer toChange = structDamage[i].gameObject.GetComponent<Renderer>();
-            toChange.material.SetFloat("Vector1_A2CB8D29", -1);
-            Vector4 topColor = new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f);
-            Vector4 bottomColor = new Vector4(0f, 0.8089904f, 5.235602f, 1.0f);
-            toChange.material.SetColor("Color_4DCAD544", topColor);
-            toChange.material.SetColor("Color_AED29001", bottomColor);
-
-        }
+        colorCorrection(structDamage, -1, new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f), new Vector4(0f, 0.8089904f, 5.235602f, 1.0f));
+        colorCorrection(shadowsDamage, -1, new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f), new Vector4(0f, 0.8089904f, 5.235602f, 1.0f));
+        colorCorrection(structRepair, 1, new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f), new Vector4(5.235602f, 0.2092855f, 0f, 1.0f));
+        colorCorrection(shadowsRepair, 1, new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f), new Vector4(5.235602f, 0.2092855f, 0f, 1.0f));
         listRandomizer(structRepair);
         listRandomizer(structDamage);
     }
@@ -73,47 +99,101 @@ public class StructDissolveHandler : MonoBehaviour
     {
         if (beginDissolve)
         {
+            if (!rShadComplete && !dShadComplete)
+            {
+                DissolveShadows(shadowsRepair, 1, -1, true);
+                DissolveShadows(shadowsDamage, -1, 1, false);
+            }
            if (chunkLoad+chunkSize < structDamage.Count-1)
             {
-                    DissolveStep(chunkLoad, chunkSize, structDamage, -1, 1);
+                    DissolveStep(chunkLoad, chunkSize, structDamage, -1, 1,false);
             }else if(chunkLoad + chunkSize > structDamage.Count && chunkLoad+chunkSize < structDamage.Count+chunkSize)
             {
                     int tempchunkSize = structDamage.Count - chunkLoad;
-                    DissolveStep(chunkLoad, tempchunkSize, structDamage, -1,1);
+                    DissolveStep(chunkLoad, tempchunkSize, structDamage, -1,1,false);
             }else
             {
-                    print("Done with Damage");
-                    //Destroy(gameObject);
+                print("Done with Damage");
+                doneDamage = true;
+
             }
            if(chunkLoad+chunkSize < structRepair.Count - 1)
             {
-                DissolveStep(chunkLoad, chunkSize, structRepair, 1, -1);
+                DissolveStep(chunkLoad, chunkSize, structRepair, 1, -1, true);
             }else if (chunkLoad + chunkSize > structRepair.Count && chunkLoad + chunkSize < structRepair.Count + chunkSize)
             {
                 int tempchunkSize = structRepair.Count - chunkLoad;
-                DissolveStep(chunkLoad, tempchunkSize, structRepair, 1, -1);
+                DissolveStep(chunkLoad, tempchunkSize, structRepair, 1, -1, true);
             }
             else
             {
                 print("Done with Repair");
+                doneRepair = true;
             }
             
         }
+        if (doneRepair && doneDamage)
+        {
+            GameObject manager = GameObject.FindGameObjectWithTag("PlayMan");
+            manager.GetComponent<GameplayManager>().PuzzleComplete(0, 1);
+            doneDamage = false;
+            doneRepair = false;
+            beginDissolve = false;
+            for (int i = 0; i < structDamage.Count; i++)
+            {
+                Destroy(structDamage[i].gameObject);
+            }
+        }
     }
-    public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end)
+    public void DissolveStep(int workingChunk, int chunkStep, List<Transform> toDissolve, float start, float end, bool repair)
     {
         Vector3 chunkDissolving = new Vector3(0, 0, 0);
 
         for (int i = workingChunk; i < workingChunk + chunkStep; i++)
         {
-            print("Dissolving" + toDissolve[i].gameObject.name);
             chunkDissolving = DissolveLerp(t, toDissolve[i].gameObject, start, end, "Vector1_A2CB8D29");
         }
         t += 0.005f;
         if (chunkDissolving.x >= 1)
         {
+            for (int i = workingChunk; i < workingChunk +chunkStep; i++)
+            {
+                Collider collCheck = toDissolve[i].gameObject.GetComponent<Collider>();
+                if(collCheck != null)
+                {
+                    if (repair)
+                    {
+                        collCheck.enabled = true;
+                    }
+                    else
+                    {
+                        collCheck.enabled = false;
+                    }
+                }
+            }
             reInitDissolve();
         }
+    }
+    public void DissolveShadows(List<Transform> toDissove, float start, float end, bool repair)
+    {
+        Vector3 dissolveJourney = new Vector3(0, 0, 0);
+        for(int i = 0; i < toDissove.Count; i++)
+        {
+            dissolveJourney = DissolveLerp(shadowT, toDissove[i].gameObject, start, end, "Vector1_A2CB8D29");
+            print(dissolveJourney);
+        }
+        shadowT += 0.002f;
+        //if(dissolveJourney.x >= end)
+        //{
+            //if (repair)
+            //{
+              //  rShadComplete = true;
+            //}
+          //  else
+           // {
+                //dShadComplete = true;
+          //  }
+      //  }
     }
     public Vector3 DissolveLerp(float time, GameObject toDissolve, float min, float max, string vectorName)
     {
@@ -124,24 +204,13 @@ public class StructDissolveHandler : MonoBehaviour
     public void reInitDissolve()
     {
         t = .1f;
-        chunkLoad += chunkSize-1;
+        chunkLoad += chunkSize;
     }
     public void PuzzleFound(int ID)
     {
-        reqMet[ID] = true;
-        bool ollKorrect = false;
-        foreach(bool answer in reqMet)
-        {
-            if (answer)
-            {
-                ollKorrect = true;
-            }
-            else
-            {
-                ollKorrect = false;
-            }
-        }
-        if (ollKorrect)
+        reqPuzzles -= 1;
+
+        if (reqPuzzles <= 0)
         {
             beginDissolve = true;
         }
@@ -155,6 +224,16 @@ public class StructDissolveHandler : MonoBehaviour
             int randomIndex = Random.Range(i, toModify.Count);
             toModify[i] = toModify[randomIndex];
             toModify[randomIndex] = temp;
+        }
+    }
+    public void colorCorrection(List<Transform> toCorrect, float begin, Vector4 topColor, Vector4 bottomColor)
+    {
+        for (int i = 0; i < toCorrect.Count; i++)
+        {
+            Renderer toChange = toCorrect[i].gameObject.GetComponent<Renderer>();
+            toChange.material.SetFloat("Vector1_A2CB8D29", begin);
+            toChange.material.SetColor("Color_4DCAD544", topColor);
+            toChange.material.SetColor("Color_AED29001", bottomColor);
         }
     }
 }

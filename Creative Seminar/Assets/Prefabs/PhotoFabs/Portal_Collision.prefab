@@ -232,11 +232,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7382517844708216689}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccd5f74a3672c774aa66fbcf6666becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doneScaling: 0
+  doneGrowing: 0
+  greyShrink: 0
+  portalRenderer: {fileID: 0}
+  minimum: -0.8
+  maximum: -0.5
+  isCurrent: 0
+  createdColliders: 0
 --- !u!1 &7662938830359563313
 GameObject:
   m_ObjectHideFlags: 0

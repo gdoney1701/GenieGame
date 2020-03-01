@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public bool devcheats;
     public bool havePhotos;
     public int timeIndex;
+    public bool verticalOffset;
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +26,17 @@ public class PlayerScript : MonoBehaviour
         //ugly way of fixing a rather game breaking bug by turning b cam off and on again
         Bcam.gameObject.SetActive(false);
         Bcam.gameObject.SetActive(true);
-        havePhotos = false;
-        carriedPhotos = new bool[5];
-        carrying = false;
-        photoaround = false;
-        for (int i = 0; i < carriedPhotos.Length; i++)
+        Camera[] allCams2 = Camera.allCameras;
+        for (int i = 0; i <allCams2.Length; i++)
         {
-            carriedPhotos[i] = false;
+            if(allCams2[i].tag != "MainCamera")
+            {
+                allCams2[i].gameObject.SetActive(false);
+                allCams2[i].gameObject.SetActive(true);
+            }
         }
+
+
     }
 
     // Update is called once per frame
@@ -49,10 +53,19 @@ public class PlayerScript : MonoBehaviour
         }
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
+        if(Input.GetKeyDown(KeyCode.X) && devcheats)
+        {
+            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().entPuzzles.done = true;
+        }
         //pressing the left mouse button will bring the timeframe forward by 1 (200 units)
         if (Input.GetMouseButtonDown(0))
         {
             offsetController(true);
+        }
+
+        if(Input.GetKeyDown(KeyCode.N) && devcheats)
+        {
+            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().GreatHallLoad();
         }
 
         //pressing the right button with bring the timeframe back by 1 (-200 units)
@@ -64,9 +77,10 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !photoaround && havePhotos)
         {
             GameObject photo = MakeABaby(true, 0.0f, Photoprefab);
-            GameObject colliders = MakeABaby(false, dist, photoColliders);
-            colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
-            photoaround = true;
+            //GameObject colliders = MakeABaby(false, dist, photoColliders);
+            //GameObject colliders = MakeABaby(false, 0.0f, photoColliders);
+            //colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
+            //photoaround = true;
 
         }
         else if (Input.GetKeyDown(KeyCode.E) && photoaround && havePhotos)
@@ -85,15 +99,22 @@ public class PlayerScript : MonoBehaviour
             HitGroup cam2Hit = HitDat(9, Bcam); //checking if the bcam can see the object
             HitGroup cam1HitAgain = HitDat(9, Camera.main); //checks if the player can see an object in front of them
             HitGroup photoCheck = HitDat(16, Camera.main); //checks if the player can see the photo pickup
-
-            print(cam1Hit.b);
-            print(cam2Hit.b);
             //cam1HitAgain is for identifying pickups in the present 
             //photoCheck determines if the pickup is a photoPickup
             if (cam1Hit.b && cam2Hit.b)
             {
                 GameObject hitManLee = cam2Hit.a;
-                hitManLee.GetComponent<ComeToMe>().SpawnChild(dist);
+                Vector3 distVect = new Vector3(0, 0, 0);
+                if (verticalOffset)
+                {
+                    distVect = new Vector3(0, -dist, 0);
+                }
+                else
+                {
+                    distVect = new Vector3(dist, 0, 0);
+                }
+                hitManLee.GetComponent<ComeToMe>().SpawnChild(distVect, verticalOffset);
+
 
             }
             else if (cam1HitAgain.b) //searching to pick something up in the present
@@ -172,7 +193,15 @@ public class PlayerScript : MonoBehaviour
     //MakeABaby creates a physical photo (fabBaby) with actualPhoto determining whether to create the photocolliders or the rendertexture portal
     public GameObject MakeABaby(bool actualPhoto, float whereBaby, GameObject fabBaby)
     {
-        Vector3 babyPoint = new Vector3(whereBaby, 0, 0);
+        Vector3 babyPoint = new Vector3(0, 0, 0);
+        if (verticalOffset)
+        {
+            babyPoint.y = -whereBaby;
+        }
+        else
+        {
+            babyPoint.x = whereBaby;
+        }
         //creates the photo using the gameobject defined by the function at the spawnpoint with 
         GameObject newPhoto = Instantiate(fabBaby, babyPoint + GM_Cam.transform.position + (GM_Cam.transform.forward * 2), GM_Cam.transform.rotation);
         newPhoto.transform.Rotate(0, 0, 0, Space.World);
@@ -183,11 +212,6 @@ public class PlayerScript : MonoBehaviour
             newPhoto.GetComponentInChildren<CopyPositionOffset>().transformToCopy = GM_Cam;
             newPhoto.GetComponent<ScaleAbility>().isCurrent = true;
             newPhoto.transform.parent = Camera.main.transform;
-        }
-        else
-        {
-            newPhoto.GetComponent<ScaleAbility>().isCurrent = false;
-            newPhoto.transform.parent = Bcam.transform;
         }
         return newPhoto;
     }
@@ -230,13 +254,44 @@ public class PlayerScript : MonoBehaviour
             timeIndex = newLoc;
             int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200))) * negMod;
             dist = (newLoc + 1) * 200;
-            Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            if (!verticalOffset)
+            {
+                Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(dist, 0, 0);
+            }
+            else
+            {
+                Bcam.GetComponent<CopyPositionOffset>().offset = new Vector3(0, -dist, 0);
+            }
             if (photoaround)
             {
                 GameObject pCols = GameObject.FindGameObjectWithTag("PhotoColliders");
                 Transform pPos = GameObject.FindGameObjectWithTag("Photo").transform;
-                pCols.transform.position = pPos.position + new Vector3(dist, 0, 0);
+                if (!verticalOffset)
+                {
+                    pCols.transform.position = pPos.position + new Vector3(dist, 0, 0);
+                }
+                else
+                {
+                    pCols.transform.position = pPos.position + new Vector3(0, -dist, 0);
+                }
+
             }
         }
+    }
+    public void createColliders(GameObject photo)
+    {
+        GameObject colliders = MakeABaby(false, dist, photoColliders);
+        colliders.transform.position = photo.transform.position;
+        colliders.transform.rotation = photo.transform.rotation;
+        colliders.transform.localScale = photo.transform.localScale;
+        if (!verticalOffset)
+        {
+            colliders.transform.position += new Vector3(dist,0,0);
+        }
+        else
+        {
+            colliders.transform.position += new Vector3(0, -dist, 0);
+        }
+        photoaround = true;
     }
 }
