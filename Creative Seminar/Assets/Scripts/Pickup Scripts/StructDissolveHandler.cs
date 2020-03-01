@@ -6,6 +6,8 @@ public class StructDissolveHandler : MonoBehaviour
     public int reqPuzzles = 1;
     public List<Transform> structDamage;
     public List<Transform> structRepair;
+    public List<Transform> shadowsDamage;
+    public List<Transform> shadowsRepair;
     public List<Transform> toUse;
     public List<bool> reqMet;
     public bool beginDissolve = false;
@@ -16,6 +18,7 @@ public class StructDissolveHandler : MonoBehaviour
     private float t = 0.0f;
     public bool doneRepair;
     public bool doneDamage;
+    public bool shadowsDone;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,9 +30,9 @@ public class StructDissolveHandler : MonoBehaviour
         {
             reqMet.Add(false);
         }
-        for (int i =0; i < toUse.Count; i++)
+        for (int i = 0; i < toUse.Count; i++)
         {
-            if(toUse[i].gameObject.tag =="Destruction Group")
+            if (toUse[i].gameObject.tag == "Destruction Group")
             {
                 foreach (Transform child in toUse[i])
                 {
@@ -42,7 +45,7 @@ public class StructDissolveHandler : MonoBehaviour
 
                 }
             }
-            else if(toUse[i].gameObject.tag == "Repair Group")
+            else if (toUse[i].gameObject.tag == "Repair Group")
             {
                 foreach (Transform child in toUse[i])
                 {
@@ -54,27 +57,37 @@ public class StructDissolveHandler : MonoBehaviour
                     }
                 }
             }
-        }
-        for (int i = 0; i < structRepair.Count; i++)
-        {
-            Renderer toChange = structRepair[i].gameObject.GetComponent<Renderer>();
-            toChange.material.SetFloat("Vector1_A2CB8D29", 1);
-            Vector4 topColor = new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f);
-            Vector4 bottomColor = new Vector4(5.235602f, 0.2092855f, 0f, 1.0f);
-            toChange.material.SetColor("Color_4DCAD544", topColor);
-            toChange.material.SetColor("Color_AED29001", bottomColor);
+            if (toUse[i].gameObject.tag == "Shadow Damage")
+            {
+                foreach (Transform child in toUse[i])
+                {
+                    shadowsDamage.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = true;
+                    }
 
-        }
-        for (int i = 0; i < structDamage.Count; i++)
-        {
-            Renderer toChange = structDamage[i].gameObject.GetComponent<Renderer>();
-            toChange.material.SetFloat("Vector1_A2CB8D29", -1);
-            Vector4 topColor = new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f);
-            Vector4 bottomColor = new Vector4(0f, 0.8089904f, 5.235602f, 1.0f);
-            toChange.material.SetColor("Color_4DCAD544", topColor);
-            toChange.material.SetColor("Color_AED29001", bottomColor);
+                }
+            }
+            if (toUse[i].gameObject.tag == "Shadow Repair")
+            {
+                foreach (Transform child in toUse[i])
+                {
+                    shadowsRepair.Add(child);
+                    Collider collCheck = child.GetComponent<Collider>();
+                    if (collCheck != null)
+                    {
+                        collCheck.enabled = true;
+                    }
 
+                }
+            }
         }
+        colorCorrection(structDamage, -1, new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f), new Vector4(0f, 0.8089904f, 5.235602f, 1.0f));
+        colorCorrection(shadowsDamage, -1, new Vector4(1.630717f, 22.97174f, 0.0f, 1.0f), new Vector4(0f, 0.8089904f, 5.235602f, 1.0f));
+        colorCorrection(structRepair, 1, new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f), new Vector4(5.235602f, 0.2092855f, 0f, 1.0f));
+        colorCorrection(shadowsRepair, 1, new Vector4(22.97174f, 0.0f, 22.76659f, 1.0f), new Vector4(5.235602f, 0.2092855f, 0f, 1.0f));
         listRandomizer(structRepair);
         listRandomizer(structDamage);
     }
@@ -84,6 +97,11 @@ public class StructDissolveHandler : MonoBehaviour
     {
         if (beginDissolve)
         {
+            if (!shadowsDone)
+            {
+                DissolveShadows(shadowsRepair, 1, -1);
+                DissolveShadows(shadowsDamage, -1, 1);
+            }
            if (chunkLoad+chunkSize < structDamage.Count-1)
             {
                     DissolveStep(chunkLoad, chunkSize, structDamage, -1, 1,false);
@@ -95,7 +113,10 @@ public class StructDissolveHandler : MonoBehaviour
             {
                 print("Done with Damage");
                 doneDamage = true;
-                    //Destroy(gameObject);
+                for (int i = 0; i< structDamage.Count; i++)
+                {
+                    Destroy(structDamage[i].gameObject);
+                }
             }
            if(chunkLoad+chunkSize < structRepair.Count - 1)
             {
@@ -150,6 +171,18 @@ public class StructDissolveHandler : MonoBehaviour
             reInitDissolve();
         }
     }
+    public void DissolveShadows(List<Transform> toDissove, float start, float end)
+    {
+        Vector3 dissolveJourney = new Vector3(0, 0, 0);
+        for(int i = 0; i < toDissove.Count; i++)
+        {
+            dissolveJourney = DissolveLerp(t, toDissove[i].gameObject, start, end, "Vector1_A2CB8D29");
+        }
+        if(dissolveJourney.x >= 1)
+        {
+            shadowsDone = true;
+        }
+    }
     public Vector3 DissolveLerp(float time, GameObject toDissolve, float min, float max, string vectorName)
     {
         Vector3 journey = new Vector3(Mathf.Lerp(min, max, time), 0, 0);
@@ -159,7 +192,7 @@ public class StructDissolveHandler : MonoBehaviour
     public void reInitDissolve()
     {
         t = .1f;
-        chunkLoad += chunkSize-1;
+        chunkLoad += chunkSize;
     }
     public void PuzzleFound(int ID)
     {
@@ -179,6 +212,17 @@ public class StructDissolveHandler : MonoBehaviour
             int randomIndex = Random.Range(i, toModify.Count);
             toModify[i] = toModify[randomIndex];
             toModify[randomIndex] = temp;
+        }
+    }
+    public void colorCorrection(List<Transform> toCorrect, float begin, Vector4 topColor, Vector4 bottomColor)
+    {
+        print(toCorrect.Count);
+        for (int i = 0; i < toCorrect.Count; i++)
+        {
+            Renderer toChange = structDamage[i].gameObject.GetComponent<Renderer>();
+            toChange.material.SetFloat("Vector1_A2CB8D29", begin);
+            toChange.material.SetColor("Color_4DCAD544", topColor);
+            toChange.material.SetColor("Color_AED29001", bottomColor);
         }
     }
 }

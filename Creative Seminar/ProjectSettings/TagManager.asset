@@ -16,6 +16,8 @@ TagManager:
   - PlayMan
   - SpawnPoint
   - Exit
+  - Shadow Damage
+  - Shadow Repair
   layers:
   - Default
   - TransparentFX
