@@ -36,13 +36,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 8
+    value: 10.7
   threshold:
     overrideState: 1
     value: 0.6
   softKnee:
     overrideState: 1
-    value: 0.79
+    value: 0.659
   clamp:
     overrideState: 1
     value: 5
@@ -1490,10 +1490,10 @@ MonoBehaviour:
     value: {x: 53.999996, y: 99}
   minLuminance:
     overrideState: 1
-    value: 0.54
+    value: -0.3
   maxLuminance:
     overrideState: 1
-    value: 8.97
+    value: 9
   keyValue:
     overrideState: 1
     value: 1.62
