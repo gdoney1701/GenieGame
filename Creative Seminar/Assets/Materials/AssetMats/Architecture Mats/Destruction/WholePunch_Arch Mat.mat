@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ArchFillWholePunch_Mat
+  m_Name: WholePunch_Arch Mat
   m_Shader: {fileID: -6465566751694194690, guid: 48efcee33688d8542b0b92a4df170efa,
     type: 3}
   m_ShaderKeywords: 
