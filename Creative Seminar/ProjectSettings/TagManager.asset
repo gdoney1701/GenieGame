@@ -18,6 +18,7 @@ TagManager:
   - Exit
   - Shadow Damage
   - Shadow Repair
+  - Process Handler
   layers:
   - Default
   - TransparentFX

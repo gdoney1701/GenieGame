@@ -64,7 +64,6 @@ public class PhotoPickUp : MonoBehaviour
             MC.GetComponent<PlayerScript>().timeIndex = photoTimeFrame - 1;
         }
         MC.GetComponent<PlayerScript>().carriedPhotos[photoTimeFrame - 1] = true;
-        print("New Photo Added");
         Destroy(gameObject);
     }
 }

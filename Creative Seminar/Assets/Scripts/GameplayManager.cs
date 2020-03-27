@@ -39,14 +39,12 @@ public class GameplayManager : MonoBehaviour
 
     public void PuzzleComplete(int deltaObj, int deltaStruct)
     {
-        print("Puzzle Complete Logged");
-        print(currentScene.buildIndex);
+        GameObject handlerTarget = GameObject.FindGameObjectWithTag("Process Handler");
+        handlerTarget.GetComponent<PostProcessingLerpHandler>().ActivateChange();
         if(currentScene.buildIndex == 1)
         {
             entPuzzles.objCount -= deltaObj;
             entPuzzles.structCount -= deltaStruct;
-            print(entPuzzles.objCount);
-            print(entPuzzles.structCount);
             if(entPuzzles.objCount == 0 && entPuzzles.structCount == 0)
             {
                 print("Entrance Complete, I'm a very proud dev");

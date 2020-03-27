@@ -180,7 +180,6 @@ public class StructDissolveHandler : MonoBehaviour
         for(int i = 0; i < toDissove.Count; i++)
         {
             dissolveJourney = DissolveLerp(shadowT, toDissove[i].gameObject, start, end, "Vector1_A2CB8D29");
-            print(dissolveJourney);
         }
         shadowT += 0.002f;
         //if(dissolveJourney.x >= end)
