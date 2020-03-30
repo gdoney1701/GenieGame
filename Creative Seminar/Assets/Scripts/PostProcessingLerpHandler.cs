@@ -34,8 +34,8 @@ public class PostProcessingLerpHandler : MonoBehaviour
                 print(1 / transitionNum);
                 segmentNum += 1 / transitionNum;
                 print(segmentNum + " SegmentNum");
-                startPoint -= segmentNum;
-                endPoint += segmentNum;
+                startPoint -= (1 /transitionNum);
+                endPoint += (1 / transitionNum);
                 time = 0;
                 shifting = false;
             }
@@ -45,8 +45,6 @@ public class PostProcessingLerpHandler : MonoBehaviour
     public void ActivateChange()
     {
         print("changing profile");
-        //start.weight = 1;
-        //end.weight = 0;
         shifting = true;
         time = 0;
     }
