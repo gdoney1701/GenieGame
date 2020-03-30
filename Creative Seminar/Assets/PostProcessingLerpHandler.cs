@@ -5,17 +5,20 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class PostProcessingLerpHandler : MonoBehaviour
 {
-    public PostProcessVolume start;
-    public PostProcessVolume end;
-    bool primary;
-    public int transitionNum;
-    float segmentNum;
-    bool shifting = false;
-    float time =0;
+    public PostProcessVolume colorProfile;
+    public PostProcessVolume greyProfile;
+    public float transitionNum;
+    public float segmentNum = 0;
+    public bool shifting = false;
+    public float time =0;
+    public float startPoint = 1;
+    public float endPoint = 0;
     // Start is called before the first frame update
     void Start()
     {
-        segmentNum = 0;
+        //segmentNum = 0;
+        //startPoint = 1;
+        //endPoint = 0;
     }
 
     // Update is called once per frame
@@ -23,14 +26,16 @@ public class PostProcessingLerpHandler : MonoBehaviour
     {
         if (shifting)
         {
-            float jStart =  ShiftLerp(segmentNum, 1/transitionNum+segmentNum,time,start);
-            float jEnd = ShiftLerp(1-segmentNum, 1-(1/transitionNum+segmentNum), time, end);
-            time += 0.001f;
-            print(jStart);
-            print(jEnd);
-            if (jEnd <= .66f && jStart >= .33f)
+            bool jGrey =  ShiftLerp(startPoint, 1-(1/transitionNum+segmentNum),time, greyProfile);
+            bool jColor = ShiftLerp(endPoint, 1/transitionNum+segmentNum, time, colorProfile);
+            time += Time.deltaTime*0.1f;
+            if (jGrey && jColor)
             {
-                segmentNum += (1 / transitionNum);
+                print(1 / transitionNum);
+                segmentNum += 1 / transitionNum;
+                print(segmentNum + " SegmentNum");
+                startPoint -= segmentNum;
+                endPoint += segmentNum;
                 time = 0;
                 shifting = false;
             }
@@ -40,15 +45,23 @@ public class PostProcessingLerpHandler : MonoBehaviour
     public void ActivateChange()
     {
         print("changing profile");
-        start.weight = 1;
-        end.weight = 0;
+        //start.weight = 1;
+        //end.weight = 0;
         shifting = true;
         time = 0;
     }
-    public float ShiftLerp(float start, float end, float time, PostProcessVolume who)
+    public bool ShiftLerp(float start, float end, float time, PostProcessVolume who)
     {
         float journey = Mathf.Lerp(start, end, time);
         who.weight = journey;
-        return journey;
+        print(journey + who.name);
+        if (journey == end)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
