@@ -8,6 +8,8 @@ public class GameplayManager : MonoBehaviour
     public puzzleHandler entPuzzles;
     public puzzleHandler ghPuzzles;
     public Scene currentScene;
+    public Animator transition;
+    public float transitionTime = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,19 +24,36 @@ public class GameplayManager : MonoBehaviour
     }
     public void PlayGame()
     {
-        SceneManager.LoadScene(1); // Loads Entrance Present (Gameplay Level)
-        currentScene = SceneManager.GetSceneAt(1);
-        SceneManager.LoadScene(2, LoadSceneMode.Additive); // Loads Entrance 0900 (Past 1)
-        SceneManager.LoadScene(3, LoadSceneMode.Additive); //Loads Entrance 1030 (Past 2) 
+        string entName = "Entrance";
+        StartCoroutine(LoadLevel(entName));
     }
     public void GreatHallLoad()
     {
-        SceneManager.LoadScene("GreatHall 1_23"); //Loads Great Hall Present (Gameplay Level)
-        currentScene = SceneManager.GetSceneByName("GreatHall 1_23");
-        SceneManager.LoadScene("GH_0900", LoadSceneMode.Additive); //Loads Great Hall 0900 (Past 1)
-        SceneManager.LoadScene("GH_1030", LoadSceneMode.Additive); //Loads Great Hall 1030 (Past 2)
-        SceneManager.LoadScene("GH_1130", LoadSceneMode.Additive); //Loads Great Hall 1130 (Past 3)
-        SceneManager.LoadScene("GH_1200", LoadSceneMode.Additive); //Loads Great Hall 1200 (Past 4)
+        string hallName = "GreatHall";
+        StartCoroutine(LoadLevel(hallName));
+    }
+    IEnumerator LoadLevel(string nextMain)
+    {
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(transitionTime);
+        if(nextMain == "Entrance")
+        {
+            SceneManager.LoadScene(1); // Loads Entrance Present (Gameplay Level)
+            currentScene = SceneManager.GetSceneAt(1);
+            SceneManager.LoadScene(2, LoadSceneMode.Additive); // Loads Entrance 0900 (Past 1)
+            SceneManager.LoadScene(3, LoadSceneMode.Additive); //Loads Entrance 1030 (Past 2)
+        }
+        else if(nextMain == "GreatHall")
+        {
+            SceneManager.LoadScene("GreatHall 1_23"); //Loads Great Hall Present (Gameplay Level)
+            currentScene = SceneManager.GetSceneByName("GreatHall 1_23");
+            SceneManager.LoadScene("GH_0900", LoadSceneMode.Additive); //Loads Great Hall 0900 (Past 1)
+            SceneManager.LoadScene("GH_1030", LoadSceneMode.Additive); //Loads Great Hall 1030 (Past 2)
+            SceneManager.LoadScene("GH_1130", LoadSceneMode.Additive); //Loads Great Hall 1130 (Past 3)
+            SceneManager.LoadScene("GH_1200", LoadSceneMode.Additive); //Loads Great Hall 1200 (Past 4)
+        }
+        transition.SetTrigger("DoneLoading");
+
     }
 
     public void PuzzleComplete(int deltaObj, int deltaStruct)
