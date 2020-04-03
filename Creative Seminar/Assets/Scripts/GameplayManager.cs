@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class GameplayManager : MonoBehaviour
     public puzzleHandler ghPuzzles;
     public Scene currentScene;
     public Animator transition;
-    public float transitionTime = 1;
+    public float transitionTime = 2;
+    public GameObject toBlack;
     // Start is called before the first frame update
     void Start()
     {
-
+        toBlack.GetComponent<Image>().material.SetFloat("_DissolveControl", 0);
+        StartCoroutine(DissolveHandler(false));
         DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
         ghPuzzles = new puzzleHandler(11, 3);
@@ -42,7 +45,7 @@ public class GameplayManager : MonoBehaviour
     }
     IEnumerator LoadLevel(List<string> toLoad)
     {
-        transition.SetTrigger("Start");
+        StartCoroutine(DissolveHandler(true));
         yield return new WaitForSeconds(transitionTime);
 
         for(int i =0; i < toLoad.Count; i++)
@@ -74,8 +77,32 @@ public class GameplayManager : MonoBehaviour
             print("Finished " + toLoad[i]);
         }
 
-        transition.SetTrigger("DoneLoading");
+        StartCoroutine(DissolveHandler(false));
 
+    }
+    IEnumerator DissolveHandler(bool start)
+    {
+        float elapsedTime = 0f;
+        if (start)
+        {
+            while(elapsedTime < transitionTime)
+            {
+                float j = Mathf.Lerp(0.6f, 0, elapsedTime);
+                toBlack.GetComponent<Image>().material.SetFloat("_DissolveControl", j);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+        else
+        {
+            while (elapsedTime < transitionTime)
+            {
+                float j = Mathf.Lerp(0, 0.6f, elapsedTime);
+                toBlack.GetComponent<Image>().material.SetFloat("_DissolveControl", j);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
     public void PuzzleComplete(int deltaObj, int deltaStruct)
     {
