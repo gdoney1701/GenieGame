@@ -24,38 +24,59 @@ public class GameplayManager : MonoBehaviour
     }
     public void PlayGame()
     {
-        string entName = "Entrance";
-        StartCoroutine(LoadLevel(entName));
+        List<string> entranceLevels = new List<string>();
+        entranceLevels.Add("Tutorial 11_3");
+        entranceLevels.Add("Entrance_0900");
+        entranceLevels.Add("Entrance_1030");
+        StartCoroutine(LoadLevel(entranceLevels));
     }
     public void GreatHallLoad()
     {
-        string hallName = "GreatHall";
-        StartCoroutine(LoadLevel(hallName));
+        List<string> hallLevels = new List<string>();
+        hallLevels.Add("GreatHall 1_23");
+        hallLevels.Add("GH_0900");
+        hallLevels.Add("GH_1030");
+        hallLevels.Add("GH_1130");
+        hallLevels.Add("GH_1200");
+        StartCoroutine(LoadLevel(hallLevels));
     }
-    IEnumerator LoadLevel(string nextMain)
+    IEnumerator LoadLevel(List<string> toLoad)
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
-        if(nextMain == "Entrance")
+
+        for(int i =0; i < toLoad.Count; i++)
         {
-            SceneManager.LoadScene(1); // Loads Entrance Present (Gameplay Level)
-            currentScene = SceneManager.GetSceneAt(1);
-            SceneManager.LoadScene(2, LoadSceneMode.Additive); // Loads Entrance 0900 (Past 1)
-            SceneManager.LoadScene(3, LoadSceneMode.Additive); //Loads Entrance 1030 (Past 2)
+            if (i == 0)
+            {
+                AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
+                currentScene = SceneManager.GetSceneByName(toLoad[i]);
+
+                while (!opLoad.isDone)
+                {
+                    Debug.Log(opLoad.progress);
+
+                    yield return null;
+                }
+                print("Finished Scene Main");
+            }
+            else
+            {
+                AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i], LoadSceneMode.Additive);
+
+                while (!opLoad.isDone)
+                {
+                    Debug.Log(opLoad.progress);
+
+                    yield return null;
+                }
+            }
+            print("Finished " + toLoad[i]);
         }
-        else if(nextMain == "GreatHall")
-        {
-            SceneManager.LoadScene("GreatHall 1_23"); //Loads Great Hall Present (Gameplay Level)
-            currentScene = SceneManager.GetSceneByName("GreatHall 1_23");
-            SceneManager.LoadScene("GH_0900", LoadSceneMode.Additive); //Loads Great Hall 0900 (Past 1)
-            SceneManager.LoadScene("GH_1030", LoadSceneMode.Additive); //Loads Great Hall 1030 (Past 2)
-            SceneManager.LoadScene("GH_1130", LoadSceneMode.Additive); //Loads Great Hall 1130 (Past 3)
-            SceneManager.LoadScene("GH_1200", LoadSceneMode.Additive); //Loads Great Hall 1200 (Past 4)
-        }
+
         transition.SetTrigger("DoneLoading");
 
     }
-
     public void PuzzleComplete(int deltaObj, int deltaStruct)
     {
         GameObject handlerTarget = GameObject.FindGameObjectWithTag("Process Handler");
