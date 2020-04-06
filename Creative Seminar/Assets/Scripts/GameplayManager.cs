@@ -12,10 +12,12 @@ public class GameplayManager : MonoBehaviour
     public Animator transition;
     public float transitionTime = 2;
     public GameObject toBlack;
+    public GameObject player;
+    public Camera loadCam;
     // Start is called before the first frame update
     void Start()
     {
-        toBlack.GetComponent<Image>().material.SetFloat("_DissolveControl", 0);
+        Canvas.ForceUpdateCanvases();
         StartCoroutine(DissolveHandler(false));
         DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
@@ -31,22 +33,24 @@ public class GameplayManager : MonoBehaviour
         entranceLevels.Add("Tutorial 11_3");
         entranceLevels.Add("Entrance_0900");
         entranceLevels.Add("Entrance_1030");
-        StartCoroutine(LoadLevel(entranceLevels));
+        StartCoroutine(LoadLevel(entranceLevels, 0));
     }
     public void GreatHallLoad()
     {
+        player = null;
         List<string> hallLevels = new List<string>();
         hallLevels.Add("GreatHall 1_23");
         hallLevels.Add("GH_0900");
         hallLevels.Add("GH_1030");
         hallLevels.Add("GH_1130");
         hallLevels.Add("GH_1200");
-        StartCoroutine(LoadLevel(hallLevels));
+        StartCoroutine(LoadLevel(hallLevels, 1));
     }
-    IEnumerator LoadLevel(List<string> toLoad)
+    IEnumerator LoadLevel(List<string> toLoad, int matIndex)
     {
         StartCoroutine(DissolveHandler(true));
-        yield return new WaitForSeconds(transitionTime);
+        Canvas.ForceUpdateCanvases();
+        yield return new WaitForSeconds(transitionTime+1);
 
         for(int i =0; i < toLoad.Count; i++)
         {
@@ -61,6 +65,10 @@ public class GameplayManager : MonoBehaviour
 
                     yield return null;
                 }
+                Canvas.ForceUpdateCanvases();
+                player = GameObject.FindGameObjectWithTag("Player");
+                player.SetActive(false);
+                loadCam.enabled = true;
                 print("Finished Scene Main");
             }
             else
@@ -73,9 +81,12 @@ public class GameplayManager : MonoBehaviour
 
                     yield return null;
                 }
+                Canvas.ForceUpdateCanvases();
             }
             print("Finished " + toLoad[i]);
         }
+        player.SetActive(true);
+        loadCam.enabled = false;
 
         StartCoroutine(DissolveHandler(false));
 

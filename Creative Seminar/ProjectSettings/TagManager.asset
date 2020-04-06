@@ -19,6 +19,7 @@ TagManager:
   - Shadow Damage
   - Shadow Repair
   - Process Handler
+  - DissCanvas
   layers:
   - Default
   - TransparentFX
