@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Milestone Scenes/GreatHall 1_23.unity
     guid: 5d24e7ed7c878134992d6dad86d3379f
   - enabled: 1
+    path: Assets/Scenes/GreatHall_Main.unity
+    guid: 20fe3f0a649f8c646bc8998eeb367e1e
+  - enabled: 1
     path: Assets/Scenes/Milestone Scenes/GH_0900.unity
     guid: 3c17792b882789d40ac00ec8cde89990
   - enabled: 1

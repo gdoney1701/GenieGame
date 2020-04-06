@@ -17,7 +17,7 @@ public class GameplayManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Canvas.ForceUpdateCanvases();
+        toBlack.GetComponent<Image>().SetAllDirty();
         StartCoroutine(DissolveHandler(false));
         DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
@@ -49,7 +49,6 @@ public class GameplayManager : MonoBehaviour
     IEnumerator LoadLevel(List<string> toLoad, int matIndex)
     {
         StartCoroutine(DissolveHandler(true));
-        Canvas.ForceUpdateCanvases();
         yield return new WaitForSeconds(transitionTime+1);
 
         for(int i =0; i < toLoad.Count; i++)
@@ -65,7 +64,6 @@ public class GameplayManager : MonoBehaviour
 
                     yield return null;
                 }
-                Canvas.ForceUpdateCanvases();
                 player = GameObject.FindGameObjectWithTag("Player");
                 player.SetActive(false);
                 loadCam.enabled = true;
@@ -73,6 +71,7 @@ public class GameplayManager : MonoBehaviour
             }
             else
             {
+
                 AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i], LoadSceneMode.Additive);
 
                 while (!opLoad.isDone)
@@ -81,7 +80,6 @@ public class GameplayManager : MonoBehaviour
 
                     yield return null;
                 }
-                Canvas.ForceUpdateCanvases();
             }
             print("Finished " + toLoad[i]);
         }
