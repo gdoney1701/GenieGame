@@ -2353,7 +2353,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1830796142}
-        m_MethodName: PlayGame
+        m_MethodName: GreatHallLoad
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2839,7 +2839,7 @@ GameObject:
   - component: {fileID: 1254964362}
   - component: {fileID: 1254964361}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MenuText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
