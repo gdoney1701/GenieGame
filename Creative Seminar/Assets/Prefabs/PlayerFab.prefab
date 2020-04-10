@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2267286139309897584}
   - component: {fileID: 2267286139799891248}
   - component: {fileID: 2267286139799891255}
-  - component: {fileID: 2267286139799891254}
   m_Layer: 12
   m_Name: GameCamera
   m_TagString: MainCamera
@@ -178,20 +177,6 @@ MonoBehaviour:
   m_AfterStackBundles:
   - assemblyQualifiedName: PhotoPostProcessing, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &2267286139799891254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2267286139297883956}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee0c4a63ed0f0f478dae6f92bea8930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: 10
-  maxPullDistance: 10
 --- !u!1 &2267286139297883958
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,6 +492,11 @@ MonoBehaviour:
   maxPullDistance: 10
   objectHeld: []
   carrying: 0
+  carriedPhotos: 
+  devcheats: 0
+  havePhotos: 0
+  timeIndex: 0
+  verticalOffset: 0
 --- !u!1 &2267286140751186148
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,17 +604,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7382517844708216703, guid: 85a570199409bd14890f33b899dd413f,
-        type: 3}
-      propertyPath: pairPortal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7382517846509289376, guid: 85a570199409bd14890f33b899dd413f,
-        type: 3}
-      propertyPath: transformToCopy
-      value: 
-      objectReference: {fileID: 2267286139297856276}
-    - target: {fileID: 7382517844730026403, guid: 85a570199409bd14890f33b899dd413f,
+    - target: {fileID: 7662938830359563313, guid: 85a570199409bd14890f33b899dd413f,
         type: 3}
       propertyPath: m_Layer
       value: 12
@@ -634,15 +614,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 1035503224201525426, guid: 85a570199409bd14890f33b899dd413f,
+    - target: {fileID: 7382517844708216703, guid: 85a570199409bd14890f33b899dd413f,
         type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 7662938830359563313, guid: 85a570199409bd14890f33b899dd413f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
+      propertyPath: pairPortal
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2729829626284323275, guid: 85a570199409bd14890f33b899dd413f,
         type: 3}
@@ -650,6 +625,21 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2043472474313925837, guid: 85a570199409bd14890f33b899dd413f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035503224201525426, guid: 85a570199409bd14890f33b899dd413f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7382517846509289376, guid: 85a570199409bd14890f33b899dd413f,
+        type: 3}
+      propertyPath: transformToCopy
+      value: 
+      objectReference: {fileID: 2267286139297856276}
+    - target: {fileID: 7382517844730026403, guid: 85a570199409bd14890f33b899dd413f,
         type: 3}
       propertyPath: m_Layer
       value: 12

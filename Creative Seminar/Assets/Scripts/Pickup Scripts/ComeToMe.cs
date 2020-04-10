@@ -29,6 +29,12 @@ public class ComeToMe : MonoBehaviour
     public GameObject targetStruct;
     public OffsetGroup offsetMain;
 
+    private void Awake()
+    {
+        Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
+        Rb.useGravity = false;
+
+    }
     // Start is called before the first frame update
     void Start()
     {
