@@ -18,7 +18,7 @@ public class GameplayManager : MonoBehaviour
     void Start()
     {
         toBlack.GetComponent<Image>().SetAllDirty();
-        SceneManager.LoadScene("Entrance_0900", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Entrance_1030", LoadSceneMode.Additive);
         StartCoroutine(DissolveHandler(false));
         DontDestroyOnLoad(gameObject);
         entPuzzles = new puzzleHandler(2, 1);
