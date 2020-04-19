@@ -51,7 +51,7 @@ public class GameplayManager : MonoBehaviour
     {
         StartCoroutine(DissolveHandler(true));
         yield return new WaitForSeconds(transitionTime+1);
-
+        Physics.autoSimulation = false;
         for(int i =0; i < toLoad.Count; i++)
         {
             if (i == 0)
@@ -86,7 +86,7 @@ public class GameplayManager : MonoBehaviour
         }
         player.SetActive(true);
         loadCam.enabled = false;
-
+        Physics.autoSimulation = true;
         StartCoroutine(DissolveHandler(false));
 
     }
