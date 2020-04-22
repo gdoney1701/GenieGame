@@ -221,34 +221,54 @@ public class PlayerScript : MonoBehaviour
         int negMod = 0;
         bool foundaloc = false;
         int newLoc = 0;
-        for (int i = 0; i < carriedPhotos.Length; i++)
+        if (positive)
         {
-            if (carriedPhotos[i])
+            for (int i = 0; i < carriedPhotos.Length; i++)
             {
-                if (positive && i > timeIndex)
+                if (carriedPhotos[i])
                 {
-                    foundaloc = true;
-                    newLoc = i;
-                    negMod = 1;
-                    break;
-                }
-                else if (!positive && i < timeIndex)
-                {
-                    foundaloc = true;
-                    newLoc = i;
-                    negMod = 1;
-                    break;
+                    if (i > timeIndex)
+                    {
+                        foundaloc = true;
+                        newLoc = i;
+                        negMod = 1;
+                        break;
+                    }
+                    else
+                    {
+                        foundaloc = false;
+                    }
                 }
                 else
                 {
                     foundaloc = false;
                 }
             }
-            else
+        }else if (!positive)
+        {
+            for (int i = carriedPhotos.Length-1; i >= 0; i--)
             {
-                foundaloc = false;
+                if (carriedPhotos[i])
+                {
+                    if (i < timeIndex)
+                    {
+                        foundaloc = true;
+                        newLoc = i;
+                        negMod = 1;
+                        break;
+                    }
+                    else
+                    {
+                        foundaloc = false;
+                    }
+                }
+                else
+                {
+                    foundaloc = false;
+                }
             }
         }
+       
         if (foundaloc)
         {
             timeIndex = newLoc;
