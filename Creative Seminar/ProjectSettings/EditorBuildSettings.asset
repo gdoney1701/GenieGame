@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Milestone Scenes/GH_1200.unity
     guid: 1af518e44d95e074692313b88957880b
+  - enabled: 1
+    path: Assets/Scenes/Milestone Scenes/GreatHall PresentBake.unity
+    guid: 398dd863c0f041249935360d9858b7bf
   m_configObjects: {}
