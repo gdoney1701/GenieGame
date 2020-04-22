@@ -13,6 +13,7 @@ public class PhotoPickUp : MonoBehaviour
     public int photoTimeFrame;
     public bool clone;
     public GameObject Dad;
+    public AudioSource photoClick;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +65,16 @@ public class PhotoPickUp : MonoBehaviour
             MC.GetComponent<PlayerScript>().timeIndex = photoTimeFrame - 1;
         }
         MC.GetComponent<PlayerScript>().carriedPhotos[photoTimeFrame - 1] = true;
+        //StartCoroutine(playClick());
+        Destroy(gameObject);
+    }
+
+    IEnumerator playClick()
+    {
+        AudioSource clickSound = gameObject.GetComponent<AudioSource>();
+        clickSound.Play();
+        Debug.Log("started");
+        yield return new WaitForSeconds(4);
         Destroy(gameObject);
     }
 }
