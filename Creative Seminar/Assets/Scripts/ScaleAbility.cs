@@ -12,10 +12,7 @@ public class ScaleAbility : MonoBehaviour
     public Renderer portalRenderer;
     public float minimum = -0.8f;
     public float maximum = -0.5f;
-    private float minGrain = 5;
-    private float maxGrain = 10;
     static float t = 0.0f;
-    static float l = 0.0f;
     public bool isCurrent;
     public bool createdColliders;
     // Start is called before the first frame update

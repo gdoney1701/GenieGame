@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3493079828752128960, guid: 89d2510ae21d03d40955d4dbc8bb4011,
         type: 3}
       propertyPath: m_Name
-      value: PhotographFinalAsset_0900
+      value: PhotographFinalAsset_0900 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 442109503220787667, guid: 89d2510ae21d03d40955d4dbc8bb4011,
         type: 3}
@@ -77,5 +77,15 @@ PrefabInstance:
       propertyPath: photoTimeFrame
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4852633609423880907, guid: 89d2510ae21d03d40955d4dbc8bb4011,
+        type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2901795441564217116, guid: 89d2510ae21d03d40955d4dbc8bb4011,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b3c74303c0c6a4428ed70bde562bdae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89d2510ae21d03d40955d4dbc8bb4011, type: 3}

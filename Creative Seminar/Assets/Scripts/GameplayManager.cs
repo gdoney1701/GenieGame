@@ -68,7 +68,6 @@ public class GameplayManager : MonoBehaviour
                 player = GameObject.FindGameObjectWithTag("Player");
                 player.SetActive(false);
                 loadCam.enabled = true;
-                print("Finished Scene Main");
             }
             else
             {
@@ -82,7 +81,6 @@ public class GameplayManager : MonoBehaviour
                     yield return null;
                 }
             }
-            print("Finished " + toLoad[i]);
         }
         player.SetActive(true);
         loadCam.enabled = false;
@@ -124,7 +122,6 @@ public class GameplayManager : MonoBehaviour
             entPuzzles.structCount -= deltaStruct;
             if(entPuzzles.objCount == 0 && entPuzzles.structCount == 0)
             {
-                print("Entrance Complete, I'm a very proud dev");
                 entPuzzles.done = true;
             }
         }else if(currentScene.buildIndex == 4)
