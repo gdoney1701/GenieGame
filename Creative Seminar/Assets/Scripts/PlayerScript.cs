@@ -69,9 +69,8 @@ public class PlayerScript : MonoBehaviour
         }
 
         //pressing the right button with bring the timeframe back by 1 (-200 units)
-        if (Input.GetMouseButtonDown(1) && dist > 200)
+        if (Input.GetMouseButtonDown(1))
         {
-            gameObject.GetComponent<UIManager>().MovingBackward(timeIndex);
             offsetController(false);
         }
 
@@ -222,6 +221,8 @@ public class PlayerScript : MonoBehaviour
         int negMod = 0;
         bool foundaloc = false;
         int newLoc = 0;
+        bool topList = false;
+        bool bottomList = false;
         if (positive)
         {
             for (int i = 0; i < carriedPhotos.Length; i++)
@@ -305,6 +306,19 @@ public class PlayerScript : MonoBehaviour
                 }
 
             }
+        }else if (!foundaloc)
+        {
+            if (positive)
+            {
+                gameObject.GetComponent<UIManager>().FailedMoveUp();
+                print("Failedmove");
+            }
+            else if (!positive)
+            {
+                gameObject.GetComponent<UIManager>().FailedMoveDown();
+                print("Failedmove");
+            }
+
         }
     }
     public void createColliders(GameObject photo)

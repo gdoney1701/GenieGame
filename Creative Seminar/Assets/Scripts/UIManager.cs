@@ -22,6 +22,16 @@ public class UIManager : MonoBehaviour
         print("movingDown");
         uiAnims[0].SetTrigger("MoveDown");
     }
+
+    public void FailedMoveUp()
+    {
+        uiAnims[0].SetTrigger("FailedMoveUp");
+    }
+    public void FailedMoveDown()
+    {
+        uiAnims[0].SetTrigger("FailedMoveDown");
+    }
+
     // Update is called once per frame
     void Update()
     {
