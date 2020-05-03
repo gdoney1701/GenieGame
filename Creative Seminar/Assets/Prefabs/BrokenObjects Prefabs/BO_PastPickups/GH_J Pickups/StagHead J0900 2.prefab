@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4260020839492418798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 956447276029579005}
+  - component: {fileID: 8079172983507989707}
+  - component: {fileID: 2531713959487522866}
+  - component: {fileID: 7487793032464955739}
+  - component: {fileID: 6360049582829239359}
+  - component: {fileID: 2470558792484415506}
+  m_Layer: 9
+  m_Name: StagHead J0900 2
+  m_TagString: PickUp
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &956447276029579005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260020839492418798}
+  m_LocalRotation: {x: -0.123940445, y: -0.87344754, z: -0.35605493, w: 0.30814445}
+  m_LocalPosition: {x: 19.39, y: -15.881, z: 37.78}
+  m_LocalScale: {x: 4.67067, y: 4.67067, z: 4.67067}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -44.297, y: -141.04001, z: -0.23400001}
+--- !u!33 &8079172983507989707
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260020839492418798}
+  m_Mesh: {fileID: 9155189083391784803, guid: ba18fe0c13860794495a4f5649dd9177, type: 3}
+--- !u!23 &2531713959487522866
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260020839492418798}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1c70e32bde3ffac46a997f5c2cb4dc9c, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!54 &7487793032464955739
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260020839492418798}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6360049582829239359
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260020839492418798}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.14328557, y: 0.19952978, z: 0.13532323}
+  m_Center: {x: -0.016216192, y: 0.09900851, z: 0.008447327}
+--- !u!114 &2470558792484415506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260020839492418798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8964e8744ced0e4c95af4bbebdcbf96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originPoint: {x: 0, y: 0, z: 0}
+  startMarker: {fileID: 956447276029579005}
+  endMarker: {fileID: 0}
+  handMarker: {fileID: 0}
+  speed: 5
+  discovered: 0
+  TimeLine: 0
+  clone: 0
+  currentClone: {fileID: 0}
+  clonePrefab: {fileID: 4572864950388541247, guid: a791ccc0ed535574cafc25e8f54f588e,
+    type: 3}
+  puzzleID: 9
+  completeNum: 5
+  photoID: 0
+  tooBig: 0
+  structPuzzle: 0
+  targetStruct: {fileID: 0}
