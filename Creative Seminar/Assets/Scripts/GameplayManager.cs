@@ -8,7 +8,7 @@ public class GameplayManager : MonoBehaviour
 {
     public puzzleHandler entPuzzles;
     public puzzleHandler ghPuzzles;
-    public Scene currentScene;
+    public string currentScene;
     public Animator transition;
     public float transitionTime = 2;
     public GameObject toBlack;
@@ -30,11 +30,15 @@ public class GameplayManager : MonoBehaviour
     }
     public void PlayGame()
     {
+
+    }
+    public void EntranceLoad()
+    {
         List<string> entranceLevels = new List<string>();
         entranceLevels.Add("Tutorial 11_3");
         entranceLevels.Add("Entrance_0900");
         entranceLevels.Add("Entrance_1030");
-        StartCoroutine(LoadLevel(entranceLevels, 0));
+        StartCoroutine(LoadLevel(entranceLevels, "Entrance"));
     }
     public void GreatHallLoad()
     {
@@ -45,9 +49,9 @@ public class GameplayManager : MonoBehaviour
         hallLevels.Add("GH_1030");
         hallLevels.Add("GH_1130");
         hallLevels.Add("GH_1200");
-        StartCoroutine(LoadLevel(hallLevels, 1));
+        StartCoroutine(LoadLevel(hallLevels, "GreatHall"));
     }
-    IEnumerator LoadLevel(List<string> toLoad, int matIndex)
+    IEnumerator LoadLevel(List<string> toLoad, string mainScene)
     {
         StartCoroutine(DissolveHandler(true));
         yield return new WaitForSeconds(transitionTime+1);
@@ -57,7 +61,7 @@ public class GameplayManager : MonoBehaviour
             if (i == 0)
             {
                 AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
-                currentScene = SceneManager.GetSceneByName(toLoad[i]);
+                currentScene = mainScene;
 
                 while (!opLoad.isDone)
                 {
@@ -116,19 +120,19 @@ public class GameplayManager : MonoBehaviour
     {
         GameObject handlerTarget = GameObject.FindGameObjectWithTag("Process Handler");
         handlerTarget.GetComponent<PostProcessingLerpHandler>().ActivateChange();
-        if(currentScene.buildIndex == 1)
+        if(currentScene == "Tutorial")
         {
             entPuzzles.objCount -= deltaObj;
             entPuzzles.structCount -= deltaStruct;
-            if(entPuzzles.objCount == 0 && entPuzzles.structCount == 0)
+            if(entPuzzles.objCount <= 0 && entPuzzles.structCount <= 0)
             {
                 entPuzzles.done = true;
             }
-        }else if(currentScene.buildIndex == 4)
+        }else if(currentScene == "MainScene")
         {
             ghPuzzles.objCount -= deltaObj;
             ghPuzzles.structCount -= deltaStruct;
-            if (ghPuzzles.objCount == 0 && ghPuzzles.structCount == 0)
+            if (ghPuzzles.objCount <= 0 && ghPuzzles.structCount <= 0)
             {
                 print("Great Hall Complete, I'm a very proud dev");
                 print("Congratulations, you have won");
