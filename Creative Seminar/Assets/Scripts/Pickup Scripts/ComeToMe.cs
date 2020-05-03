@@ -28,6 +28,7 @@ public class ComeToMe : MonoBehaviour
     public bool structPuzzle;
     public GameObject targetStruct;
     public OffsetGroup offsetMain;
+    public Animator uiTime;
 
     private void Awake()
     {
@@ -131,6 +132,7 @@ public class ComeToMe : MonoBehaviour
             currentClone.GetComponent<PhotoPickUp>().clone = true;
             currentClone.GetComponent<PhotoPickUp>().Dad = gameObject;
             currentClone.GetComponent<PhotoPickUp>().photoTimeFrame = photoID;
+            currentClone.GetComponent<PhotoPickUp>().uiAssoc = uiTime;
         }else if(gameObject.tag == "StructPickup")
         {
             currentClone.GetComponent<CloneTravel>().Dad = gameObject;
