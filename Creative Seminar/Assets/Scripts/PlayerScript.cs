@@ -60,6 +60,7 @@ public class PlayerScript : MonoBehaviour
         //pressing the left mouse button will bring the timeframe forward by 1 (200 units)
         if (Input.GetMouseButtonDown(0))
         {
+            gameObject.GetComponent<UIManager>().MovingForward(timeIndex);
             offsetController(true);
         }
 
@@ -71,6 +72,7 @@ public class PlayerScript : MonoBehaviour
         //pressing the right button with bring the timeframe back by 1 (-200 units)
         if (Input.GetMouseButtonDown(1) && dist > 200)
         {
+            gameObject.GetComponent<UIManager>().MovingBackward(timeIndex);
             offsetController(false);
         }
 

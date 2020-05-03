@@ -30,7 +30,7 @@ public class GameplayManager : MonoBehaviour
     }
     public void PlayGame()
     {
-
+        EntranceLoad();
     }
     public void EntranceLoad()
     {
