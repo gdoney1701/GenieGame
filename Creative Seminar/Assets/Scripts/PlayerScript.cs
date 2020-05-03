@@ -60,7 +60,6 @@ public class PlayerScript : MonoBehaviour
         //pressing the left mouse button will bring the timeframe forward by 1 (200 units)
         if (Input.GetMouseButtonDown(0))
         {
-            gameObject.GetComponent<UIManager>().MovingForward(timeIndex);
             offsetController(true);
         }
 
@@ -274,6 +273,14 @@ public class PlayerScript : MonoBehaviour
         if (foundaloc)
         {
             timeIndex = newLoc;
+            if (positive)
+            {
+                gameObject.GetComponent<UIManager>().MovingForward(timeIndex);
+            }else if (!positive)
+            {
+                gameObject.GetComponent<UIManager>().MovingBackward(timeIndex);
+            }
+
             int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200))) * negMod;
             dist = (newLoc + 1) * 200;
             if (!verticalOffset)
