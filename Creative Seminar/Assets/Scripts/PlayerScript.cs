@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     public bool havePhotos;
     public int timeIndex;
     public bool verticalOffset;
+    public GameObject activeTutorial = null;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,10 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            TutorialCheck(KeyCode.W, false);
+        }
         if (Input.GetKeyDown(KeyCode.K) && devcheats)
         {
             for (int i = 0; i < carriedPhotos.Length; i++)
@@ -77,6 +82,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !photoaround && havePhotos)
         {
             GameObject photo = MakeABaby(true, 0.0f, Photoprefab);
+            TutorialCheck(KeyCode.E, true);
             //GameObject colliders = MakeABaby(false, dist, photoColliders);
             //GameObject colliders = MakeABaby(false, 0.0f, photoColliders);
             //colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
@@ -135,6 +141,7 @@ public class PlayerScript : MonoBehaviour
             else if (photoCheck.b)
             {
                 photoCheck.a.GetComponent<PhotoPickUp>().initMove();
+                TutorialCheck(KeyCode.F, true);
             }
         }
         if (Input.GetKeyDown(KeyCode.F) && carrying == true)
@@ -178,7 +185,16 @@ public class PlayerScript : MonoBehaviour
         HitGroup toReturn = new HitGroup(hitme, whathit);
         return toReturn;
     }
-
+    public void TutorialCheck(KeyCode toKey, bool conditionMet)
+    {
+        if(activeTutorial != null)
+        {
+            if(toKey == activeTutorial.GetComponent<TutorialManager>().toLearn)
+            {
+                activeTutorial.GetComponent<TutorialManager>().buttonPress(conditionMet);
+            }
+        }
+    }
     public struct HitGroup
     {
         public bool b;
@@ -221,8 +237,6 @@ public class PlayerScript : MonoBehaviour
         int negMod = 0;
         bool foundaloc = false;
         int newLoc = 0;
-        bool topList = false;
-        bool bottomList = false;
         if (positive)
         {
             for (int i = 0; i < carriedPhotos.Length; i++)

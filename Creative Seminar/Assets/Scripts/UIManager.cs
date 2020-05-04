@@ -25,9 +25,10 @@ public class UIManager : MonoBehaviour
         {
             if(uiAnims[i] != null)
             {
-                if (!uiAnims[i].GetBool("OffScreenDown"))
+                if (!uiAnims[i].GetBool("OffScreenUp"))
                 {
-                    uiAnims[0].SetTrigger("MoveUp");
+                    Debug.Log("Going Up");
+                    uiAnims[i].SetTrigger("MoveUp");
                     if (uiAnims[i].GetCurrentAnimatorStateInfo(0).IsName("0900UpAway"))
                     {
                         uiAnims[i].SetInteger("OffScreenNum", 1);
@@ -40,7 +41,7 @@ public class UIManager : MonoBehaviour
                     uiAnims[i].SetInteger("OffScreenNum", j + 1);
                     print(uiAnims[i].GetInteger("OffScreenNum"));
                 }
-                OffScreenHandler(uiAnims[i], "OffScreenDown", "MoveUp");
+                OffScreenHandler(uiAnims[i], "OffScreenUp", "MoveUp");
             }
         }
 
