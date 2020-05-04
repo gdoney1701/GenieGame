@@ -30,7 +30,9 @@ public class GameplayManager : MonoBehaviour
     }
     public void PlayGame()
     {
-        EntranceLoad();
+        List<string> introLevels = new List<string>();
+        introLevels.Add("Intro");
+        StartCoroutine(LoadLevel(introLevels, "Intro"));
     }
     public void EntranceLoad()
     {
@@ -58,37 +60,48 @@ public class GameplayManager : MonoBehaviour
         Physics.autoSimulation = false;
         for(int i =0; i < toLoad.Count; i++)
         {
-            if (i == 0)
+            if(mainScene == "Intro")
             {
-                AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
-                currentScene = mainScene;
-
-                while (!opLoad.isDone)
-                {
-                    Debug.Log(opLoad.progress);
-
-                    yield return null;
-                }
-                player = GameObject.FindGameObjectWithTag("Player");
-                player.SetActive(false);
-                loadCam.enabled = true;
+                SceneManager.LoadScene(toLoad[i]);
             }
             else
             {
-
-                AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i], LoadSceneMode.Additive);
-
-                while (!opLoad.isDone)
+                if (i == 0)
                 {
-                    Debug.Log(opLoad.progress);
+                    AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
+                    currentScene = mainScene;
 
-                    yield return null;
+                    while (!opLoad.isDone)
+                    {
+                        Debug.Log(opLoad.progress);
+
+                        yield return null;
+                    }
+                    player = GameObject.FindGameObjectWithTag("Player");
+                    player.SetActive(false);
+                    loadCam.enabled = true;
+                }
+                else
+                {
+
+                    AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i], LoadSceneMode.Additive);
+
+                    while (!opLoad.isDone)
+                    {
+                        Debug.Log(opLoad.progress);
+
+                        yield return null;
+                    }
                 }
             }
+            
         }
-        player.SetActive(true);
+        if (mainScene != "Intro")
+        {
+            player.SetActive(true);
+            Physics.autoSimulation = true;
+        }
         loadCam.enabled = false;
-        Physics.autoSimulation = true;
         if(mainScene == "GreatHall")
         {
             GameObject mainPlay = GameObject.FindGameObjectWithTag("Player");
