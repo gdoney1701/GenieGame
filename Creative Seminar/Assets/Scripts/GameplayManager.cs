@@ -53,6 +53,17 @@ public class GameplayManager : MonoBehaviour
         hallLevels.Add("GH_1200");
         StartCoroutine(LoadLevel(hallLevels, "GreatHall"));
     }
+    public void MainMenuLoad()
+    {
+        List<string> menuLevels = new List<string>();
+        player = null;
+        menuLevels.Add("MainMenu");
+        StartCoroutine(LoadLevel(menuLevels, "MainMenu"));
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
     IEnumerator LoadLevel(List<string> toLoad, string mainScene)
     {
         StartCoroutine(DissolveHandler(true));
@@ -60,7 +71,7 @@ public class GameplayManager : MonoBehaviour
         Physics.autoSimulation = false;
         for(int i =0; i < toLoad.Count; i++)
         {
-            if(mainScene == "Intro")
+            if(mainScene == "Intro" || mainScene == "MainMenu")
             {
                 SceneManager.LoadScene(toLoad[i]);
             }
@@ -96,7 +107,7 @@ public class GameplayManager : MonoBehaviour
             }
             
         }
-        if (mainScene != "Intro")
+        if (mainScene != "Intro" || mainScene != "MainMenu")
         {
             player.SetActive(true);
             Physics.autoSimulation = true;
@@ -107,6 +118,7 @@ public class GameplayManager : MonoBehaviour
             GameObject mainPlay = GameObject.FindGameObjectWithTag("Player");
             mainPlay.GetComponent<UIManager>().ghInit();
         }
+        
         StartCoroutine(DissolveHandler(false));
 
     }
