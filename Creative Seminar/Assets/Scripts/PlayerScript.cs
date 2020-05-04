@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     public bool havePhotos;
     public int timeIndex;
     public bool verticalOffset;
+    public GameObject activeTutorial = null;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,30 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(activeTutorial != null)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                TutorialCheck(KeyCode.W, false);
+            }
+        if (Input.GetKeyDown(KeyCode.A))
+            {
+                TutorialCheck(KeyCode.A, false);
+            }
+        if (Input.GetKeyDown(KeyCode.S))
+            {
+                TutorialCheck(KeyCode.S, false);
+            }
+        if (Input.GetKeyDown(KeyCode.D))
+            {
+                TutorialCheck(KeyCode.D, false);
+            }
+        if(Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                TutorialCheck(KeyCode.None, true);
+            }
+        }
+        
         if (Input.GetKeyDown(KeyCode.K) && devcheats)
         {
             for (int i = 0; i < carriedPhotos.Length; i++)
@@ -61,6 +86,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             offsetController(true);
+            TutorialCheck(KeyCode.Mouse0, true);
         }
 
         if(Input.GetKeyDown(KeyCode.N) && devcheats)
@@ -69,7 +95,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         //pressing the right button with bring the timeframe back by 1 (-200 units)
-        if (Input.GetMouseButtonDown(1) && dist > 200)
+        if (Input.GetMouseButtonDown(1))
         {
             offsetController(false);
         }
@@ -77,6 +103,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !photoaround && havePhotos)
         {
             GameObject photo = MakeABaby(true, 0.0f, Photoprefab);
+            TutorialCheck(KeyCode.E, true);
             //GameObject colliders = MakeABaby(false, dist, photoColliders);
             //GameObject colliders = MakeABaby(false, 0.0f, photoColliders);
             //colliders.GetComponent<ScaleAbility>().portalRenderer = photo.GetComponent<ScaleAbility>().portalRenderer;
@@ -135,6 +162,7 @@ public class PlayerScript : MonoBehaviour
             else if (photoCheck.b)
             {
                 photoCheck.a.GetComponent<PhotoPickUp>().initMove();
+                TutorialCheck(KeyCode.F, true);
             }
         }
         if (Input.GetKeyDown(KeyCode.F) && carrying == true)
@@ -178,7 +206,19 @@ public class PlayerScript : MonoBehaviour
         HitGroup toReturn = new HitGroup(hitme, whathit);
         return toReturn;
     }
-
+    public void TutorialCheck(KeyCode toKey, bool conditionMet)
+    {
+        if(activeTutorial != null)
+        {
+            if (toKey == activeTutorial.GetComponent<TutorialManager>().toLearn)
+            {
+                activeTutorial.GetComponent<TutorialManager>().buttonPress(conditionMet, gameObject.GetComponent<Collider>());
+            }else if(Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                activeTutorial.GetComponent<TutorialManager>().buttonPress(conditionMet, gameObject.GetComponent<Collider>());
+            }
+        }
+    }
     public struct HitGroup
     {
         public bool b;
@@ -272,6 +312,14 @@ public class PlayerScript : MonoBehaviour
         if (foundaloc)
         {
             timeIndex = newLoc;
+            if (positive)
+            {
+                gameObject.GetComponent<UIManager>().MovingForward(timeIndex);
+            }else if (!positive)
+            {
+                gameObject.GetComponent<UIManager>().MovingBackward(timeIndex);
+            }
+
             int movement = (Mathf.Abs((int)dist - ((newLoc + 1) * 200))) * negMod;
             dist = (newLoc + 1) * 200;
             if (!verticalOffset)
@@ -296,6 +344,19 @@ public class PlayerScript : MonoBehaviour
                 }
 
             }
+        }else if (!foundaloc)
+        {
+            if (positive)
+            {
+                gameObject.GetComponent<UIManager>().FailedMoveUp();
+                print("Failedmove");
+            }
+            else if (!positive)
+            {
+                gameObject.GetComponent<UIManager>().FailedMoveDown();
+                print("Failedmove");
+            }
+
         }
     }
     public void createColliders(GameObject photo)

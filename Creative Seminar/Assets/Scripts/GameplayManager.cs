@@ -30,7 +30,9 @@ public class GameplayManager : MonoBehaviour
     }
     public void PlayGame()
     {
-
+        List<string> introLevels = new List<string>();
+        introLevels.Add("Intro");
+        StartCoroutine(LoadLevel(introLevels, "Intro"));
     }
     public void EntranceLoad()
     {
@@ -51,6 +53,17 @@ public class GameplayManager : MonoBehaviour
         hallLevels.Add("GH_1200");
         StartCoroutine(LoadLevel(hallLevels, "GreatHall"));
     }
+    public void MainMenuLoad()
+    {
+        List<string> menuLevels = new List<string>();
+        player = null;
+        menuLevels.Add("MainMenu");
+        StartCoroutine(LoadLevel(menuLevels, "MainMenu"));
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
     IEnumerator LoadLevel(List<string> toLoad, string mainScene)
     {
         StartCoroutine(DissolveHandler(true));
@@ -58,37 +71,54 @@ public class GameplayManager : MonoBehaviour
         Physics.autoSimulation = false;
         for(int i =0; i < toLoad.Count; i++)
         {
-            if (i == 0)
+            if(mainScene == "Intro" || mainScene == "MainMenu")
             {
-                AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
-                currentScene = mainScene;
-
-                while (!opLoad.isDone)
-                {
-                    Debug.Log(opLoad.progress);
-
-                    yield return null;
-                }
-                player = GameObject.FindGameObjectWithTag("Player");
-                player.SetActive(false);
-                loadCam.enabled = true;
+                SceneManager.LoadScene(toLoad[i]);
             }
             else
             {
-
-                AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i], LoadSceneMode.Additive);
-
-                while (!opLoad.isDone)
+                if (i == 0)
                 {
-                    Debug.Log(opLoad.progress);
+                    AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
+                    currentScene = mainScene;
 
-                    yield return null;
+                    while (!opLoad.isDone)
+                    {
+                        Debug.Log(opLoad.progress);
+
+                        yield return null;
+                    }
+                    player = GameObject.FindGameObjectWithTag("Player");
+                    player.SetActive(false);
+                    loadCam.enabled = true;
+                }
+                else
+                {
+
+                    AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i], LoadSceneMode.Additive);
+
+                    while (!opLoad.isDone)
+                    {
+                        Debug.Log(opLoad.progress);
+
+                        yield return null;
+                    }
                 }
             }
+            
         }
-        player.SetActive(true);
+        if (mainScene != "Intro" || mainScene != "MainMenu")
+        {
+            player.SetActive(true);
+            Physics.autoSimulation = true;
+        }
         loadCam.enabled = false;
-        Physics.autoSimulation = true;
+        if(mainScene == "GreatHall")
+        {
+            GameObject mainPlay = GameObject.FindGameObjectWithTag("Player");
+            mainPlay.GetComponent<UIManager>().ghInit();
+        }
+        
         StartCoroutine(DissolveHandler(false));
 
     }

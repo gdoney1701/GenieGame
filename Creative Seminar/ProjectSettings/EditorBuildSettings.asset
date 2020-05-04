@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Milestone Scenes/GH_1200.unity
     guid: 1af518e44d95e074692313b88957880b
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 421b28fd01b5fde4d90c426ebc368b08
   m_configObjects: {}
