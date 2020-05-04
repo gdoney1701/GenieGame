@@ -20,7 +20,7 @@ public class IntroManager : MonoBehaviour
     IEnumerator Director()
     {
         StartCoroutine(textFadeIn(dialogue));
-        yield return new WaitForSeconds(lineDelay*(dialogue.Length+1));
+        yield return new WaitForSeconds(lineDelay*(dialogue.Length));
         StartCoroutine(textFadeIn(nextScene));
         yield return new WaitForSeconds(lineDelay);
         GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().EntranceLoad();
@@ -49,6 +49,9 @@ public class IntroManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().EntranceLoad();
+        }
     }
 }

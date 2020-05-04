@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
         uiAnims[addIndex] = newAnim;
         if(currentTime > addIndex)
         {
+            print("Going Up");
             for(int m = addIndex; m < diff; m++)
             {
                 if(uiAnims[m] == null)
@@ -64,6 +65,7 @@ public class UIManager : MonoBehaviour
         }
         else if(currentTime < addIndex)
         {
+            print("Going Down");
             for (int m = addIndex; m > 0; m--)
             {
                 if(uiAnims[m] == null)
@@ -72,7 +74,7 @@ public class UIManager : MonoBehaviour
                 }
             }
             Debug.Log(diff);
-            uiAnims[addIndex].Play(upStates[diff]);
+            uiAnims[addIndex].Play(downStates[diff]);
         }else if(currentTime == addIndex)
         {
             uiAnims[addIndex].Play(upStates[0]);

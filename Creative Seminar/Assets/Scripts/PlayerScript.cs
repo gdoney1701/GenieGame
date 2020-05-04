@@ -63,7 +63,7 @@ public class PlayerScript : MonoBehaviour
             }
         if(Input.GetAxis("Mouse ScrollWheel") != 0)
             {
-                TutorialCheck(KeyCode.None, false);
+                TutorialCheck(KeyCode.None, true);
             }
         }
         
@@ -86,7 +86,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             offsetController(true);
-            TutorialCheck(KeyCode.Mouse0, false);
+            TutorialCheck(KeyCode.Mouse0, true);
         }
 
         if(Input.GetKeyDown(KeyCode.N) && devcheats)
