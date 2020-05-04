@@ -64,6 +64,7 @@ public class TutorialManager : MonoBehaviour
         }
         
     }
+
     public void buttonPress(bool learnedKey, Collider player)
     {
         StartCoroutine(buttonBoom(learnedKey, player));

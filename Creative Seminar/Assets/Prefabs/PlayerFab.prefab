@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 2267286139303330902}
   - component: {fileID: 2267286139305524950}
   - component: {fileID: 2267286140109623931}
+  - component: {fileID: 3148472868631282649}
   m_Layer: 12
   m_Name: PlayerFab
   m_TagString: Player
@@ -497,6 +498,24 @@ MonoBehaviour:
   havePhotos: 0
   timeIndex: 0
   verticalOffset: 0
+  activeTutorial: {fileID: 0}
+--- !u!114 &3148472868631282649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2267286139297883958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2286be9063288f344aacc47a60c96cff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiAnims:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2267286140751186148
 GameObject:
   m_ObjectHideFlags: 0

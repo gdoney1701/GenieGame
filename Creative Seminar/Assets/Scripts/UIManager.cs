@@ -14,11 +14,11 @@ public class UIManager : MonoBehaviour
     {
         "0900Selected","0900ShrinkDown", "0900DownAway","0900Away"
     };
-
-    private void Start()
+    public void ghInit()
     {
+        uiAnims[0].Play(upStates[0]);
+        uiAnims[1].Play(downStates[1]);
     }
-
     public void MovingForward(int timeFrame)
     {
         for (int i = 0; i < uiAnims.Length; i++)

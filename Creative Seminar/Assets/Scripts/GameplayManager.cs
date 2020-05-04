@@ -89,6 +89,11 @@ public class GameplayManager : MonoBehaviour
         player.SetActive(true);
         loadCam.enabled = false;
         Physics.autoSimulation = true;
+        if(mainScene == "GreatHall")
+        {
+            GameObject mainPlay = GameObject.FindGameObjectWithTag("Player");
+            mainPlay.GetComponent<UIManager>().ghInit();
+        }
         StartCoroutine(DissolveHandler(false));
 
     }
