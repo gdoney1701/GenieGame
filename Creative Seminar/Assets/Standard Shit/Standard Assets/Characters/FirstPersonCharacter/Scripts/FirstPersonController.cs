@@ -29,7 +29,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
         private Camera m_Camera;
-        private bool m_Jump;
+        private bool m_Jump = false;
         private float m_YRotation;
         private Vector2 m_Input;
         private Vector3 m_MoveDir = Vector3.zero;
@@ -116,7 +116,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (m_Jump)
                 {
                     m_MoveDir.y = m_JumpSpeed;
-                    PlayJumpSound();
+                    //PlayJumpSound();
                     m_Jump = false;
                     m_Jumping = true;
                 }

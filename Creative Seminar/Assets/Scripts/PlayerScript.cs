@@ -43,10 +43,30 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if(activeTutorial != null)
         {
-            TutorialCheck(KeyCode.W, false);
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                TutorialCheck(KeyCode.W, false);
+            }
+        if (Input.GetKeyDown(KeyCode.A))
+            {
+                TutorialCheck(KeyCode.A, false);
+            }
+        if (Input.GetKeyDown(KeyCode.S))
+            {
+                TutorialCheck(KeyCode.S, false);
+            }
+        if (Input.GetKeyDown(KeyCode.D))
+            {
+                TutorialCheck(KeyCode.D, false);
+            }
+        if(Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                TutorialCheck(KeyCode.None, false);
+            }
         }
+        
         if (Input.GetKeyDown(KeyCode.K) && devcheats)
         {
             for (int i = 0; i < carriedPhotos.Length; i++)
@@ -66,6 +86,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             offsetController(true);
+            TutorialCheck(KeyCode.Mouse0, false);
         }
 
         if(Input.GetKeyDown(KeyCode.N) && devcheats)
@@ -189,9 +210,12 @@ public class PlayerScript : MonoBehaviour
     {
         if(activeTutorial != null)
         {
-            if(toKey == activeTutorial.GetComponent<TutorialManager>().toLearn)
+            if (toKey == activeTutorial.GetComponent<TutorialManager>().toLearn)
             {
-                activeTutorial.GetComponent<TutorialManager>().buttonPress(conditionMet);
+                activeTutorial.GetComponent<TutorialManager>().buttonPress(conditionMet, gameObject.GetComponent<Collider>());
+            }else if(Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                activeTutorial.GetComponent<TutorialManager>().buttonPress(conditionMet, gameObject.GetComponent<Collider>());
             }
         }
     }
