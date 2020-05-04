@@ -80,7 +80,15 @@ public class PlayerScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.X) && devcheats)
         {
-            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().entPuzzles.done = true;
+            if(GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().currentScene == "Entrance")
+            {
+                GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().entPuzzles.done = true;
+            }else if(GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().currentScene == "GreatHall")
+            {
+                print("GameOver");
+                GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().ghPuzzles.done = true;
+            }
+            
         }
         //pressing the left mouse button will bring the timeframe forward by 1 (200 units)
         if (Input.GetMouseButtonDown(0))

@@ -24,9 +24,12 @@ public class GameplayManager : MonoBehaviour
         entPuzzles = new puzzleHandler(2, 1);
         ghPuzzles = new puzzleHandler(11, 3);
     }
-    private void Awake()
+    private void Update()
     {
-        
+        if (ghPuzzles.done == true && currentScene == "GreatHall")
+        {
+            WinScreenLoad();
+        }
     }
     public void PlayGame()
     {
@@ -56,13 +59,20 @@ public class GameplayManager : MonoBehaviour
     public void MainMenuLoad()
     {
         List<string> menuLevels = new List<string>();
-        player = null;
         menuLevels.Add("MainMenu");
         StartCoroutine(LoadLevel(menuLevels, "MainMenu"));
     }
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void WinScreenLoad()
+    {
+        List<string> winScreen = new List<string>();
+        player = null;
+        winScreen.Add("WinScene");
+        StartCoroutine(LoadLevel(winScreen, "Intro"));
     }
     IEnumerator LoadLevel(List<string> toLoad, string mainScene)
     {
@@ -107,7 +117,7 @@ public class GameplayManager : MonoBehaviour
             }
             
         }
-        if (mainScene != "Intro" || mainScene != "MainMenu")
+        if (mainScene != "Intro" && mainScene != "MainMenu")
         {
             player.SetActive(true);
             Physics.autoSimulation = true;
@@ -164,8 +174,10 @@ public class GameplayManager : MonoBehaviour
             ghPuzzles.structCount -= deltaStruct;
             if (ghPuzzles.objCount <= 0 && ghPuzzles.structCount <= 0)
             {
+                ghPuzzles.done = true;
                 print("Great Hall Complete, I'm a very proud dev");
                 print("Congratulations, you have won");
+                WinScreenLoad();
             }
         }
     }
