@@ -20,6 +20,10 @@ TagManager:
   - Shadow Repair
   - Process Handler
   - DissCanvas
+  - UI1030
+  - UI0900
+  - UI1130
+  - UI1200
   layers:
   - Default
   - TransparentFX

@@ -67,7 +67,8 @@ public class PhotoPickUp : MonoBehaviour
         }
         MC.GetComponent<PlayerScript>().carriedPhotos[photoTimeFrame - 1] = true;
         uiAssoc.gameObject.SetActive(true);
-        MC.GetComponent<UIManager>().uiAnims[photoTimeFrame - 1] = uiAssoc;
+        MC.GetComponent<UIManager>().AddingTimeframe(photoTimeFrame - 1, uiAssoc, MC.GetComponent<PlayerScript>().timeIndex);
+
 
         //StartCoroutine(playClick());
         Destroy(gameObject);

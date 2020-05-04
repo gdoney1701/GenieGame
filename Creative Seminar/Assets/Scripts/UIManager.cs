@@ -5,62 +5,127 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public Animator[] uiAnims;
+    List<string> upStates = new List<string>()
+    {
+        "0900Selected","0900ShrinkUp", "0900UpAway", "0900UpAway"
+
+    };
+    List<string> downStates = new List<string>()
+    {
+        "0900Selected","0900ShrinkDown", "0900DownAway","0900Away"
+    };
 
     private void Start()
     {
-        
     }
 
-    public void MovingForward(int i)
+    public void MovingForward(int timeFrame)
     {
-        if (!uiAnims[0].GetBool("OffScreenDown"))
+        for (int i = 0; i < uiAnims.Length; i++)
         {
-            uiAnims[0].SetTrigger("MoveUp");
-            if (uiAnims[0].GetCurrentAnimatorStateInfo(0).IsName("0900UpAway"))
+            if(uiAnims[i] != null)
             {
-                uiAnims[0].SetInteger("OffScreenNum", 1);
-                uiAnims[0].SetBool("OffScreenUp", true);
+                if (!uiAnims[i].GetBool("OffScreenDown"))
+                {
+                    uiAnims[0].SetTrigger("MoveUp");
+                    if (uiAnims[i].GetCurrentAnimatorStateInfo(0).IsName("0900UpAway"))
+                    {
+                        uiAnims[i].SetInteger("OffScreenNum", 1);
+                        uiAnims[i].SetBool("OffScreenUp", true);
+                    }
+                }
+                else
+                {
+                    int j = uiAnims[i].GetInteger("OffScreenNum");
+                    uiAnims[i].SetInteger("OffScreenNum", j + 1);
+                    print(uiAnims[i].GetInteger("OffScreenNum"));
+                }
+                OffScreenHandler(uiAnims[i], "OffScreenDown", "MoveUp");
             }
         }
-        else
-        {
-            int j = uiAnims[0].GetInteger("OffScreenNum");
-            uiAnims[0].SetInteger("OffScreenNum", j+1);
-            print(uiAnims[0].GetInteger("OffScreenNum"));
-        }
-        OffScreenHandler(uiAnims[0], "OffScreenDown", "MoveUp");
-    }
 
-    public void MovingBackward(int i)
+    }
+    public void AddingTimeframe(int addIndex, Animator newAnim, int currentTime)
     {
-        if (!uiAnims[0].GetBool("OffScreenDown"))
+        int diff = Mathf.Abs(currentTime - addIndex);
+        uiAnims[addIndex] = newAnim;
+        if(currentTime > addIndex)
         {
-            print("movingDown");
-            uiAnims[0].SetTrigger("MoveDown");
-            if (uiAnims[0].GetCurrentAnimatorStateInfo(0).IsName("0900DownAway"))
+            for(int m = addIndex; m < diff; m++)
             {
-                uiAnims[0].SetInteger("OffScreenNum", 1);
-                uiAnims[0].SetBool("OffSceenDown", true);
+                if(uiAnims[m] == null)
+                {
+                    diff = m;
+                }
+            }
+            Debug.Log(diff);
+            uiAnims[addIndex].Play(upStates[diff]);
+        }
+        else if(currentTime < addIndex)
+        {
+            for (int m = addIndex; m > 0; m--)
+            {
+                if(uiAnims[m] == null)
+                {
+                    diff = m;
+                }
+            }
+            Debug.Log(diff);
+            uiAnims[addIndex].Play(upStates[diff]);
+        }else if(currentTime == addIndex)
+        {
+            uiAnims[addIndex].Play(upStates[0]);
+        }
+    }
+    public void MovingBackward(int timeFrame)
+    {
+        for (int i = 0; i < uiAnims.Length; i++)
+        {
+            if (uiAnims[i] != null)
+            {
+                if (!uiAnims[0].GetBool("OffScreenDown"))
+                {
+                    print("movingDown");
+                    uiAnims[i].SetTrigger("MoveDown");
+                    if (uiAnims[i].GetCurrentAnimatorStateInfo(0).IsName("0900DownAway"))
+                    {
+                        uiAnims[i].SetInteger("OffScreenNum", 1);
+                        uiAnims[i].SetBool("OffScreenDown", true);
+                    }
+                }
+                else
+                {
+                    int j = uiAnims[i].GetInteger("OffScreenNum");
+                    uiAnims[i].SetInteger("OffScreenNum", j + 1);
+                    print(uiAnims[i].GetInteger("OffScreenNum"));
+                }
+                OffScreenHandler(uiAnims[i], "OffScreenUp", "MoveDown");
             }
         }
-        else
-        {
-            int j = uiAnims[0].GetInteger("OffScreenNum");
-            uiAnims[0].SetInteger("OffScreenNum", j+1);
-            print(uiAnims[0].GetInteger("OffScreenNum"));
-        }
-        OffScreenHandler(uiAnims[0],"OffScreenUp", "MoveDown");
+                
 
     }
 
     public void FailedMoveUp()
     {
-        uiAnims[0].SetTrigger("FailedMoveUp");
+        for (int i = 0; i < uiAnims.Length; i++)
+        {
+            if (uiAnims[i] != null)
+            {
+                uiAnims[i].SetTrigger("FailedMoveUp");
+            }
+        }
+                
     }
     public void FailedMoveDown()
     {
-        uiAnims[0].SetTrigger("FailedMoveDown");
-
+        for (int i = 0; i < uiAnims.Length; i++)
+        {
+            if (uiAnims[i] != null)
+            {
+                uiAnims[i].SetTrigger("FailedMoveDown");
+            }
+        }
     }
     public void OffScreenHandler(Animator anim, string Direction, string Trigger)
     {
@@ -69,18 +134,13 @@ public class UIManager : MonoBehaviour
             int k = anim.GetInteger("OffScreenNum");
             if (k > 0)
             {
-                uiAnims[0].SetInteger("OffScreenNum", k-1);
+                anim.SetInteger("OffScreenNum", k-1);
             }
             if (anim.GetInteger("OffScreenNum") == 0)
             {
-                uiAnims[0].SetBool(Direction, false);
-                uiAnims[0].SetTrigger(Trigger);
+                anim.SetBool(Direction, false);
+                anim.SetTrigger(Trigger);
             }
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
