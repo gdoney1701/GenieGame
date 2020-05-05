@@ -84,6 +84,8 @@ public class GameplayManager : MonoBehaviour
     }
     IEnumerator LoadLevel(List<string> toLoad, string mainScene)
     {
+        currentScene = mainScene;
+
         StartCoroutine(DissolveHandler(true));
         yield return new WaitForSeconds(transitionTime+1);
         Physics.autoSimulation = false;
@@ -98,7 +100,6 @@ public class GameplayManager : MonoBehaviour
                 if (i == 0)
                 {
                     AsyncOperation opLoad = SceneManager.LoadSceneAsync(toLoad[i]);
-                    currentScene = mainScene;
 
                     while (!opLoad.isDone)
                     {
