@@ -21,7 +21,11 @@ public class ExitScript : MonoBehaviour
             {
                 manager.GetComponent<GameplayManager>().DemoIntLoad();
             }
-            manager.GetComponent<GameplayManager>().GreatHallLoad();
+            else
+            {
+                manager.GetComponent<GameplayManager>().GreatHallLoad();
+            }
+
         }
     }
 
