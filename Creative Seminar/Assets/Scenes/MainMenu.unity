@@ -4140,8 +4140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad56f079fc150a42b60024fde16b139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScene:
-    m_Handle: 0
+  currentScene: 
   transition: {fileID: 0}
   transitionTime: 1
   toBlack: {fileID: 2128724105}

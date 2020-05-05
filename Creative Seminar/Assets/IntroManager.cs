@@ -20,9 +20,9 @@ public class IntroManager : MonoBehaviour
     IEnumerator Director()
     {
         StartCoroutine(textFadeIn(dialogue));
-        yield return new WaitForSeconds(lineDelay*(dialogue.Length));
+        yield return new WaitForSeconds(lineDelay*(dialogue.Length+2));
         StartCoroutine(textFadeIn(nextScene));
-        yield return new WaitForSeconds(lineDelay);
+        yield return new WaitForSeconds(lineDelay+1);
         GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().EntranceLoad();
     }
     IEnumerator textFadeIn(Animator[] textToParse)

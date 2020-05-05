@@ -29,6 +29,7 @@ public class ComeToMe : MonoBehaviour
     public GameObject targetStruct;
     public OffsetGroup offsetMain;
     public Animator uiTime;
+    public bool startsFloating;
 
     private void Awake()
     {
@@ -94,7 +95,7 @@ public class ComeToMe : MonoBehaviour
         {
             discovered = false;
         }
-        if (!discovered && !structPuzzle)
+        if (!discovered && !structPuzzle && !startsFloating)
         {
             Rigidbody Rb = gameObject.GetComponent<Rigidbody>();
             Rb.useGravity = true;
