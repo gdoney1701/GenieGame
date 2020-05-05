@@ -99,7 +99,15 @@ public class PlayerScript : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.N) && devcheats)
         {
-            GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().GreatHallLoad();
+            GameObject manager = GameObject.FindGameObjectWithTag("PlayMan");
+            if (manager.GetComponent<GameplayManager>().enableDemo == true)
+            {
+                manager.GetComponent<GameplayManager>().DemoIntLoad();
+            }
+            else
+            {
+                manager.GetComponent<GameplayManager>().GreatHallLoad();
+            }
         }
 
         //pressing the right button with bring the timeframe back by 1 (-200 units)

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EndofGameUI : MonoBehaviour
 {
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public void returntoMenu()
     {
@@ -13,5 +18,9 @@ public class EndofGameUI : MonoBehaviour
     public void returntoDesktop()
     {
         GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().ExitGame();
+    }
+    public void continueGame()
+    {
+        GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().GreatHallLoad();
     }
 }

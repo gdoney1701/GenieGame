@@ -17,6 +17,10 @@ public class ExitScript : MonoBehaviour
         if(other.tag == "Player" && manager.GetComponent<GameplayManager>().entPuzzles.done)
         {
             print("Loading Scene");
+            if(manager.GetComponent<GameplayManager>().enableDemo == true)
+            {
+                manager.GetComponent<GameplayManager>().DemoIntLoad();
+            }
             manager.GetComponent<GameplayManager>().GreatHallLoad();
         }
     }

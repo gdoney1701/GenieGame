@@ -14,6 +14,7 @@ public class GameplayManager : MonoBehaviour
     public GameObject toBlack;
     public GameObject player;
     public Camera loadCam;
+    public bool enableDemo;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +56,13 @@ public class GameplayManager : MonoBehaviour
         hallLevels.Add("GH_1130");
         hallLevels.Add("GH_1200");
         StartCoroutine(LoadLevel(hallLevels, "GreatHall"));
+    }
+    public void DemoIntLoad()
+    {
+        player = null;
+        List<string> demoInt = new List<string>();
+        demoInt.Add("DemoIntermission");
+        StartCoroutine(LoadLevel(demoInt, "Intro"));
     }
     public void MainMenuLoad()
     {

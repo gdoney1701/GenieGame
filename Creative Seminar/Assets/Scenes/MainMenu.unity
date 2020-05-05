@@ -4146,6 +4146,7 @@ MonoBehaviour:
   toBlack: {fileID: 2128724105}
   player: {fileID: 0}
   loadCam: {fileID: 1476514307}
+  enableDemo: 1
 --- !u!4 &1830796143
 Transform:
   m_ObjectHideFlags: 0
