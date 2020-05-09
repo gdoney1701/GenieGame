@@ -74,6 +74,12 @@ public class GameplayManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void CreditsLoad()
+    {
+        List<string> credits = new List<string>();
+        credits.Add("Credits");
+        StartCoroutine(LoadLevel(credits, "Intro"));
+    }
 
     public void WinScreenLoad()
     {
@@ -118,7 +124,6 @@ public class GameplayManager : MonoBehaviour
 
                     while (!opLoad.isDone)
                     {
-                        Debug.Log(opLoad.progress);
 
                         yield return null;
                     }
@@ -164,7 +169,13 @@ public class GameplayManager : MonoBehaviour
                 yield return null;
             }
         }
+        if(currentScene == "MainMenu")
+        {
+            yield return new WaitForSeconds(2);
+            Destroy(gameObject);
+        }
     }
+
     public void PuzzleComplete(int deltaObj, int deltaStruct)
     {
         GameObject handlerTarget = GameObject.FindGameObjectWithTag("Process Handler");
