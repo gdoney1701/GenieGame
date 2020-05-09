@@ -85,7 +85,7 @@ public class PlayerScript : MonoBehaviour
                 GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().entPuzzles.done = true;
             }else if(GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().currentScene == "GreatHall")
             {
-                print("GameOver");
+                //print("GameOver");
                 GameObject.FindGameObjectWithTag("PlayMan").GetComponent<GameplayManager>().ghPuzzles.done = true;
             }
             
@@ -365,12 +365,12 @@ public class PlayerScript : MonoBehaviour
             if (positive)
             {
                 gameObject.GetComponent<UIManager>().FailedMoveUp();
-                print("Failedmove");
+                //print("Failedmove");
             }
             else if (!positive)
             {
                 gameObject.GetComponent<UIManager>().FailedMoveDown();
-                print("Failedmove");
+                //print("Failedmove");
             }
 
         }

@@ -33,7 +33,6 @@ public class PostProcessingLerpHandler : MonoBehaviour
             {
                 print(1 / transitionNum);
                 segmentNum += 1 / transitionNum;
-                print(segmentNum + " SegmentNum");
                 startPoint -= (1 /transitionNum);
                 endPoint += (1 / transitionNum);
                 time = 0;
@@ -44,7 +43,6 @@ public class PostProcessingLerpHandler : MonoBehaviour
     }
     public void ActivateChange()
     {
-        print("changing profile");
         shifting = true;
         time = 0;
     }
@@ -52,7 +50,6 @@ public class PostProcessingLerpHandler : MonoBehaviour
     {
         float journey = Mathf.Lerp(start, end, time);
         who.weight = journey;
-        print(journey + who.name);
         if (journey == end)
         {
             return true;

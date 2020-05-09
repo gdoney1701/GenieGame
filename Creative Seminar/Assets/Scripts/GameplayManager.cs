@@ -109,7 +109,7 @@ public class GameplayManager : MonoBehaviour
 
                     while (!opLoad.isDone)
                     {
-                        Debug.Log(opLoad.progress);
+                        //Debug.Log(opLoad.progress);
 
                         yield return null;
                     }
@@ -195,8 +195,8 @@ public class GameplayManager : MonoBehaviour
             if (ghPuzzles.objCount <= 0 && ghPuzzles.structCount <= 0)
             {
                 ghPuzzles.done = true;
-                print("Great Hall Complete, I'm a very proud dev");
-                print("Congratulations, you have won");
+                //print("Great Hall Complete, I'm a very proud dev");
+                //print("Congratulations, you have won");
                 WinScreenLoad();
             }
         }
